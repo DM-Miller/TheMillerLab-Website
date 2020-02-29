@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Immunotherapy | Academic</title>
+    <link>/tags/immunotherapy/</link>
+      <atom:link href="/tags/immunotherapy/index.xml" rel="self" type="application/rss+xml" />
+    <description>Immunotherapy</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 08 Sep 2017 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Immunotherapy</title>
+      <link>/tags/immunotherapy/</link>
+    </image>
+    
+    <item>
+      <title>A Complete Response in cSCC with Ipi/Nivo</title>
+      <link>/publication/cr-ipi-nivo-scc/</link>
+      <pubDate>Fri, 08 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>/publication/cr-ipi-nivo-scc/</guid>
+      <description>&lt;h1 id=&#34;abstract&#34;&gt;Abstract:&lt;/h1&gt;
+&lt;p&gt;Although most cases of metastatic cutaneous Squamous Cell Carcinoma mCSCC can be cured with local therapy, up to 8,000 deaths occur each year. With no US Food and Drug Administration-approved options available for mcSCC, common approaches include platinum- based chemotherapy and off-label cetuximab. These strategies lack durability, and overall survival for mcSCC is only 10.9 months. Here we report a complete pathologic response after 4 cycles of nivolumab and the antieCTLA-4 antibody, ipilimumab, in a patient with mCSCC.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

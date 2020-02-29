@@ -1,0 +1,678 @@
+---
+title: "Graphical Representation of Survival - Swimmer Plots for Clinical Trials in Clinical Oncology"
+authors:
+- Sophia-Shalhout
+- admin
+date: "2/09/2020" 
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+always_allow_html: true
+tags: ["Swimmer Plots", "Data Science"]
+lastMod: "2020-02-09T00:00:00Z"
+projects:
+  - Data Science
+summary: This working document is a user guide on how to create Swimmer Plots to visualize survival data
+image:
+  caption: 'Photo by Alex Guillaume on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<ul>
+<li>This is an RMarkdown explaining how we can use <strong><font color='red'>“Swimmer Plots”</font></strong> to visualize survival data.</li>
+<li>A <strong><font color='red'>“Swimmer Plot”</font></strong> is a graphical way of displaying several aspects of a subject’s tumor response such as <strong>total time to tumor response</strong>, whether there was a <font color='green'>“Complete”</font> or <font color='blue'>“Partial”</font> response, and duration of response.</li>
+<li>This is a clear, graphical representation of the course of a patient’s tumor response and can be an especially useful tool when reporting clinical trial data results.</li>
+</ul>
+</div>
+<div id="prepare-the-data" class="section level1">
+<h1>Prepare the Data</h1>
+<div id="step-1-download-ggplot2-reshape2-dplyr-plotly-and-grid-from-cran" class="section level2">
+<h2>Step 1, Download ggplot2, reshape2, dplyr, plotly, and grid from CRAN</h2>
+<ul>
+<li>Use the <code>install.package()</code> function to install the followng R packages from CRAN: <code>ggplot2</code>, <code>plotly</code>, <code>reshape2</code>, <code>dplyr</code>, <code>kintr</code> and <code>grid</code> from <a href="https://cran.r-project.org/">CRAN</a> for example:<br />
+<code>install.packages(&quot;ggplot2&quot;)</code></li>
+</ul>
+</div>
+<div id="step-2-load-each-relevant-package" class="section level2">
+<h2>Step 2, Load each relevant Package</h2>
+<pre class="r"><code>library(ggplot2) 
+library(dplyr, warn.conflicts=FALSE)   # Useful for manipulating the dataframes
+library(reshape2) # Reformmating dataframes
+library(grid)
+library(plotly) # Allows us to make the swimmer plot interactive
+library(knitr)</code></pre>
+</div>
+<div id="step-3-create-an-example-data-set-for-demonstrative-purposes" class="section level2">
+<h2>Step 3, Create an “example” data set for demonstrative purposes</h2>
+<ul>
+<li>We will create a working data set appropriate for this type of graphical represenataion.</li>
+</ul>
+<pre class="r"><code>set.seed(35) # This sets the seed of R&#39;s random number generator
+dat &lt;-  data.frame(Subject = 1:15, 
+                 Months = sample(5:20, 15, replace=TRUE), # This generates a random set of months from 5 - 20
+                 Treated=sample(0:1, 15, replace=TRUE), # This generates 15 random 0 or 1s which correspond to Tx or no Tx
+                 Stage = sample(1:4, 15, replace=TRUE), # This randomly generates staging from 1 - 4 
+                 Continued=sample(0:15, 15, replace=TRUE))</code></pre>
+<div id="view-initial-data-set" class="section level3">
+<h3>View initial Data Set</h3>
+<pre class="r"><code>dat %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">Subject</th>
+<th align="right">Months</th>
+<th align="right">Treated</th>
+<th align="right">Stage</th>
+<th align="right">Continued</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">5</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">14</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">10</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">15</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">13</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">18</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">9</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">20</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">15</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">14</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">12</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="add-response-data-to-data-set" class="section level2">
+<h2>Add Response Data to Data Set</h2>
+<pre class="r"><code>dat &lt;-  dat %&gt;%
+  group_by(Subject) %&gt;%
+  mutate(Complete=sample(c(4:(max(Months)-1),NA), 1, 
+                         prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Partial=sample(c(4:(max(Months)-1),NA), 1, 
+                        prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Durable=sample(c(-0.5,NA), 1, replace=TRUE))
+# of note, `sample()`takes a sample of the specified size from the elements of x using either with or without replacement
+# Let&#39;s organize the order of the Subjects by Months
+dat$Subject &lt;-  factor(dat$Subject, levels=dat$Subject[order(dat$Months)])</code></pre>
+<div id="lets-view-the-data-set-now" class="section level3">
+<h3>Let’s view the Data Set Now</h3>
+<pre class="r"><code>dat %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Subject</th>
+<th align="right">Months</th>
+<th align="right">Treated</th>
+<th align="right">Stage</th>
+<th align="right">Continued</th>
+<th align="right">Complete</th>
+<th align="right">Partial</th>
+<th align="right">Durable</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">1</td>
+<td align="right">14</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td align="right">5</td>
+<td align="right">11</td>
+<td align="right">NA</td>
+</tr>
+<tr class="even">
+<td align="left">2</td>
+<td align="right">10</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">9</td>
+<td align="right">NA</td>
+<td align="right">4</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">3</td>
+<td align="right">12</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">5</td>
+<td align="right">8</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">4</td>
+<td align="right">5</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">14</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">5</td>
+<td align="right">11</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">10</td>
+<td align="right">5</td>
+<td align="right">NA</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">6</td>
+<td align="right">15</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+<td align="right">6</td>
+<td align="right">6</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">7</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">13</td>
+<td align="right">11</td>
+<td align="right">10</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">8</td>
+<td align="right">18</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">9</td>
+<td align="right">15</td>
+<td align="right">10</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">9</td>
+<td align="right">9</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">6</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">10</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">6</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td align="left">11</td>
+<td align="right">6</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+<td align="right">4</td>
+<td align="right">NA</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">12</td>
+<td align="right">20</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">15</td>
+<td align="right">11</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">13</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="right">8</td>
+<td align="right">9</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td align="left">14</td>
+<td align="right">14</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">12</td>
+<td align="right">13</td>
+<td align="right">13</td>
+<td align="right">NA</td>
+</tr>
+<tr class="odd">
+<td align="left">15</td>
+<td align="right">13</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td align="right">-0.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="melt-part-of-data-frame-for-adding-points-to-bars" class="section level2">
+<h2>Melt part of data frame for adding points to bars</h2>
+<ul>
+<li>This will collapse the Columns “Complete”, “Partial” and “Durable” into a new column called “variable” and the values of those orginial columns will become a new vector/column called “value”</li>
+</ul>
+<pre class="r"><code>dat.m &lt;-  melt(dat %&gt;% select(Subject, Months, Complete, Partial, Durable),
+             id.var=c(&quot;Subject&quot;,&quot;Months&quot;), na.rm = TRUE) 
+# of note, na.rm = TRUE will eliminate those rows with missing values</code></pre>
+<div id="lets-view-our-data-set-after-melting" class="section level3">
+<h3>Let’s View our Data Set after melting</h3>
+<pre class="r"><code>dat.m %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="left">Subject</th>
+<th align="right">Months</th>
+<th align="left">variable</th>
+<th align="right">value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td align="left">1</td>
+<td align="right">14</td>
+<td align="left">Complete</td>
+<td align="right">5.0</td>
+</tr>
+<tr class="even">
+<td>3</td>
+<td align="left">3</td>
+<td align="right">12</td>
+<td align="left">Complete</td>
+<td align="right">5.0</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td align="left">5</td>
+<td align="right">11</td>
+<td align="left">Complete</td>
+<td align="right">5.0</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td align="left">6</td>
+<td align="right">15</td>
+<td align="left">Complete</td>
+<td align="right">6.0</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td align="left">7</td>
+<td align="right">13</td>
+<td align="left">Complete</td>
+<td align="right">11.0</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td align="left">8</td>
+<td align="right">18</td>
+<td align="left">Complete</td>
+<td align="right">15.0</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td align="left">11</td>
+<td align="right">6</td>
+<td align="left">Complete</td>
+<td align="right">4.0</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td align="left">12</td>
+<td align="right">20</td>
+<td align="left">Complete</td>
+<td align="right">11.0</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td align="left">13</td>
+<td align="right">13</td>
+<td align="left">Complete</td>
+<td align="right">8.0</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td align="left">14</td>
+<td align="right">14</td>
+<td align="left">Complete</td>
+<td align="right">13.0</td>
+</tr>
+<tr class="odd">
+<td>16</td>
+<td align="left">1</td>
+<td align="right">14</td>
+<td align="left">Partial</td>
+<td align="right">11.0</td>
+</tr>
+<tr class="even">
+<td>17</td>
+<td align="left">2</td>
+<td align="right">10</td>
+<td align="left">Partial</td>
+<td align="right">4.0</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td align="left">3</td>
+<td align="right">12</td>
+<td align="left">Partial</td>
+<td align="right">8.0</td>
+</tr>
+<tr class="even">
+<td>21</td>
+<td align="left">6</td>
+<td align="right">15</td>
+<td align="left">Partial</td>
+<td align="right">6.0</td>
+</tr>
+<tr class="odd">
+<td>22</td>
+<td align="left">7</td>
+<td align="right">13</td>
+<td align="left">Partial</td>
+<td align="right">10.0</td>
+</tr>
+<tr class="even">
+<td>23</td>
+<td align="left">8</td>
+<td align="right">18</td>
+<td align="left">Partial</td>
+<td align="right">10.0</td>
+</tr>
+<tr class="odd">
+<td>24</td>
+<td align="left">9</td>
+<td align="right">9</td>
+<td align="left">Partial</td>
+<td align="right">6.0</td>
+</tr>
+<tr class="even">
+<td>28</td>
+<td align="left">13</td>
+<td align="right">13</td>
+<td align="left">Partial</td>
+<td align="right">9.0</td>
+</tr>
+<tr class="odd">
+<td>29</td>
+<td align="left">14</td>
+<td align="right">14</td>
+<td align="left">Partial</td>
+<td align="right">13.0</td>
+</tr>
+<tr class="even">
+<td>32</td>
+<td align="left">2</td>
+<td align="right">10</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td>33</td>
+<td align="left">3</td>
+<td align="right">12</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td align="left">5</td>
+<td align="right">11</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td>36</td>
+<td align="left">6</td>
+<td align="right">15</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td align="left">7</td>
+<td align="right">13</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td>39</td>
+<td align="left">9</td>
+<td align="right">9</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td>40</td>
+<td align="left">10</td>
+<td align="right">6</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td>41</td>
+<td align="left">11</td>
+<td align="right">6</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="even">
+<td>43</td>
+<td align="left">13</td>
+<td align="right">13</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+<tr class="odd">
+<td>45</td>
+<td align="left">15</td>
+<td align="right">13</td>
+<td align="left">Durable</td>
+<td align="right">-0.5</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div id="graph-the-data-using-a-swimmer-plot" class="section level1">
+<h1>Graph the Data using a Swimmer Plot</h1>
+<div id="lets-make-a-static-swimmer-plot-with-ggplot" class="section level2">
+<h2>Let’s make a static swimmer plot with <code>ggplot</code></h2>
+<pre class="r"><code>a&lt;- ggplot(dat, aes(Subject, Months)) +
+  geom_bar(stat=&quot;identity&quot;, aes(fill=factor(Stage)), width=0.8) +
+  geom_point(data=dat.m, 
+             aes(Subject, value, colour=variable, shape=variable), size=5) +
+  geom_segment(data=dat %&gt;% filter(Continued==1), 
+             aes(x=Subject, xend=Subject, y=Months + 0.1, yend=Months + 1), 
+             pch=15, size=0.8, arrow=arrow(type=&quot;closed&quot;, length=unit(0.1,&quot;in&quot;))) +
+  coord_flip() +
+  scale_fill_manual(values=hcl(seq(15,375,length.out=5)[1:4],100,75)) +
+  scale_colour_manual(values=c(hcl(seq(15,375,length.out=3)[1:2],100,30),&quot;black&quot;)) +
+  scale_y_continuous(limits=c(-1,20), breaks=0:20) +
+  labs(fill=&quot;Disease Stage&quot;, colour=&quot;&quot;, shape=&quot;&quot;,
+       x=&quot;Subjects on Treatment Drug A&quot;) +
+  theme_bw() +
+  theme(panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+a</code></pre>
+<p><img src="/post/Swimmer_Plots/index_files/figure-html/Graph%20the%20Survival%20Swimmer%20Plot%20with%20ggplot-1.png" width="672" /></p>
+</div>
+<div id="now-lets-make-an-interactive-swimmer-plot-in-plotly-by-simply-using-the-ggplotly-function-of-the-static-plot-as-an-object" class="section level2">
+<h2>Now let’s make an Interactive Swimmer plot in <code>Plotly</code> by simply using the <code>ggplotly()</code> function of the static plot as an object</h2>
+<pre class="r"><code>ggplotly(a)</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"data":[{"orientation":"h","width":[0.8,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001],"base":[0,0,0,0,0,0,0],"x":[5,12,13,13,14,18,20],"y":[1,7,8,10,12,14,15],"text":["factor(Stage): 1<br />Subject: 4<br />Months:  5","factor(Stage): 1<br />Subject: 3<br />Months: 12","factor(Stage): 1<br />Subject: 7<br />Months: 13","factor(Stage): 1<br />Subject: 15<br />Months: 13","factor(Stage): 1<br />Subject: 14<br />Months: 14","factor(Stage): 1<br />Subject: 8<br />Months: 18","factor(Stage): 1<br />Subject: 12<br />Months: 20"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(255,146,137,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"(1,NA)","legendgroup":"(1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.8,0.800000000000001,0.800000000000001,0.800000000000001],"base":[0,0,0,0],"x":[9,10,11,13],"y":[4,5,6,9],"text":["factor(Stage): 2<br />Subject: 9<br />Months:  9","factor(Stage): 2<br />Subject: 2<br />Months: 10","factor(Stage): 2<br />Subject: 5<br />Months: 11","factor(Stage): 2<br />Subject: 13<br />Months: 13"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(150,202,0,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"(2,1,NA)","legendgroup":"(2,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":0.8,"base":0,"x":[6],"y":[3],"text":"factor(Stage): 3<br />Subject: 11<br />Months:  6","type":"bar","marker":{"autocolorscale":false,"color":"rgba(0,218,224,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"(3,1,NA)","legendgroup":"(3,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"orientation":"h","width":[0.8,0.800000000000001,0.800000000000001],"base":[0,0,0],"x":[6,14,15],"y":[2,11,13],"text":["factor(Stage): 4<br />Subject: 10<br />Months:  6","factor(Stage): 4<br />Subject: 1<br />Months: 14","factor(Stage): 4<br />Subject: 6<br />Months: 15"],"type":"bar","marker":{"autocolorscale":false,"color":"rgba(225,153,255,1)","line":{"width":1.88976377952756,"color":"transparent"}},"name":"(4,1,NA)","legendgroup":"(4,1,NA)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[5,5,5,6,11,15,4,11,8,13],"y":[11,7,6,13,8,14,3,15,9,12],"text":["Subject: 1<br />value:  5.0<br />variable: Complete<br />variable: Complete<br />Subject: 1<br />Months:  5.0","Subject: 3<br />value:  5.0<br />variable: Complete<br />variable: Complete<br />Subject: 3<br />Months:  5.0","Subject: 5<br />value:  5.0<br />variable: Complete<br />variable: Complete<br />Subject: 5<br />Months:  5.0","Subject: 6<br />value:  6.0<br />variable: Complete<br />variable: Complete<br />Subject: 6<br />Months:  6.0","Subject: 7<br />value: 11.0<br />variable: Complete<br />variable: Complete<br />Subject: 7<br />Months: 11.0","Subject: 8<br />value: 15.0<br />variable: Complete<br />variable: Complete<br />Subject: 8<br />Months: 15.0","Subject: 11<br />value:  4.0<br />variable: Complete<br />variable: Complete<br />Subject: 11<br />Months:  4.0","Subject: 12<br />value: 11.0<br />variable: Complete<br />variable: Complete<br />Subject: 12<br />Months: 11.0","Subject: 13<br />value:  8.0<br />variable: Complete<br />variable: Complete<br />Subject: 13<br />Months:  8.0","Subject: 14<br />value: 13.0<br />variable: Complete<br />variable: Complete<br />Subject: 14<br />Months: 13.0"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(145,12,0,1)","opacity":1,"size":18.8976377952756,"symbol":"circle","line":{"width":1.88976377952756,"color":"rgba(145,12,0,1)"}},"hoveron":"points","name":"(Complete,1)","legendgroup":"(Complete,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[11,4,8,6,10,10,6,9,13],"y":[11,5,7,13,8,14,4,9,12],"text":["Subject: 1<br />value: 11.0<br />variable: Partial<br />variable: Partial<br />Subject: 1<br />Months: 11.0","Subject: 2<br />value:  4.0<br />variable: Partial<br />variable: Partial<br />Subject: 2<br />Months:  4.0","Subject: 3<br />value:  8.0<br />variable: Partial<br />variable: Partial<br />Subject: 3<br />Months:  8.0","Subject: 6<br />value:  6.0<br />variable: Partial<br />variable: Partial<br />Subject: 6<br />Months:  6.0","Subject: 7<br />value: 10.0<br />variable: Partial<br />variable: Partial<br />Subject: 7<br />Months: 10.0","Subject: 8<br />value: 10.0<br />variable: Partial<br />variable: Partial<br />Subject: 8<br />Months: 10.0","Subject: 9<br />value:  6.0<br />variable: Partial<br />variable: Partial<br />Subject: 9<br />Months:  6.0","Subject: 13<br />value:  9.0<br />variable: Partial<br />variable: Partial<br />Subject: 13<br />Months:  9.0","Subject: 14<br />value: 13.0<br />variable: Partial<br />variable: Partial<br />Subject: 14<br />Months: 13.0"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,105,110,1)","opacity":1,"size":18.8976377952756,"symbol":"triangle-up","line":{"width":1.88976377952756,"color":"rgba(0,105,110,1)"}},"hoveron":"points","name":"(Partial,1)","legendgroup":"(Partial,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],"y":[5,7,6,13,8,4,2,3,9,10],"text":["Subject: 2<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 2<br />Months: -0.5","Subject: 3<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 3<br />Months: -0.5","Subject: 5<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 5<br />Months: -0.5","Subject: 6<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 6<br />Months: -0.5","Subject: 7<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 7<br />Months: -0.5","Subject: 9<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 9<br />Months: -0.5","Subject: 10<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 10<br />Months: -0.5","Subject: 11<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 11<br />Months: -0.5","Subject: 13<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 13<br />Months: -0.5","Subject: 15<br />value: -0.5<br />variable: Durable<br />variable: Durable<br />Subject: 15<br />Months: -0.5"],"type":"scatter","mode":"markers","marker":{"autocolorscale":false,"color":"rgba(0,0,0,1)","opacity":1,"size":18.8976377952756,"symbol":"square","line":{"width":1.88976377952756,"color":"rgba(0,0,0,1)"}},"hoveron":"points","name":"(Durable,1)","legendgroup":"(Durable,1)","showlegend":true,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null},{"x":[15.1,16],"y":[13,13],"text":"Subject: 6<br />Months + 0.1: 15.1<br />Subject: 13<br />Months + 1: 16<br />Subject: 6<br />Months: 15.1","type":"scatter","mode":"lines","line":{"width":3.02362204724409,"color":"rgba(0,0,0,1)","dash":"solid"},"hoveron":"points","showlegend":false,"xaxis":"x","yaxis":"y","hoverinfo":"text","frame":null}],"layout":{"margin":{"t":26.2283105022831,"r":7.30593607305936,"b":40.1826484018265,"l":25.5707762557078},"plot_bgcolor":"rgba(255,255,255,1)","paper_bgcolor":"rgba(255,255,255,1)","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[-2.05,21.05],"tickmode":"array","ticktext":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"tickvals":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],"categoryorder":"array","categoryarray":["0","1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"],"nticks":null,"ticks":"outside","tickcolor":"rgba(51,51,51,1)","ticklen":3.65296803652968,"tickwidth":0.66417600664176,"showticklabels":true,"tickfont":{"color":"rgba(77,77,77,1)","family":"","size":11.689497716895},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"y","title":{"text":"Months","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"yaxis":{"domain":[0,1],"automargin":true,"type":"linear","autorange":false,"range":[0.4,15.6],"tickmode":"array","ticktext":["4","10","11","9","2","5","3","7","13","15","1","14","6","8","12"],"tickvals":[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],"categoryorder":"array","categoryarray":["4","10","11","9","2","5","3","7","13","15","1","14","6","8","12"],"nticks":null,"ticks":"","tickcolor":null,"ticklen":3.65296803652968,"tickwidth":0,"showticklabels":false,"tickfont":{"color":null,"family":null,"size":0},"tickangle":-0,"showline":false,"linecolor":null,"linewidth":0,"showgrid":false,"gridcolor":null,"gridwidth":0,"zeroline":false,"anchor":"x","title":{"text":"Subjects on Treatment Drug A","font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187}},"hoverformat":".2f"},"shapes":[{"type":"rect","fillcolor":"transparent","line":{"color":"rgba(51,51,51,1)","width":0.66417600664176,"linetype":"solid"},"yref":"paper","xref":"paper","x0":0,"x1":1,"y0":0,"y1":1}],"showlegend":true,"legend":{"bgcolor":"rgba(255,255,255,1)","bordercolor":"transparent","borderwidth":1.88976377952756,"font":{"color":"rgba(0,0,0,1)","family":"","size":11.689497716895},"y":0.826771653543307},"annotations":[{"text":"Disease Stage<br />","x":1.02,"y":1,"showarrow":false,"ax":0,"ay":0,"font":{"color":"rgba(0,0,0,1)","family":"","size":14.6118721461187},"xref":"paper","yref":"paper","textangle":-0,"xanchor":"left","yanchor":"bottom","legendTitle":true}],"hovermode":"closest","barmode":"relative"},"config":{"doubleClick":"reset","showSendToCloud":false},"source":"A","attrs":{"220439ba0f21":{"fill":{},"x":{},"y":{},"type":"bar"},"220466375d22":{"x":{},"y":{},"colour":{},"shape":{},"x.1":{},"y.1":{}},"22043cc3979b":{"x":{},"y":{},"xend":{},"yend":{},"x.1":{},"y.1":{}}},"cur_data":"220439ba0f21","visdat":{"220439ba0f21":["function (y) ","x"],"220466375d22":["function (y) ","x"],"22043cc3979b":["function (y) ","x"]},"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="sessioninfo" class="section level1">
+<h1>SessionInfo</h1>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] knitr_1.26     plotly_4.9.0   reshape2_1.4.3 dplyr_0.8.3    ggplot2_3.2.1 
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.3        later_1.0.0       highr_0.8         pillar_1.4.3     
+##  [5] compiler_3.6.1    plyr_1.8.5        tools_3.6.1       digest_0.6.23    
+##  [9] viridisLite_0.3.0 jsonlite_1.6      evaluate_0.14     lifecycle_0.1.0  
+## [13] tibble_2.1.3      gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.4      
+## [17] shiny_1.4.0       crosstalk_1.0.0   yaml_2.2.0        blogdown_0.17.1  
+## [21] xfun_0.11         fastmap_1.0.1     httr_1.4.1        withr_2.1.2      
+## [25] stringr_1.4.0     vctrs_0.2.2       htmlwidgets_1.5.1 tidyselect_0.2.5 
+## [29] glue_1.3.1        data.table_1.12.6 R6_2.4.1          rmarkdown_1.17   
+## [33] bookdown_0.16     farver_2.0.3      tidyr_1.0.0       purrr_0.3.3      
+## [37] magrittr_1.5      promises_1.1.0    scales_1.1.0      htmltools_0.4.0  
+## [41] assertthat_0.2.1  xtable_1.8-4      mime_0.7          colorspace_1.4-1 
+## [45] httpuv_1.5.2      stringi_1.4.5     lazyeval_0.2.2    munsell_0.5.0    
+## [49] crayon_1.3.4</code></pre>
+</div>

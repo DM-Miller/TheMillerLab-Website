@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Wong, K. K. | Academic</title>
+    <link>/authors/wong-k.-k./</link>
+      <atom:link href="/authors/wong-k.-k./index.xml" rel="self" type="application/rss+xml" />
+    <description>Wong, K. K.</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 01 Jul 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Wong, K. K.</title>
+      <link>/authors/wong-k.-k./</link>
+    </image>
+    
+    <item>
+      <title>Role of CDK7 in Melanoma</title>
+      <link>/publication/cdk7/</link>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>/publication/cdk7/</guid>
+      <description>&lt;h1 id=&#34;abstract&#34;&gt;Abstract&lt;/h1&gt;
+&lt;p&gt;Cutaneous melanoma is an aggressive tumor that accounts for most skin cancer deaths. Among the physiological barriers against therapeutic success is a strong survival program driven by genes such as MITF that specify melanocyte identity, a phenomenon known in melanoma biology as lineage dependency. MITF overexpression is occasionally explained by gene amplification, but here we show that super-enhancers are also important determinants of MITF overexpression in some melanoma cell lines and tumors. Although compounds that directly inhibit MITF are unavailable, a covalent *&lt;em&gt;CDK7 inhibitor&lt;/em&gt;, THZ1, has recently been shown to potently suppress the growth of various cancers through the depletion of master transcription-regulating oncogenes and the disruption of their attendant super-enhancers. We also show that melanoma cells are highly sensitive to CDK7 inhibition both in vitro and in vivo and that THZ1 can dismantle the super-enhancer apparatus at MITF and SOX10 in some cell lines, thereby extinguishing their intracellular levels. Our results show a dimension to MITF regulation in melanoma cells and point to CDK7 inhibition as a potential strategy to deprive oncogenic transcription and suppress tumor growth in melanoma.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

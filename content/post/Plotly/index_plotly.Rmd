@@ -1,0 +1,232 @@
+---
+title: "Create Interactive Data Visualization with Plotly in R"
+authors:
+- admin
+- Sophia-Shalhout
+date: "2/06/2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+always_allow_html: true
+tags: ["Plotly", "Data Science"]
+lastMod: "2020-2-06T00:00:00Z"
+projects:
+  - Data Science
+summary: This working document is a user guide on how to create interactive graphs with R via a package called `plotly`
+image:
+  caption: 'Photo by Carlos Muza on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Overview
+- This is an RMarkdown explaining how we use the `Plotly` package to more effectivley communicate clinical and translational research via interactive graphs
+- Plotly is a computing company that develops online data analytics and visualization tools
+- It has open sourced many useful interactive visualization products.
+- Plotly can be used in several programming languages (e.g. `Python`, `R` and `JavaScript`)
+  - This tutorial will be written with instruction for `R` users
+  - Although https://plot.ly/ is fabulous resource, we found that there were elements from those tutorials that were missing and we hope that this post will provide a useful resource to get started in `Plotly` in `R`
+- Why use Plotly?
+  - Plotly allows us to create visually appealing interactive plots. 
+  - The ability to export to `html` and retain all interactive functionality is easily accomplished with Plotly.
+  - It is focused around the ability to generate interactive plots with a few lines of code.
+  - Finally, all interactive features are compatible with modern web browsers.
+  
+# Step 1, Download Plotly from CRAN
+- Use the install.package() function to install the plotly R package from [CRAN](https://cran.r-project.org/)
+`install.packages("plotly")`
+
+# Load Relevant Packages
+```{r Load Packages, warning=FALSE, message=FALSE}
+library(tidyverse)
+library(knitr)
+library(plotly)
+library(readxl)
+library(scales)
+```
+
+
+# Load dataset 
+- For the first example we will use mtcars (Motor Trend Car Road Tests), which is built into base `R`
+
+```{r mt cars}
+mtcars <- mtcars
+```
+
+## View the `mtcars` Data Frame
+```{r view mtcars}
+mtcars %>% kable
+```
+
+# Make an Interactive Bar Chart in `Plotly`
+- For this first example, we will make a bar chart of the number of vehicles with <font color='red'>"4"</font>, <font color='red'>"6"</font> and <font color='red'>"8"</font> cylinders  
+- One approach is to create a new data frame with two vectors (columns)  
+  - one that we create with the String "Four Cylinders", "Six Cylinders", and "Eight Cylinders" and  
+  - another Vector that is the sum of all of the rows in mtcars that have a <font color='red'>"4"</font>, <font color='red'>"6"</font> or <font color='red'>"8"</font> in them. 
+  - We'll call the first vector **"vehicles"** and the second **"cylinders"**  
+- This allows us to make a table that has a very defined x-axis and y-axis to make construtcting a bar graph very straight forward
+```{r}
+vehicles <- c("Four Cylinders","Six Cylinders","Eight Cylinders")
+cylinders <- c(sum(mtcars$cyl==4), sum(mtcars$cyl==6), sum(mtcars$cyl==8)) # of note, the sum() function will allow us to add up all the observations with either a "4" or a "6" or a "8" 
+```
+
+## View these two vectors
+```{r}
+vehicles %>% kable
+cylinders %>% kable
+```
+
+- As you can see, there are 11 vehicles with <font color='red'>"4"</font> contained in the columns' cells, 7 with <font color = 'red'>"6"</font> and 14 with <font color = 'red'>"8"</font>  
+- Now combine these two vectors into a tibble, we'll call it <font color = 'green'>"veh_cyl"</font>
+  - Of note, a `tibble` is a modern rework of the standard `data.frame`, with some internal improvements to make code more reliable. 
+    - They are data frames, but do not follow all of the same rules  
+      - For example, tibbles can have column names that are not normally allowed, such as numbers/symbols.
+```{r}
+veh_cyl <- tibble(vehicles, cylinders)
+```
+
+# View new Tibble
+```{r}
+veh_cyl %>% kable
+```
+
+##### Now that we have a tibble that can be easily turned into a bar graph, let's use Plotly to make an interactive graph
+```{r}
+plot_ly(data = veh_cyl, x = vehicles, y = cylinders, type = "bar", text = cylinders, textposition = "auto") %>% 
+  layout(title = "Number of Vehicles in mtcars with 4, 6, and 8 Cylinders",
+         titlefont = list(size = 28, color = "orange", family = "Calibri"),
+    yaxis = list(title = "Number of Vehicles",
+                 titlefont = list(color = "black", family = "Arial", size = 26),
+                 tickfont = list(color = "black", family = "Arial", size = 20)),
+    xaxis = list(title = "Number of Cylinders",
+                 titlefont = list(color = "red", family = "Times New Roman", size = 22),
+                 tickfont = list(color = "green", family = "Cambria", size = 18)))%>% 
+  layout(margin = list( 
+                l = 10,
+              r = 10,
+              b = 0,
+              t = 40)) # Use the layout(margin) function to adjust the margins of the graph
+```  
+
+##### Comments about code for Titles and Axes  
+- To adjust the title, axes and margins, `plotly` uses different code that perhaps the more popular `ggpolot` package that `R` users are often very familiar with  
+  - The `layout()` and `list()` functions perform much of the work for these tasks, as seen above
+  - In order to highlight how these are used, we've made the title <font color = 'orange'>Orange</font> and the axis font <font color = 'green'>Green</font> and the axis title <font color = 'red'>Red</font> to emphaise those elements of the code.  
+- To add the values of the bar on the top of the bars use `textposition = "auto"` in the first ()  
+- You don't have to use those codes to adjust your Titles and Axes, but if you don't a very basic plot will look like this...
+    
+```{r bar chart basic}
+plot_ly(data = veh_cyl, x = vehicles, y = cylinders, type = "bar", text = cylinders)
+```
+        
+# Make a Time Series in Plolty
+- We will use a data set downloaded from GitHub that has dates and corresponding data
+- This will also highlight how to download data directly from GitHub into your R Studio
+- you will need the packages `httr` and `RCurl`
+
+```{r, message=FALSE, warning=FALSE}
+library(httr)
+library(RCurl)
+```
+
+### Download List of publications from Github  
+- We are going to uses a dataset from **Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies** https://github.com/opetchey/RREEBES/tree/master/Beninca_etal_2008_Nature
+
+```{r}
+no2 <- read.csv(text=getURL("https://raw.githubusercontent.com/opetchey/RREEBES/master/Beninca_etal_2008_Nature/data/nutrients_original.csv"), skip=7, header=T)
+```
+
+### Convert first column into dates
+```{r}
+no2$Date <- as.Date(no2$Date, "%d/%m/%y") # of note, this %d/%m/%y format is critical, and is specific to the way the data is put into the data frame; b/c here the date in the original df is d/m/2 digit year, you need a lower case "y" to indicate that year is only two digits in the data frame
+```
+
+### Graph a Timeseries in `Plotly`
+```{r}
+plot_ly( data = no2, x = no2$Date, y = no2$NO2) %>% 
+  add_trace(type = "scatter" ,mode = "lines+markers")  %>% 
+  layout(
+    title = "Time Series of NO2",
+    xaxis = list(
+      title = "Year"),
+    yaxis = list(
+      title = "NO2"))
+```
+
+
+# Make a Chloropleth Map in `Plotly`  
+- A Chloropleth Map is a map that uses differences in shading, coloring, or the placing of symbols within predefined areas to indicate the average values of a property or quantity in those areas (https://en.wikipedia.org/wiki/Choropleth_map)
+- For example let's look at the rate of new cancers in the US according to the 
+**Centers for Disease Control and Prevention (CDC) and the National Cancer Institute (NCI), 2016**
+- Visit “https://gis.cdc.gov/Cancer/USCS/DataViz.html” and click “export” to download a csv file.  
+  - Make sure to save it in your project folder
+  - Also, please create a column,”state”, and enter the state abbreviations next to the corresponding full state name in “Area”.  
+    - This is needed to add values to each state
+    
+```{r, }
+df <- read.csv("USCS_OverviewMap.csv")
+```
+### View the Data Fram `df`
+```{r view Rate of Cancers in the US according to CDC and NCI 2016 }
+df %>% kable
+```
+
+### Add a vector to the Data Frame specifying what will be revealed via hovering
+```{r hover }
+df$hover <- with(df, paste(df$Area, df$Year,"Sex:", df$Sex, "Case count:", df$CaseCount, sep = "<br>"))
+```
+- This is a very nice option.  
+  - You can create a vector (here we are calling it "hover") that will be the contents displayed when you hover over the map  
+    - This "hover" vector needs to be specified in the `text =` part of the code below 
+
+#### View the first 2 rows of the data frame `df` with `hover` vector
+```{r}
+kable(head(df[1:2,]))
+```
+
+### Plot the Chloropleth Map
+```{r, map of Rate of Cancers in the US, 2016 }
+# give state boundaries a white border
+l <- list(color = toRGB("white"), width = 2)
+# specify some map projection/options
+g <- list(
+  scope = 'usa',
+  projection = list(type = 'albers usa'),
+  showlakes = TRUE,
+  lakecolor = toRGB('steelblue')
+)
+
+p <- plot_geo(df, locationmode = 'USA-states') %>%
+  add_trace(
+    z = ~AgeAdjustedRate, text = ~hover, locations = df$Code,
+    color = ~AgeAdjustedRate, colors = 'Purples'
+  ) %>%
+  colorbar(title = "Rate per 100,000 people") %>%
+  layout(
+    title = 'US Cancer Statistics Rate of New Cancers- 2016 (Source: CDC and NCI)',
+    geo = g
+  )
+
+p
+```
+
+
+
+# SessionInfo
+```{r}
+sessionInfo()
+```
+
+
+
+

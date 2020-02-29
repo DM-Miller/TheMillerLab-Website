@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Education | Academic</title>
+    <link>/tags/education/</link>
+      <atom:link href="/tags/education/index.xml" rel="self" type="application/rss+xml" />
+    <description>Education</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 27 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Education</title>
+      <link>/tags/education/</link>
+    </image>
+    
+    <item>
+      <title>Clinical Educator</title>
+      <link>/project/clinical-educator/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/clinical-educator/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Dr. Miller has been teaching nurses, medical students and residents for over 15 years&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

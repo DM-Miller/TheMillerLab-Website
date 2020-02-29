@@ -1,0 +1,143 @@
+---
+title: "Graphical Representation of Survival - Swimmer Plots for Clinical Trials in Clinical Oncology"
+authors:
+- Sophia-Shalhout
+- admin
+date: "2/09/2020" 
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+always_allow_html: true
+tags: ["Swimmer Plots", "Data Science"]
+lastMod: "2020-02-09T00:00:00Z"
+projects:
+  - Data Science
+summary: This working document is a user guide on how to create Swimmer Plots to visualize survival data
+image:
+  caption: 'Photo by Alex Guillaume on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+# Overview
+- This is an RMarkdown explaining how we can use **<font color='red'>"Swimmer Plots"</font>** to visualize survival data.
+- A **<font color='red'>"Swimmer Plot"</font>** is a graphical way of displaying several aspects of a subject’s tumor response such as **total time to tumor response**, whether there was a <font color='green'>"Complete"</font> or <font color='blue'>"Partial"</font> response, and duration of response.
+- This is a clear, graphical representation of the course of a patient's tumor response and can be an especially useful tool when reporting clinical trial data results.
+
+# Prepare the Data  
+
+## Step 1, Download ggplot2,  reshape2, dplyr, plotly, and grid from CRAN
+- Use the `install.package()` function to install the followng R packages from CRAN: `ggplot2`, `plotly`, `reshape2`, `dplyr`, `kintr` and `grid` from [CRAN](https://cran.r-project.org/) for example:  
+`install.packages("ggplot2")`
+
+## Step 2, Load each relevant Package
+```{r Load Packages, warning=FALSE, message=FALSE}
+library(ggplot2) 
+library(dplyr, warn.conflicts=FALSE)   # Useful for manipulating the dataframes
+library(reshape2) # Reformmating dataframes
+library(grid)
+library(plotly) # Allows us to make the swimmer plot interactive
+library(knitr)
+
+```
+
+## Step 3, Create an "example" data set for demonstrative purposes
+- We will create a working data set appropriate for this type of graphical represenataion.
+
+```{r Create an example data set}
+set.seed(35) # This sets the seed of R's random number generator
+dat <-  data.frame(Subject = 1:15, 
+                 Months = sample(5:20, 15, replace=TRUE), # This generates a random set of months from 5 - 20
+                 Treated=sample(0:1, 15, replace=TRUE), # This generates 15 random 0 or 1s which correspond to Tx or no Tx
+                 Stage = sample(1:4, 15, replace=TRUE), # This randomly generates staging from 1 - 4 
+                 Continued=sample(0:15, 15, replace=TRUE))
+```
+
+### View initial Data Set
+```{r View dat}
+dat %>% kable
+```
+
+## Add Response Data to Data Set
+```{r Add response data}
+dat <-  dat %>%
+  group_by(Subject) %>%
+  mutate(Complete=sample(c(4:(max(Months)-1),NA), 1, 
+                         prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Partial=sample(c(4:(max(Months)-1),NA), 1, 
+                        prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Durable=sample(c(-0.5,NA), 1, replace=TRUE))
+# of note, `sample()`takes a sample of the specified size from the elements of x using either with or without replacement
+# Let's organize the order of the Subjects by Months
+dat$Subject <-  factor(dat$Subject, levels=dat$Subject[order(dat$Months)])
+```
+
+### Let's view the Data Set Now
+```{r view data set 2}
+dat %>% kable
+```
+
+## Melt part of data frame for adding points to bars  
+- This will collapse the Columns "Complete", "Partial" and "Durable" into a new column called "variable" and the values of those orginial columns will become a new vector/column called "value"
+```{r}
+dat.m <-  melt(dat %>% select(Subject, Months, Complete, Partial, Durable),
+             id.var=c("Subject","Months"), na.rm = TRUE) 
+# of note, na.rm = TRUE will eliminate those rows with missing values
+```
+
+### Let's View our Data Set after melting
+```{r View Melted Data set}
+dat.m %>% kable
+```
+
+# Graph the Data using a Swimmer Plot
+
+## Let's make a static swimmer plot with `ggplot`
+```{r Graph the Survival Swimmer Plot with ggplot, warning=FALSE}
+a<- ggplot(dat, aes(Subject, Months)) +
+  geom_bar(stat="identity", aes(fill=factor(Stage)), width=0.8) +
+  geom_point(data=dat.m, 
+             aes(Subject, value, colour=variable, shape=variable), size=5) +
+  geom_segment(data=dat %>% filter(Continued==1), 
+             aes(x=Subject, xend=Subject, y=Months + 0.1, yend=Months + 1), 
+             pch=15, size=0.8, arrow=arrow(type="closed", length=unit(0.1,"in"))) +
+  coord_flip() +
+  scale_fill_manual(values=hcl(seq(15,375,length.out=5)[1:4],100,75)) +
+  scale_colour_manual(values=c(hcl(seq(15,375,length.out=3)[1:2],100,30),"black")) +
+  scale_y_continuous(limits=c(-1,20), breaks=0:20) +
+  labs(fill="Disease Stage", colour="", shape="",
+       x="Subjects on Treatment Drug A") +
+  theme_bw() +
+  theme(panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+a
+
+```
+
+## Now let's make an Interactive Swimmer plot in `Plotly` by simply using the `ggplotly()` function of the static plot as an object
+```{r, warning=FALSE}
+ggplotly(a)
+```
+
+
+
+# SessionInfo
+```{r}
+sessionInfo()
+```
+
+
+
+

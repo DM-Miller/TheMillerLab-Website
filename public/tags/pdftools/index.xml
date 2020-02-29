@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>pdftools | Academic</title>
+    <link>/tags/pdftools/</link>
+      <atom:link href="/tags/pdftools/index.xml" rel="self" type="application/rss+xml" />
+    <description>pdftools</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 11 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>pdftools</title>
+      <link>/tags/pdftools/</link>
+    </image>
+    
+    <item>
+      <title>Showcasing Clinical and Translational Research Presentations with Hugo Academic</title>
+      <link>/post/showcasing_presentations_on_your_website/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/post/showcasing_presentations_on_your_website/</guid>
+      <description>
+
+
+&lt;div id=&#34;overview&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;This working document is a user guide on how to enhance communication of &lt;strong&gt;Clinical and Translational Research&lt;/strong&gt; by posting slides of your presentations and talks on your website using &lt;code&gt;blogdown&lt;/code&gt; and &lt;code&gt;Hugo Academic&lt;/code&gt;&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;Hugo Academic&lt;/code&gt; combined with &lt;code&gt;blogdown&lt;/code&gt; allows for the ability to host slides of your talks so viewers can follow along with your during your presentation or have as a repository for later reference
+&lt;ul&gt;
+&lt;li&gt;This also allows you to retain your slides and not be put in the uncomfortable position of “giving away” your precious slides that you spent countless hours on&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;In particular we will focus on a pearl on how to fairly straightforwardly transform your powerpoint or pdf talk into images so they can be hosted on your &lt;code&gt;Hugo Academic&lt;/code&gt; Website using a nice package called &lt;code&gt;pdftools&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;initial-steps&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Initial Steps&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;We are going to assume that you’ve already built your website using &lt;code&gt;blogdown&lt;/code&gt; and &lt;code&gt;Hugo Academic&lt;/code&gt;&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;If you have not, please see our post &lt;a href=&#34;https://www.themillerlab.io/post/website-development-using-r/&#34;&gt;Communicating CT Research via Website Development with R&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;first-create-a-folder-for-your-slides-for-the-particular-talk-you-want-to-post&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;First create a folder for your slides for the particular talk you want to post&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Within your main webstie working directory
+&lt;ul&gt;
+&lt;li&gt;Click through &lt;code&gt;content&lt;/code&gt; -&amp;gt; &lt;code&gt;slides&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;In the &lt;code&gt;slides&lt;/code&gt; folder create a new folder that is specific for the slides your intended folder&lt;/li&gt;
+&lt;li&gt;In that folder you will then create an &lt;code&gt;index.md&lt;/code&gt; markdown file which will control the content of your slides&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;I would also recommend creating another folder in that folder where you can store images of slides from your powerpoint presentation or pdf presentation
+&lt;ul&gt;
+&lt;li&gt;I make one and call it &lt;code&gt;slides&lt;/code&gt; but you can call it whatever you want&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;creating-content-in-the-index.md-markdown&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Creating content in the &lt;code&gt;index.md&lt;/code&gt; markdown&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;The YAML in that index can look like this:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;authors:&lt;br /&gt;
+- admin&lt;br /&gt;
+categories: []&lt;br /&gt;
+date: “2019-12-09T00:00:00Z”&lt;br /&gt;
+slides:&lt;br /&gt;
+highlight_style: dracula
+theme: black&lt;br /&gt;
+summary: Slides for ODAC Melanoma Talk 1-18-2020.&lt;br /&gt;
+tags:&lt;br /&gt;
+- Melanoma&lt;br /&gt;
+- Dermatology&lt;br /&gt;
+- Medical Oncology&lt;br /&gt;
+title: Therapeutic Updates in Melanoma - IO for Earlier Stage Disease&lt;/p&gt;
+&lt;hr /&gt;
+&lt;/div&gt;
+&lt;div id=&#34;underneath-the-yaml-you-will-build-the-content-of-your-slides&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Underneath the YAML, you will build the content of your slides&lt;/h2&gt;
+&lt;hr /&gt;
+&lt;ul&gt;
+&lt;li&gt;Each set of slides will be seprated by two three dash segments such as:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;img src=&#34;images/example_slide.png&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;div id=&#34;you-can-create-any-content-you-want-in-these-slides-such-as&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;You can create any content you want in these slides such as:&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&#34;images/example_slide2.png&#34; /&gt;&lt;/p&gt;
+&lt;hr /&gt;
+&lt;p&gt;That will create slides that look like this:
+&lt;img src=&#34;images/hugo_academic.png&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;images/learning_objectives.png&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;using-your-actual-slides-from-powerpoint-or-pdf-as-slides-on-your-website&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Using your actual slides from powerpoint or pdf as slides on your website&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Instead of creating your slides for your website manually using &lt;code&gt;Hugo Academic&lt;/code&gt; or &lt;code&gt;blogdown&lt;/code&gt; you can make images of your &lt;code&gt;powerpoint&lt;/code&gt; files and use them as a backdrop (which is my preference)&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;This can produce really nice looking slides, but it can be a bit labor intensive&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;One approach is to &lt;code&gt;print&lt;/code&gt; your slides in &lt;code&gt;powerpoint&lt;/code&gt; to &lt;code&gt;pdf&lt;/code&gt; format and then convert each slide to a single pdf or jpg file and put those files in you &lt;code&gt;slides&lt;/code&gt; folder that you created&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;But doing this slide by slide is quite tedious
+&lt;ul&gt;
+&lt;li&gt;Enter a slick &lt;code&gt;Data Science Solution&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;Make use of a wonderful package called &lt;code&gt;pdftools&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;this allows you to convert one to all of your pdf slides to a variety of image types&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;pdftools&lt;/code&gt;will greatly reduce your work load&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;lets-use-an-example-from-one-of-our-presentations&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Let’s use an example from one of our presentations&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;In January, we had a &lt;code&gt;powerpoint&lt;/code&gt; presentation on IO therapy in earlier stage melanoma&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;After creating the &lt;code&gt;powerpoint&lt;/code&gt; presentation we printed the &lt;code&gt;ppt&lt;/code&gt; to &lt;code&gt;pdf&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;That pdf was titled &lt;code&gt;melanoma_odac.pdf&lt;/code&gt;
+&lt;ul&gt;
+&lt;li&gt;To faciliate the creation of the slide presentation using &lt;code&gt;blogdown&lt;/code&gt; we made use of the &lt;code&gt;pdftools&lt;/code&gt; package as follows:&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;strong&gt;Load the &lt;code&gt;pdftools&lt;/code&gt; package&lt;/strong&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(pdftools)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;strong&gt;Convert PDF to JPEG&lt;/strong&gt;&lt;br /&gt;
+- Use the following code for this:&lt;br /&gt;
+&lt;code&gt;pdf_convert(&amp;quot;melanoma_odac.pdf&amp;quot;, format = &amp;quot;jpeg&amp;quot;, pages = NULL, filenames = NULL, dpi = 300, opw = &amp;quot;&amp;quot;, upw = &amp;quot;&amp;quot;, verbose = TRUE)&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Of note, &lt;code&gt;melanoma_odac.pdf&lt;/code&gt; is the name of the pdf that you want to convert slide by slide to jpeg, this file should be in the same working directory as the Rproject that you are working with
+&lt;ul&gt;
+&lt;li&gt;Once you execute this function, each slide will be converted into the image format of your choosing -&amp;gt; in this case we chose jpeg
+&lt;ul&gt;
+&lt;li&gt;This is important, b/c it should match the code in your &lt;code&gt;index.md&lt;/code&gt; markdown for your slides presentation&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;Each slide will be automatically labeled as &lt;code&gt;melanoma_odac_1.jpeg&lt;/code&gt; followed by &lt;code&gt;melanoma_odac_2.jpeg&lt;/code&gt;, etc.&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;important-nuances-of-the-code&#34; class=&#34;section level4&#34;&gt;
+&lt;h4&gt;Important nuances of the code&lt;/h4&gt;
+&lt;ul&gt;
+&lt;li&gt;pages = NULL will convert all of the slides to individual slide&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;dpi = 300 is the resolution of the images that you are saving&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;format-your-index.md-appropriately&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Format your &lt;code&gt;index.md&lt;/code&gt; appropriately&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Then, if you want your jpeg slides to take up the whole entire slide, make them a backdrop&lt;br /&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Here is an example of what Dr. Miller’s &lt;code&gt;index.md&lt;/code&gt; file looked like
+&lt;img src=&#34;images/yaml.png&#34; alt=&#34;png&#34; /&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;To see how this turns out &lt;a href=&#34;https://www.themillerlab.io/slides/odac_melanoma-1-18-20/#/&#34;&gt;click here&lt;/a&gt;&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;div id=&#34;thats-it-for-now-please-let-us-know-if-this-was-helpful-or-if-you-have-any-additional-feedback&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;That’s it for now, please let us know if this was helpful or if you have any additional feedback&lt;/h3&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

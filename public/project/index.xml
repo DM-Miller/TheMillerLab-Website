@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Projects | Academic</title>
+    <link>/project/</link>
+      <atom:link href="/project/index.xml" rel="self" type="application/rss+xml" />
+    <description>Projects</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 28 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Projects</title>
+      <link>/project/</link>
+    </image>
+    
+    <item>
+      <title>Clinical Trials for Skin Cancer</title>
+      <link>/project/clinical-trials/</link>
+      <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/project/clinical-trials/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;We are involved with clinical studies to improve outcomes for patients with Skin Cancer&lt;/p&gt;
+&lt;h1 id=&#34;clinical-trials-in-merkel-cell-carcinoma&#34;&gt;Clinical Trials in Merkel Cell Carcinoma&lt;/h1&gt;
+&lt;p&gt;Dr. Miller is the MGH site Principal Investigator for 
+&lt;a href=&#34;https://clinicaltrials.gov/ct2/show/NCT03712605?term=pembrolizumab&amp;amp;cond=merkel&amp;#43;cell&amp;#43;carcinoma&amp;amp;draw=2&amp;amp;rank=5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;STAMP: Surgically Treated Adjuvant Merkel Cell Carcinoma With Pembrolizumab, a Phase III Trial&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;clinical-trials-in-melanoma&#34;&gt;Clinical Trials in Melanoma&lt;/h1&gt;
+&lt;p&gt;Dr. Miller is a MGH sub-investigator for 
+&lt;a href=&#34;https://clinicaltrials.gov/ct2/show/NCT03272464?term=flaherty&amp;amp;cond=melanoma&amp;amp;draw=2&amp;amp;rank=1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;INCB039110 in Combination With Dabrafenib and Trametinib in Patients With BRAF-mutant Melanoma and Other Solid Tumors&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Biomarkers of Response and Resistance to Cancer Therapy</title>
+      <link>/project/biomarkers/</link>
+      <pubDate>Wed, 27 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/project/biomarkers/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;We are investigating why patients respond - or fail to respond - to cancer therapies. Using biospecimen collection infrastructure at the Massachusetts General Hospital Cancer Center, we are collecting tissue on patients with advanced Skin Cancer in order to better understand why therapies work in certain patients, but not others.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Data Science Tool Development</title>
+      <link>/project/data-science/</link>
+      <pubDate>Sat, 23 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/project/data-science/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;We are developing &lt;code&gt;Data Science Tools&lt;/code&gt; to faciliate &lt;strong&gt;Clinical and Translational Investigation&lt;/strong&gt;&lt;/li&gt;
+&lt;li&gt;We strive to create &lt;code&gt;Data Science Pearls and Solutions&lt;/code&gt; for a wide variety of problems, such as communicating science and research through 
+&lt;a href=&#34;https://www.themillerlab.io/post/website-development-using-r/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Website Development&lt;/a&gt; and    
+&lt;a href=&#34;https://www.themillerlab.io/post/flexdashboards/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;FlexDashboards&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Merkel Cell Carcinoma Patient Registry</title>
+      <link>/project/mcc-registry/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>/project/mcc-registry/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Dr. Miller and 
+&lt;a href=&#34;https://faculty.mdanderson.org/profiles/michael_wong.html&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Dr. Michael K. Wong&lt;/a&gt; co-chair a 
+&lt;a href=&#34;https://www.projectdatasphere.org/projectdatasphere/html/home&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Project Data Sphere (PDS)&lt;/a&gt;-led Task Force of key opinion leaders who are working together to develop a multi-institutional registry for patients with 
+&lt;a href=&#34;https://www.merkelcellcarcinoma.io&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Merkel Cell Carcinoma (MCC)&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;The Merkel Cell Carcinoma Tumor Registry is a collaborative effort that is collecting data on outcomes and events in MCC patients. Deliverables from the MCC Registry include: (i) improved patient risk stratification, (ii) identification of optimal sequence and combinations therapies, (iii) uncovering low-incidence toxicities, (iv) revelations about best practices, (v) novel hypotheses, and (vi) real-world data for drug development programs.&lt;/p&gt;
+&lt;p&gt;The MCC Task Force is composed of members from academic medical centers, the National Institutes of Health, the pharmaceutical industry and the U.S Food and Drug Administration.  Project Data Sphere, LLC provides a secure, open-access data sharing platform and comprehensive support to optimize research performance and ensure rigorous and timely results. The Registry is currently in Part 1 of a two-stage Pilot project, in which we are collecting MCC outcomes at the MGH and the Dana-Farber/Harvard Cancer Center to clarify what data elements to collect, how to code the data and how to standardize the information collection in a way to facilitate analysis.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Clinical Educator</title>
+      <link>/project/clinical-educator/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/clinical-educator/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Dr. Miller has been teaching nurses, medical students and residents for over 15 years&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Evolving Landscape of Regulatory Medicine</title>
+      <link>/project/regulatory-medicine/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/project/regulatory-medicine/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;We are evaluating the evolving landscape of regulatory medicine in Cutaneous Oncology and Dermatology&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Drews, R. E. | Academic</title>
+    <link>/authors/drews-r.-e./</link>
+      <atom:link href="/authors/drews-r.-e./index.xml" rel="self" type="application/rss+xml" />
+    <description>Drews, R. E.</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 01 Nov 2018 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Drews, R. E.</title>
+      <link>/authors/drews-r.-e./</link>
+    </image>
+    
+    <item>
+      <title>Eczema Tvecium</title>
+      <link>/publication/eczema-tvecium/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>/publication/eczema-tvecium/</guid>
+      <description>&lt;h1 id=&#34;abstract&#34;&gt;Abstract&lt;/h1&gt;
+&lt;p&gt;&lt;strong&gt;BACKGROUND&lt;/strong&gt;: Immune-directed therapies have become front-line therapy for melanoma and are transforming the management of advanced disease. In refractory cases, multi-modal immunoncology (IO) approaches are being utilized, including combining immune checkpoint blockade (ICB) with oncolytic herpes viruses. Talimogene laherparepvec (T-VEC) is the first genetically modified oncolytic viral therapy (OVT) approved for the treatment of recurrent and unresectable melanoma. The use of IO in patients with concomitant malignancies and/or compromised immune systems is limited due to systematic exclusion from clinical trials. For example, a single case report of a solid organ transplant patient successfully treated with T-VEC for metastatic melanoma has been reported. Furthermore, the use of ICB in T-cell malignancies is limited and paradoxical worsening has been described. To our knowledge, this is the first report of dual ICB/T-VEC being administered to a patient with concurrent primary cutaneous anaplastic large cell lymphoma (pcALCL) and melanoma&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CASE PRESENTATION&lt;/strong&gt;: Here we present the case of a patient with concomitant primary cutaneous ALCL and metastatic melanoma, progressing on anti-programmed death (PD)-1 therapy, who developed Kaposi&#39;s varicelliform eruption after receiving the first dose of Talimogene laherparepvec.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CONCLUSION&lt;/strong&gt;: This case highlights the complexities of care of patients with coexistent cancers, demonstrates rapid progression of primary cutaneous ALCL on nivolumab and introduces a novel adverse effect of Talimogene laherparepvec.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>A Complete Response in cSCC with Ipi/Nivo</title>
+      <link>/publication/cr-ipi-nivo-scc/</link>
+      <pubDate>Fri, 08 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>/publication/cr-ipi-nivo-scc/</guid>
+      <description>&lt;h1 id=&#34;abstract&#34;&gt;Abstract:&lt;/h1&gt;
+&lt;p&gt;Although most cases of metastatic cutaneous Squamous Cell Carcinoma mCSCC can be cured with local therapy, up to 8,000 deaths occur each year. With no US Food and Drug Administration-approved options available for mcSCC, common approaches include platinum- based chemotherapy and off-label cetuximab. These strategies lack durability, and overall survival for mcSCC is only 10.9 months. Here we report a complete pathologic response after 4 cycles of nivolumab and the antieCTLA-4 antibody, ipilimumab, in a patient with mCSCC.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

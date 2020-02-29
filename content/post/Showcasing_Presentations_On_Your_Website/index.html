@@ -1,0 +1,186 @@
+---
+title: "Showcasing Clinical and Translational Research Presentations with Hugo Academic"
+authors:
+- admin
+- Sophia-Shalhout
+date: "1/12/2020"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+categories: []
+draft: false
+featured: false
+image:
+  caption: 'Photo by Markus Spiske on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+lastMod: "2020-02-11T00:00:00Z"
+projects: 
+- Data Science
+subtitle: 
+summary: This working document is a user guide on how to post presentations on your a website using the packages `blogdown`, `Hugo Academic` and `pdftools`
+tags: 
+- Data Science
+- pdftools
+- Rstudio
+- Hugo Academic
+- blogdown
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<ul>
+<li>This working document is a user guide on how to enhance communication of <strong>Clinical and Translational Research</strong> by posting slides of your presentations and talks on your website using <code>blogdown</code> and <code>Hugo Academic</code><br />
+</li>
+<li><code>Hugo Academic</code> combined with <code>blogdown</code> allows for the ability to host slides of your talks so viewers can follow along with your during your presentation or have as a repository for later reference
+<ul>
+<li>This also allows you to retain your slides and not be put in the uncomfortable position of “giving away” your precious slides that you spent countless hours on<br />
+</li>
+<li>In particular we will focus on a pearl on how to fairly straightforwardly transform your powerpoint or pdf talk into images so they can be hosted on your <code>Hugo Academic</code> Website using a nice package called <code>pdftools</code></li>
+</ul></li>
+</ul>
+</div>
+<div id="initial-steps" class="section level1">
+<h1>Initial Steps</h1>
+<ul>
+<li>We are going to assume that you’ve already built your website using <code>blogdown</code> and <code>Hugo Academic</code><br />
+</li>
+<li>If you have not, please see our post <a href="https://www.themillerlab.io/post/website-development-using-r/">Communicating CT Research via Website Development with R</a></li>
+</ul>
+<div id="first-create-a-folder-for-your-slides-for-the-particular-talk-you-want-to-post" class="section level2">
+<h2>First create a folder for your slides for the particular talk you want to post</h2>
+<ul>
+<li>Within your main webstie working directory
+<ul>
+<li>Click through <code>content</code> -&gt; <code>slides</code></li>
+<li>In the <code>slides</code> folder create a new folder that is specific for the slides your intended folder</li>
+<li>In that folder you will then create an <code>index.md</code> markdown file which will control the content of your slides<br />
+</li>
+<li>I would also recommend creating another folder in that folder where you can store images of slides from your powerpoint presentation or pdf presentation
+<ul>
+<li>I make one and call it <code>slides</code> but you can call it whatever you want</li>
+</ul></li>
+</ul></li>
+</ul>
+</div>
+<div id="creating-content-in-the-index.md-markdown" class="section level2">
+<h2>Creating content in the <code>index.md</code> markdown</h2>
+<ul>
+<li>The YAML in that index can look like this:</li>
+</ul>
+<p>authors:<br />
+- admin<br />
+categories: []<br />
+date: “2019-12-09T00:00:00Z”<br />
+slides:<br />
+highlight_style: dracula
+theme: black<br />
+summary: Slides for ODAC Melanoma Talk 1-18-2020.<br />
+tags:<br />
+- Melanoma<br />
+- Dermatology<br />
+- Medical Oncology<br />
+title: Therapeutic Updates in Melanoma - IO for Earlier Stage Disease</p>
+<hr />
+</div>
+<div id="underneath-the-yaml-you-will-build-the-content-of-your-slides" class="section level2">
+<h2>Underneath the YAML, you will build the content of your slides</h2>
+<hr />
+<ul>
+<li>Each set of slides will be seprated by two three dash segments such as:</li>
+</ul>
+<p><img src="images/example_slide.png" /></p>
+<hr />
+<div id="you-can-create-any-content-you-want-in-these-slides-such-as" class="section level3">
+<h3>You can create any content you want in these slides such as:</h3>
+<p><img src="images/example_slide2.png" /></p>
+<hr />
+<p>That will create slides that look like this:
+<img src="images/hugo_academic.png" /></p>
+<p><img src="images/learning_objectives.png" /></p>
+</div>
+</div>
+<div id="using-your-actual-slides-from-powerpoint-or-pdf-as-slides-on-your-website" class="section level2">
+<h2>Using your actual slides from powerpoint or pdf as slides on your website</h2>
+<ul>
+<li>Instead of creating your slides for your website manually using <code>Hugo Academic</code> or <code>blogdown</code> you can make images of your <code>powerpoint</code> files and use them as a backdrop (which is my preference)<br />
+</li>
+<li>This can produce really nice looking slides, but it can be a bit labor intensive<br />
+</li>
+<li>One approach is to <code>print</code> your slides in <code>powerpoint</code> to <code>pdf</code> format and then convert each slide to a single pdf or jpg file and put those files in you <code>slides</code> folder that you created<br />
+</li>
+<li>But doing this slide by slide is quite tedious
+<ul>
+<li>Enter a slick <code>Data Science Solution</code>
+<ul>
+<li>Make use of a wonderful package called <code>pdftools</code>
+<ul>
+<li>this allows you to convert one to all of your pdf slides to a variety of image types</li>
+</ul></li>
+</ul></li>
+</ul></li>
+<li><code>pdftools</code>will greatly reduce your work load</li>
+</ul>
+</div>
+<div id="lets-use-an-example-from-one-of-our-presentations" class="section level2">
+<h2>Let’s use an example from one of our presentations</h2>
+<ul>
+<li>In January, we had a <code>powerpoint</code> presentation on IO therapy in earlier stage melanoma<br />
+</li>
+<li>After creating the <code>powerpoint</code> presentation we printed the <code>ppt</code> to <code>pdf</code>
+<ul>
+<li>That pdf was titled <code>melanoma_odac.pdf</code>
+<ul>
+<li>To faciliate the creation of the slide presentation using <code>blogdown</code> we made use of the <code>pdftools</code> package as follows:</li>
+</ul></li>
+</ul></li>
+</ul>
+<p><strong>Load the <code>pdftools</code> package</strong></p>
+<pre class="r"><code>library(pdftools)</code></pre>
+<p><strong>Convert PDF to JPEG</strong><br />
+- Use the following code for this:<br />
+<code>pdf_convert(&quot;melanoma_odac.pdf&quot;, format = &quot;jpeg&quot;, pages = NULL, filenames = NULL, dpi = 300, opw = &quot;&quot;, upw = &quot;&quot;, verbose = TRUE)</code></p>
+<ul>
+<li>Of note, <code>melanoma_odac.pdf</code> is the name of the pdf that you want to convert slide by slide to jpeg, this file should be in the same working directory as the Rproject that you are working with
+<ul>
+<li>Once you execute this function, each slide will be converted into the image format of your choosing -&gt; in this case we chose jpeg
+<ul>
+<li>This is important, b/c it should match the code in your <code>index.md</code> markdown for your slides presentation<br />
+</li>
+<li>Each slide will be automatically labeled as <code>melanoma_odac_1.jpeg</code> followed by <code>melanoma_odac_2.jpeg</code>, etc.</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="important-nuances-of-the-code" class="section level4">
+<h4>Important nuances of the code</h4>
+<ul>
+<li>pages = NULL will convert all of the slides to individual slide<br />
+</li>
+<li>dpi = 300 is the resolution of the images that you are saving</li>
+</ul>
+</div>
+</div>
+<div id="format-your-index.md-appropriately" class="section level2">
+<h2>Format your <code>index.md</code> appropriately</h2>
+<ul>
+<li>Then, if you want your jpeg slides to take up the whole entire slide, make them a backdrop<br />
+</li>
+<li><p>Here is an example of what Dr. Miller’s <code>index.md</code> file looked like
+<img src="images/yaml.png" alt="png" /></p></li>
+<li><p>To see how this turns out <a href="https://www.themillerlab.io/slides/odac_melanoma-1-18-20/#/">click here</a></p></li>
+</ul>
+<div id="thats-it-for-now-please-let-us-know-if-this-was-helpful-or-if-you-have-any-additional-feedback" class="section level3">
+<h3>That’s it for now, please let us know if this was helpful or if you have any additional feedback</h3>
+</div>
+</div>
+</div>

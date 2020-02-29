@@ -1,0 +1,676 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Swimmer Plots | Academic</title>
+    <link>/tags/swimmer-plots/</link>
+      <atom:link href="/tags/swimmer-plots/index.xml" rel="self" type="application/rss+xml" />
+    <description>Swimmer Plots</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 09 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Swimmer Plots</title>
+      <link>/tags/swimmer-plots/</link>
+    </image>
+    
+    <item>
+      <title>Graphical Representation of Survival - Swimmer Plots for Clinical Trials in Clinical Oncology</title>
+      <link>/post/swimmer_plots/</link>
+      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/post/swimmer_plots/</guid>
+      <description>
+&lt;script src=&#34;/rmarkdown-libs/htmlwidgets/htmlwidgets.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-binding/plotly.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/typedarray/typedarray.min.js&#34;&gt;&lt;/script&gt;
+&lt;script src=&#34;/rmarkdown-libs/jquery/jquery.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/crosstalk/css/crosstalk.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/crosstalk/js/crosstalk.min.js&#34;&gt;&lt;/script&gt;
+&lt;link href=&#34;/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css&#34; rel=&#34;stylesheet&#34; /&gt;
+&lt;script src=&#34;/rmarkdown-libs/plotly-main/plotly-latest.min.js&#34;&gt;&lt;/script&gt;
+
+
+&lt;div id=&#34;overview&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Overview&lt;/h1&gt;
+&lt;ul&gt;
+&lt;li&gt;This is an RMarkdown explaining how we can use &lt;strong&gt;&lt;font color=&#39;red&#39;&gt;“Swimmer Plots”&lt;/font&gt;&lt;/strong&gt; to visualize survival data.&lt;/li&gt;
+&lt;li&gt;A &lt;strong&gt;&lt;font color=&#39;red&#39;&gt;“Swimmer Plot”&lt;/font&gt;&lt;/strong&gt; is a graphical way of displaying several aspects of a subject’s tumor response such as &lt;strong&gt;total time to tumor response&lt;/strong&gt;, whether there was a &lt;font color=&#39;green&#39;&gt;“Complete”&lt;/font&gt; or &lt;font color=&#39;blue&#39;&gt;“Partial”&lt;/font&gt; response, and duration of response.&lt;/li&gt;
+&lt;li&gt;This is a clear, graphical representation of the course of a patient’s tumor response and can be an especially useful tool when reporting clinical trial data results.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;prepare-the-data&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Prepare the Data&lt;/h1&gt;
+&lt;div id=&#34;step-1-download-ggplot2-reshape2-dplyr-plotly-and-grid-from-cran&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Step 1, Download ggplot2, reshape2, dplyr, plotly, and grid from CRAN&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Use the &lt;code&gt;install.package()&lt;/code&gt; function to install the followng R packages from CRAN: &lt;code&gt;ggplot2&lt;/code&gt;, &lt;code&gt;plotly&lt;/code&gt;, &lt;code&gt;reshape2&lt;/code&gt;, &lt;code&gt;dplyr&lt;/code&gt;, &lt;code&gt;kintr&lt;/code&gt; and &lt;code&gt;grid&lt;/code&gt; from &lt;a href=&#34;https://cran.r-project.org/&#34;&gt;CRAN&lt;/a&gt; for example:&lt;br /&gt;
+&lt;code&gt;install.packages(&amp;quot;ggplot2&amp;quot;)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;step-2-load-each-relevant-package&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Step 2, Load each relevant Package&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;library(ggplot2) 
+library(dplyr, warn.conflicts=FALSE)   # Useful for manipulating the dataframes
+library(reshape2) # Reformmating dataframes
+library(grid)
+library(plotly) # Allows us to make the swimmer plot interactive
+library(knitr)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;step-3-create-an-example-data-set-for-demonstrative-purposes&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Step 3, Create an “example” data set for demonstrative purposes&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;We will create a working data set appropriate for this type of graphical represenataion.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;set.seed(35) # This sets the seed of R&amp;#39;s random number generator
+dat &amp;lt;-  data.frame(Subject = 1:15, 
+                 Months = sample(5:20, 15, replace=TRUE), # This generates a random set of months from 5 - 20
+                 Treated=sample(0:1, 15, replace=TRUE), # This generates 15 random 0 or 1s which correspond to Tx or no Tx
+                 Stage = sample(1:4, 15, replace=TRUE), # This randomly generates staging from 1 - 4 
+                 Continued=sample(0:15, 15, replace=TRUE))&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;view-initial-data-set&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;View initial Data Set&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat %&amp;gt;% kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;Subject&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Months&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Treated&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Stage&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Continued&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;add-response-data-to-data-set&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Add Response Data to Data Set&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat &amp;lt;-  dat %&amp;gt;%
+  group_by(Subject) %&amp;gt;%
+  mutate(Complete=sample(c(4:(max(Months)-1),NA), 1, 
+                         prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Partial=sample(c(4:(max(Months)-1),NA), 1, 
+                        prob=c(rep(1, length(4:(max(Months)-1))),5), replace=TRUE),
+         Durable=sample(c(-0.5,NA), 1, replace=TRUE))
+# of note, `sample()`takes a sample of the specified size from the elements of x using either with or without replacement
+# Let&amp;#39;s organize the order of the Subjects by Months
+dat$Subject &amp;lt;-  factor(dat$Subject, levels=dat$Subject[order(dat$Months)])&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;lets-view-the-data-set-now&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Let’s view the Data Set Now&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat %&amp;gt;% kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;Subject&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Months&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Treated&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Stage&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Continued&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Complete&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Partial&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Durable&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;NA&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;melt-part-of-data-frame-for-adding-points-to-bars&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Melt part of data frame for adding points to bars&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;This will collapse the Columns “Complete”, “Partial” and “Durable” into a new column called “variable” and the values of those orginial columns will become a new vector/column called “value”&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat.m &amp;lt;-  melt(dat %&amp;gt;% select(Subject, Months, Complete, Partial, Durable),
+             id.var=c(&amp;quot;Subject&amp;quot;,&amp;quot;Months&amp;quot;), na.rm = TRUE) 
+# of note, na.rm = TRUE will eliminate those rows with missing values&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;lets-view-our-data-set-after-melting&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Let’s View our Data Set after melting&lt;/h3&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dat.m %&amp;gt;% kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th&gt;&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Subject&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;Months&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;variable&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;value&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;3&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;5&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;5.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;6&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;7&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;8&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;11&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;14&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Complete&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;16&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;17&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;4.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;18&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;8.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;21&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;22&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;23&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;24&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;28&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;29&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Partial&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13.0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;32&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;3&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;37&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;7&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;9&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;40&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;41&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td&gt;43&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td&gt;45&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;15&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;13&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Durable&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;-0.5&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;graph-the-data-using-a-swimmer-plot&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Graph the Data using a Swimmer Plot&lt;/h1&gt;
+&lt;div id=&#34;lets-make-a-static-swimmer-plot-with-ggplot&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Let’s make a static swimmer plot with &lt;code&gt;ggplot&lt;/code&gt;&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;a&amp;lt;- ggplot(dat, aes(Subject, Months)) +
+  geom_bar(stat=&amp;quot;identity&amp;quot;, aes(fill=factor(Stage)), width=0.8) +
+  geom_point(data=dat.m, 
+             aes(Subject, value, colour=variable, shape=variable), size=5) +
+  geom_segment(data=dat %&amp;gt;% filter(Continued==1), 
+             aes(x=Subject, xend=Subject, y=Months + 0.1, yend=Months + 1), 
+             pch=15, size=0.8, arrow=arrow(type=&amp;quot;closed&amp;quot;, length=unit(0.1,&amp;quot;in&amp;quot;))) +
+  coord_flip() +
+  scale_fill_manual(values=hcl(seq(15,375,length.out=5)[1:4],100,75)) +
+  scale_colour_manual(values=c(hcl(seq(15,375,length.out=3)[1:2],100,30),&amp;quot;black&amp;quot;)) +
+  scale_y_continuous(limits=c(-1,20), breaks=0:20) +
+  labs(fill=&amp;quot;Disease Stage&amp;quot;, colour=&amp;quot;&amp;quot;, shape=&amp;quot;&amp;quot;,
+       x=&amp;quot;Subjects on Treatment Drug A&amp;quot;) +
+  theme_bw() +
+  theme(panel.grid.minor=element_blank(),
+        panel.grid.major=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+a&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;/post/Swimmer_Plots/index_files/figure-html/Graph%20the%20Survival%20Swimmer%20Plot%20with%20ggplot-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;now-lets-make-an-interactive-swimmer-plot-in-plotly-by-simply-using-the-ggplotly-function-of-the-static-plot-as-an-object&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Now let’s make an Interactive Swimmer plot in &lt;code&gt;Plotly&lt;/code&gt; by simply using the &lt;code&gt;ggplotly()&lt;/code&gt; function of the static plot as an object&lt;/h2&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;ggplotly(a)&lt;/code&gt;&lt;/pre&gt;
+&lt;div id=&#34;htmlwidget-1&#34; style=&#34;width:672px;height:480px;&#34; class=&#34;plotly html-widget&#34;&gt;&lt;/div&gt;
+&lt;script type=&#34;application/json&#34; data-for=&#34;htmlwidget-1&#34;&gt;{&#34;x&#34;:{&#34;data&#34;:[{&#34;orientation&#34;:&#34;h&#34;,&#34;width&#34;:[0.8,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001,0.800000000000001],&#34;base&#34;:[0,0,0,0,0,0,0],&#34;x&#34;:[5,12,13,13,14,18,20],&#34;y&#34;:[1,7,8,10,12,14,15],&#34;text&#34;:[&#34;factor(Stage): 1&lt;br /&gt;Subject: 4&lt;br /&gt;Months:  5&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 3&lt;br /&gt;Months: 12&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 7&lt;br /&gt;Months: 13&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 15&lt;br /&gt;Months: 13&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 14&lt;br /&gt;Months: 14&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 8&lt;br /&gt;Months: 18&#34;,&#34;factor(Stage): 1&lt;br /&gt;Subject: 12&lt;br /&gt;Months: 20&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(255,146,137,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;(1,NA)&#34;,&#34;legendgroup&#34;:&#34;(1,NA)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;h&#34;,&#34;width&#34;:[0.8,0.800000000000001,0.800000000000001,0.800000000000001],&#34;base&#34;:[0,0,0,0],&#34;x&#34;:[9,10,11,13],&#34;y&#34;:[4,5,6,9],&#34;text&#34;:[&#34;factor(Stage): 2&lt;br /&gt;Subject: 9&lt;br /&gt;Months:  9&#34;,&#34;factor(Stage): 2&lt;br /&gt;Subject: 2&lt;br /&gt;Months: 10&#34;,&#34;factor(Stage): 2&lt;br /&gt;Subject: 5&lt;br /&gt;Months: 11&#34;,&#34;factor(Stage): 2&lt;br /&gt;Subject: 13&lt;br /&gt;Months: 13&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(150,202,0,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;(2,1,NA)&#34;,&#34;legendgroup&#34;:&#34;(2,1,NA)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;h&#34;,&#34;width&#34;:0.8,&#34;base&#34;:0,&#34;x&#34;:[6],&#34;y&#34;:[3],&#34;text&#34;:&#34;factor(Stage): 3&lt;br /&gt;Subject: 11&lt;br /&gt;Months:  6&#34;,&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,218,224,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;(3,1,NA)&#34;,&#34;legendgroup&#34;:&#34;(3,1,NA)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;orientation&#34;:&#34;h&#34;,&#34;width&#34;:[0.8,0.800000000000001,0.800000000000001],&#34;base&#34;:[0,0,0],&#34;x&#34;:[6,14,15],&#34;y&#34;:[2,11,13],&#34;text&#34;:[&#34;factor(Stage): 4&lt;br /&gt;Subject: 10&lt;br /&gt;Months:  6&#34;,&#34;factor(Stage): 4&lt;br /&gt;Subject: 1&lt;br /&gt;Months: 14&#34;,&#34;factor(Stage): 4&lt;br /&gt;Subject: 6&lt;br /&gt;Months: 15&#34;],&#34;type&#34;:&#34;bar&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(225,153,255,1)&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;transparent&#34;}},&#34;name&#34;:&#34;(4,1,NA)&#34;,&#34;legendgroup&#34;:&#34;(4,1,NA)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[5,5,5,6,11,15,4,11,8,13],&#34;y&#34;:[11,7,6,13,8,14,3,15,9,12],&#34;text&#34;:[&#34;Subject: 1&lt;br /&gt;value:  5.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 1&lt;br /&gt;Months:  5.0&#34;,&#34;Subject: 3&lt;br /&gt;value:  5.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 3&lt;br /&gt;Months:  5.0&#34;,&#34;Subject: 5&lt;br /&gt;value:  5.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 5&lt;br /&gt;Months:  5.0&#34;,&#34;Subject: 6&lt;br /&gt;value:  6.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 6&lt;br /&gt;Months:  6.0&#34;,&#34;Subject: 7&lt;br /&gt;value: 11.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 7&lt;br /&gt;Months: 11.0&#34;,&#34;Subject: 8&lt;br /&gt;value: 15.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 8&lt;br /&gt;Months: 15.0&#34;,&#34;Subject: 11&lt;br /&gt;value:  4.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 11&lt;br /&gt;Months:  4.0&#34;,&#34;Subject: 12&lt;br /&gt;value: 11.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 12&lt;br /&gt;Months: 11.0&#34;,&#34;Subject: 13&lt;br /&gt;value:  8.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 13&lt;br /&gt;Months:  8.0&#34;,&#34;Subject: 14&lt;br /&gt;value: 13.0&lt;br /&gt;variable: Complete&lt;br /&gt;variable: Complete&lt;br /&gt;Subject: 14&lt;br /&gt;Months: 13.0&#34;],&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;markers&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(145,12,0,1)&#34;,&#34;opacity&#34;:1,&#34;size&#34;:18.8976377952756,&#34;symbol&#34;:&#34;circle&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(145,12,0,1)&#34;}},&#34;hoveron&#34;:&#34;points&#34;,&#34;name&#34;:&#34;(Complete,1)&#34;,&#34;legendgroup&#34;:&#34;(Complete,1)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[11,4,8,6,10,10,6,9,13],&#34;y&#34;:[11,5,7,13,8,14,4,9,12],&#34;text&#34;:[&#34;Subject: 1&lt;br /&gt;value: 11.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 1&lt;br /&gt;Months: 11.0&#34;,&#34;Subject: 2&lt;br /&gt;value:  4.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 2&lt;br /&gt;Months:  4.0&#34;,&#34;Subject: 3&lt;br /&gt;value:  8.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 3&lt;br /&gt;Months:  8.0&#34;,&#34;Subject: 6&lt;br /&gt;value:  6.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 6&lt;br /&gt;Months:  6.0&#34;,&#34;Subject: 7&lt;br /&gt;value: 10.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 7&lt;br /&gt;Months: 10.0&#34;,&#34;Subject: 8&lt;br /&gt;value: 10.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 8&lt;br /&gt;Months: 10.0&#34;,&#34;Subject: 9&lt;br /&gt;value:  6.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 9&lt;br /&gt;Months:  6.0&#34;,&#34;Subject: 13&lt;br /&gt;value:  9.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 13&lt;br /&gt;Months:  9.0&#34;,&#34;Subject: 14&lt;br /&gt;value: 13.0&lt;br /&gt;variable: Partial&lt;br /&gt;variable: Partial&lt;br /&gt;Subject: 14&lt;br /&gt;Months: 13.0&#34;],&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;markers&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,105,110,1)&#34;,&#34;opacity&#34;:1,&#34;size&#34;:18.8976377952756,&#34;symbol&#34;:&#34;triangle-up&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(0,105,110,1)&#34;}},&#34;hoveron&#34;:&#34;points&#34;,&#34;name&#34;:&#34;(Partial,1)&#34;,&#34;legendgroup&#34;:&#34;(Partial,1)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5,-0.5],&#34;y&#34;:[5,7,6,13,8,4,2,3,9,10],&#34;text&#34;:[&#34;Subject: 2&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 2&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 3&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 3&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 5&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 5&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 6&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 6&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 7&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 7&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 9&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 9&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 10&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 10&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 11&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 11&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 13&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 13&lt;br /&gt;Months: -0.5&#34;,&#34;Subject: 15&lt;br /&gt;value: -0.5&lt;br /&gt;variable: Durable&lt;br /&gt;variable: Durable&lt;br /&gt;Subject: 15&lt;br /&gt;Months: -0.5&#34;],&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;markers&#34;,&#34;marker&#34;:{&#34;autocolorscale&#34;:false,&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;opacity&#34;:1,&#34;size&#34;:18.8976377952756,&#34;symbol&#34;:&#34;square&#34;,&#34;line&#34;:{&#34;width&#34;:1.88976377952756,&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;}},&#34;hoveron&#34;:&#34;points&#34;,&#34;name&#34;:&#34;(Durable,1)&#34;,&#34;legendgroup&#34;:&#34;(Durable,1)&#34;,&#34;showlegend&#34;:true,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null},{&#34;x&#34;:[15.1,16],&#34;y&#34;:[13,13],&#34;text&#34;:&#34;Subject: 6&lt;br /&gt;Months + 0.1: 15.1&lt;br /&gt;Subject: 13&lt;br /&gt;Months + 1: 16&lt;br /&gt;Subject: 6&lt;br /&gt;Months: 15.1&#34;,&#34;type&#34;:&#34;scatter&#34;,&#34;mode&#34;:&#34;lines&#34;,&#34;line&#34;:{&#34;width&#34;:3.02362204724409,&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;dash&#34;:&#34;solid&#34;},&#34;hoveron&#34;:&#34;points&#34;,&#34;showlegend&#34;:false,&#34;xaxis&#34;:&#34;x&#34;,&#34;yaxis&#34;:&#34;y&#34;,&#34;hoverinfo&#34;:&#34;text&#34;,&#34;frame&#34;:null}],&#34;layout&#34;:{&#34;margin&#34;:{&#34;t&#34;:26.2283105022831,&#34;r&#34;:7.30593607305936,&#34;b&#34;:40.1826484018265,&#34;l&#34;:25.5707762557078},&#34;plot_bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;paper_bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;xaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[-2.05,21.05],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;],&#34;tickvals&#34;:[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;0&#34;,&#34;1&#34;,&#34;2&#34;,&#34;3&#34;,&#34;4&#34;,&#34;5&#34;,&#34;6&#34;,&#34;7&#34;,&#34;8&#34;,&#34;9&#34;,&#34;10&#34;,&#34;11&#34;,&#34;12&#34;,&#34;13&#34;,&#34;14&#34;,&#34;15&#34;,&#34;16&#34;,&#34;17&#34;,&#34;18&#34;,&#34;19&#34;,&#34;20&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;outside&#34;,&#34;tickcolor&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0.66417600664176,&#34;showticklabels&#34;:true,&#34;tickfont&#34;:{&#34;color&#34;:&#34;rgba(77,77,77,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:false,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;y&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;Months&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;yaxis&#34;:{&#34;domain&#34;:[0,1],&#34;automargin&#34;:true,&#34;type&#34;:&#34;linear&#34;,&#34;autorange&#34;:false,&#34;range&#34;:[0.4,15.6],&#34;tickmode&#34;:&#34;array&#34;,&#34;ticktext&#34;:[&#34;4&#34;,&#34;10&#34;,&#34;11&#34;,&#34;9&#34;,&#34;2&#34;,&#34;5&#34;,&#34;3&#34;,&#34;7&#34;,&#34;13&#34;,&#34;15&#34;,&#34;1&#34;,&#34;14&#34;,&#34;6&#34;,&#34;8&#34;,&#34;12&#34;],&#34;tickvals&#34;:[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],&#34;categoryorder&#34;:&#34;array&#34;,&#34;categoryarray&#34;:[&#34;4&#34;,&#34;10&#34;,&#34;11&#34;,&#34;9&#34;,&#34;2&#34;,&#34;5&#34;,&#34;3&#34;,&#34;7&#34;,&#34;13&#34;,&#34;15&#34;,&#34;1&#34;,&#34;14&#34;,&#34;6&#34;,&#34;8&#34;,&#34;12&#34;],&#34;nticks&#34;:null,&#34;ticks&#34;:&#34;&#34;,&#34;tickcolor&#34;:null,&#34;ticklen&#34;:3.65296803652968,&#34;tickwidth&#34;:0,&#34;showticklabels&#34;:false,&#34;tickfont&#34;:{&#34;color&#34;:null,&#34;family&#34;:null,&#34;size&#34;:0},&#34;tickangle&#34;:-0,&#34;showline&#34;:false,&#34;linecolor&#34;:null,&#34;linewidth&#34;:0,&#34;showgrid&#34;:false,&#34;gridcolor&#34;:null,&#34;gridwidth&#34;:0,&#34;zeroline&#34;:false,&#34;anchor&#34;:&#34;x&#34;,&#34;title&#34;:{&#34;text&#34;:&#34;Subjects on Treatment Drug A&#34;,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187}},&#34;hoverformat&#34;:&#34;.2f&#34;},&#34;shapes&#34;:[{&#34;type&#34;:&#34;rect&#34;,&#34;fillcolor&#34;:&#34;transparent&#34;,&#34;line&#34;:{&#34;color&#34;:&#34;rgba(51,51,51,1)&#34;,&#34;width&#34;:0.66417600664176,&#34;linetype&#34;:&#34;solid&#34;},&#34;yref&#34;:&#34;paper&#34;,&#34;xref&#34;:&#34;paper&#34;,&#34;x0&#34;:0,&#34;x1&#34;:1,&#34;y0&#34;:0,&#34;y1&#34;:1}],&#34;showlegend&#34;:true,&#34;legend&#34;:{&#34;bgcolor&#34;:&#34;rgba(255,255,255,1)&#34;,&#34;bordercolor&#34;:&#34;transparent&#34;,&#34;borderwidth&#34;:1.88976377952756,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:11.689497716895},&#34;y&#34;:0.826771653543307},&#34;annotations&#34;:[{&#34;text&#34;:&#34;Disease Stage&lt;br /&gt;&#34;,&#34;x&#34;:1.02,&#34;y&#34;:1,&#34;showarrow&#34;:false,&#34;ax&#34;:0,&#34;ay&#34;:0,&#34;font&#34;:{&#34;color&#34;:&#34;rgba(0,0,0,1)&#34;,&#34;family&#34;:&#34;&#34;,&#34;size&#34;:14.6118721461187},&#34;xref&#34;:&#34;paper&#34;,&#34;yref&#34;:&#34;paper&#34;,&#34;textangle&#34;:-0,&#34;xanchor&#34;:&#34;left&#34;,&#34;yanchor&#34;:&#34;bottom&#34;,&#34;legendTitle&#34;:true}],&#34;hovermode&#34;:&#34;closest&#34;,&#34;barmode&#34;:&#34;relative&#34;},&#34;config&#34;:{&#34;doubleClick&#34;:&#34;reset&#34;,&#34;showSendToCloud&#34;:false},&#34;source&#34;:&#34;A&#34;,&#34;attrs&#34;:{&#34;220439ba0f21&#34;:{&#34;fill&#34;:{},&#34;x&#34;:{},&#34;y&#34;:{},&#34;type&#34;:&#34;bar&#34;},&#34;220466375d22&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;colour&#34;:{},&#34;shape&#34;:{},&#34;x.1&#34;:{},&#34;y.1&#34;:{}},&#34;22043cc3979b&#34;:{&#34;x&#34;:{},&#34;y&#34;:{},&#34;xend&#34;:{},&#34;yend&#34;:{},&#34;x.1&#34;:{},&#34;y.1&#34;:{}}},&#34;cur_data&#34;:&#34;220439ba0f21&#34;,&#34;visdat&#34;:{&#34;220439ba0f21&#34;:[&#34;function (y) &#34;,&#34;x&#34;],&#34;220466375d22&#34;:[&#34;function (y) &#34;,&#34;x&#34;],&#34;22043cc3979b&#34;:[&#34;function (y) &#34;,&#34;x&#34;]},&#34;highlight&#34;:{&#34;on&#34;:&#34;plotly_click&#34;,&#34;persistent&#34;:false,&#34;dynamic&#34;:false,&#34;selectize&#34;:false,&#34;opacityDim&#34;:0.2,&#34;selected&#34;:{&#34;opacity&#34;:1},&#34;debounce&#34;:0},&#34;shinyEvents&#34;:[&#34;plotly_hover&#34;,&#34;plotly_click&#34;,&#34;plotly_selected&#34;,&#34;plotly_relayout&#34;,&#34;plotly_brushed&#34;,&#34;plotly_brushing&#34;,&#34;plotly_clickannotation&#34;,&#34;plotly_doubleclick&#34;,&#34;plotly_deselect&#34;,&#34;plotly_afterplot&#34;],&#34;base_url&#34;:&#34;https://plot.ly&#34;},&#34;evals&#34;:[],&#34;jsHooks&#34;:[]}&lt;/script&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sessioninfo&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;SessionInfo&lt;/h1&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sessionInfo()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] grid      stats     graphics  grDevices utils     datasets  methods  
+## [8] base     
+## 
+## other attached packages:
+## [1] knitr_1.26     plotly_4.9.0   reshape2_1.4.3 dplyr_0.8.3    ggplot2_3.2.1 
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.3        later_1.0.0       highr_0.8         pillar_1.4.3     
+##  [5] compiler_3.6.1    plyr_1.8.5        tools_3.6.1       digest_0.6.23    
+##  [9] viridisLite_0.3.0 jsonlite_1.6      evaluate_0.14     lifecycle_0.1.0  
+## [13] tibble_2.1.3      gtable_0.3.0      pkgconfig_2.0.3   rlang_0.4.4      
+## [17] shiny_1.4.0       crosstalk_1.0.0   yaml_2.2.0        blogdown_0.17.1  
+## [21] xfun_0.11         fastmap_1.0.1     httr_1.4.1        withr_2.1.2      
+## [25] stringr_1.4.0     vctrs_0.2.2       htmlwidgets_1.5.1 tidyselect_0.2.5 
+## [29] glue_1.3.1        data.table_1.12.6 R6_2.4.1          rmarkdown_1.17   
+## [33] bookdown_0.16     farver_2.0.3      tidyr_1.0.0       purrr_0.3.3      
+## [37] magrittr_1.5      promises_1.1.0    scales_1.1.0      htmltools_0.4.0  
+## [41] assertthat_0.2.1  xtable_1.8-4      mime_0.7          colorspace_1.4-1 
+## [45] httpuv_1.5.2      stringi_1.4.5     lazyeval_0.2.2    munsell_0.5.0    
+## [49] crayon_1.3.4&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

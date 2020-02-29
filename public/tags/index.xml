@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Tags | Academic</title>
+    <link>/tags/</link>
+      <atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
+    <description>Tags</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 13 Feb 2020 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Tags</title>
+      <link>/tags/</link>
+    </image>
+    
+    <item>
+      <title>Dermatology</title>
+      <link>/tags/dermatology/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/dermatology/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Medical Oncology</title>
+      <link>/tags/medical-oncology/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/medical-oncology/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MGODS</title>
+      <link>/tags/mgods/</link>
+      <pubDate>Thu, 13 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/mgods/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>blogdown</title>
+      <link>/tags/blogdown/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/blogdown/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Data Science</title>
+      <link>/tags/data-science/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/data-science/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hugo Academic</title>
+      <link>/tags/hugo-academic/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/hugo-academic/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>pdftools</title>
+      <link>/tags/pdftools/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/pdftools/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstudio</title>
+      <link>/tags/rstudio/</link>
+      <pubDate>Tue, 11 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/rstudio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Swimmer Plots</title>
+      <link>/tags/swimmer-plots/</link>
+      <pubDate>Sun, 09 Feb 2020 00:00:00 +0000</pubDate>
+      <guid>/tags/swimmer-plots/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstuio</title>
+      <link>/tags/rstuio/</link>
+      <pubDate>Tue, 31 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/rstuio/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cancer Research</title>
+      <link>/tags/cancer-research/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/cancer-research/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Haspin</title>
+      <link>/tags/haspin/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/haspin/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Melanoma</title>
+      <link>/tags/melanoma/</link>
+      <pubDate>Sun, 29 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/melanoma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Biomarkers</title>
+      <link>/tags/biomarkers/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/biomarkers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MCC Registry</title>
+      <link>/tags/mcc-registry/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/mcc-registry/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Regulatory Medicine</title>
+      <link>/tags/regulatory-medicine/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/regulatory-medicine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Clinical Trials</title>
+      <link>/tags/clinical-trials/</link>
+      <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/clinical-trials/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Merkel Cell Carcinoma</title>
+      <link>/tags/merkel-cell-carcinoma/</link>
+      <pubDate>Sat, 27 Apr 2019 00:00:00 +0000</pubDate>
+      <guid>/tags/merkel-cell-carcinoma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Kaposi&#39;s Varicelliform Eruption</title>
+      <link>/tags/kaposis-varicelliform-eruption/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>/tags/kaposis-varicelliform-eruption/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>T-VEC</title>
+      <link>/tags/t-vec/</link>
+      <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
+      <guid>/tags/t-vec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CDK7</title>
+      <link>/tags/cdk7/</link>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>/tags/cdk7/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MITF</title>
+      <link>/tags/mitf/</link>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>/tags/mitf/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Super Enhancers</title>
+      <link>/tags/super-enhancers/</link>
+      <pubDate>Sun, 01 Jul 2018 00:00:00 +0000</pubDate>
+      <guid>/tags/super-enhancers/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Immunotherapy</title>
+      <link>/tags/immunotherapy/</link>
+      <pubDate>Fri, 08 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>/tags/immunotherapy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Squmaous Cell Carcinoma</title>
+      <link>/tags/squmaous-cell-carcinoma/</link>
+      <pubDate>Fri, 08 Sep 2017 00:00:00 +0000</pubDate>
+      <guid>/tags/squmaous-cell-carcinoma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Education</title>
+      <link>/tags/education/</link>
+      <pubDate>Wed, 27 Apr 2016 00:00:00 +0000</pubDate>
+      <guid>/tags/education/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FlexDashboard</title>
+      <link>/tags/flexdashboard/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/flexdashboard/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Plotly</title>
+      <link>/tags/plotly/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>/tags/plotly/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

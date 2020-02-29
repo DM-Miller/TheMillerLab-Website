@@ -1,0 +1,275 @@
+---
+title: "FlexDashboards for Clinical and Translational Research"
+authors:
+- David Michael Miller
+- Sophia Shalhout
+date: "1/11/2020"
+output:
+  html_document: default
+  pdf_document: default
+  word_document: default
+always_allow_html: true
+tags: ["FlexDashboard", "Data Science"]
+lastMod: "2020-1-11T00:00:00Z"
+projects:
+  - Data Science
+summary: This working document is a user guide on how to create a Flexdashboards using R via a package called `flexdashboard`
+image:
+  caption: 'Photo by Luke Chesser on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview
+- This is a working document to provide a roadmap to create a FlexDashboard for Clinical Research  
+- Of note, the data here is completly fabricated, any relation to real subjects is completely coincidental
+- The purpose of a FlexDashboard is to present your data in way that enhances data intrepretation or to provide patients with comprehendable information depending on how you use the data
+- There are many excellent tutorials on using the package `Flexdashboard` to create a dashboard; however, we still hit many roadblocks that we hope you can avoid if you follow our instructions and code  
+- What we will show you next is the code we used to create the following Flesdashboard
+![png](/img/MCC_fake_flexdashbboard.png)
+
+
+# Load Packages
+```{r load packages, message=FALSE, warning=FALSE}
+library(flexdashboard)
+library(RCurl)
+library(REDCapR)
+library(httr)
+library(tidyverse)
+library(knitr)
+library(plotly)
+library(readxl)
+library(scales)
+```
+
+# Format of Flexdashboard
+- The Flexdashboard package is build around RMarkdown  
+- To start, you can open a new RMarkdown by
+  - File -> New File -> RMarkdown
+  - Then go to "From Template" on the left hand column
+  - If you have installed `Flexdashboard` then Flexdashboard will be in the window that opens  
+  - Once you have selected Flexdashboard a new RMarkdown will open
+  - What is specific here is the YAML 
+    - The content between the three dashes in beginning of the RMarkdown
+
+- This is the YAML for the Flexdashboard
+
+
+title: "Untitled"  
+output:  
+  flexdashboard::flex_dashboard:  
+    orientation: columns  
+    vertical_layout: fill
+
+
+- Then after the YAML, the Flexdashboard template is quite basic  
+- You will generate code for the the three charts that you want displayed
+- The template calls them Chart A, Chart B, Chart C. 
+- Each Chart is preceded by three `#`s and is flanked by a long series of dashes  
+- You can then change the title from `Chart A` to the title you desire  
+- Then following the Title, you have a "r chunk" that you use to generate your charts
+
+
+# Load Your Dataset
+- This is a fabricated dataset in Excel, but has many features that resemble an actual rare disease cohort dataset
+```{r Load the data}
+dt <- read_excel("mcc_cohort_fake.xlsx")
+```
+
+# View Dataset
+```{r view entire dataset}
+dt %>% kable
+```
+
+# Age at Diagnosis Chart
+
+## Wrangle Data for Age at Diagnosis
+```{r data wrangle age at dx}
+Age_at_Dx <- dt %>% select(record_id, age_at_dx) %>% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects <- "subjects" # add a column that unifies all the data (helpful for plotly)
+```
+# View Dataset Age at Dx
+```{r view wranglded data table}
+Age_at_Dx %>% kable
+```
+
+# Graph your Data 
+
+## Plotly Graph of Age at Diagnosis
+```{r Plotly Age at Diagnosis}
+plot_ly(data = Age_at_Dx, type = "box") %>% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = "all", jitter = 0.3, pointpos = -1.8,
+              marker = list(color = 'rgb(7,40,89)'),
+              line = list(color = 'rgb(7,40,89)'),
+              color = I("steelblue4"),
+              name = "MGH-HCC Cohort") %>% 
+  layout(title = "Age at Diagnosis of MCC")
+```
+
+# Bar Chart of Stage of Diagnosis 
+```{r}
+cStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_clinstage) %>% filter(man_clinstage < 98)
+cStageDF <- cStage %>% group_by(man_clinstage) %>% tally()
+plot_ly(data = cStageDF) %>% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Clinical Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Clincal Stage", ticktext = list("I", "IIA", "IIB", "III", "IV"), tickvals = list(0, 1, 2, 3, 4)))
+```
+
+# BarChart of Pathological Staging at Diagnosis
+```{r}
+pStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_pathstage) %>% filter(man_pathstage < 6)
+pStageDF <- pStage %>% group_by(man_pathstage) %>% tally()
+plot_ly(data = pStageDF) %>% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Pathological Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Pathological Stage", ticktext = list("I", "IIA", "IIB", "IIIA", "IIIB","IV"), tickvals = list(0, 1, 2, 3, 4, 5)))
+```
+
+-----------------------------------------------------------------------
+
+### Recapitulate the RMarkdown with the Flexdashboard Template
+- What we have above is a step by step of what the data looks like to generate the Flexddashboard and essentially all of the code used to generate the figures  
+- What we have below is a more direct representation of where you would put that code to generate the following Flexdashboard
+![png](/img/MCC_fake_flexdashbboard.png)
+- You will see essentially 3 r chunks and all of the code used placed into those three; including the code to load the data, that can go in the first code chunk under the ### Chart A section
+
+
+`Column {data-width=650}`
+-----------------------------------------------------------------------
+
+### Chart A - Age at Diagnosis
+
+```{r Chart A, eval=FALSE}
+dt <- read_excel("mcc_cohort_fake.xlsx") # Load the data
+Age_at_Dx <- dt %>% select(record_id, age_at_dx) %>% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects <- "subjects" # add a column that unifies all the data (helpful for plotly)
+Age_at_Dx %>% kable
+plot_ly(data = Age_at_Dx, type = "box") %>% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = "all", jitter = 0.3, pointpos = -1.8,
+              marker = list(color = 'rgb(7,40,89)'),
+              line = list(color = 'rgb(7,40,89)'),
+              color = I("steelblue4"),
+              name = "MGH-HCC Cohort") %>% 
+  layout(title = "Age at Diagnosis of MCC")
+```
+
+`Column {data-width=350}`
+-----------------------------------------------------------------------
+
+### Chart B - Clinical Stage at Diagnosis
+
+```{r Chart B - clincal stage at Diagnosis, eval=FALSE}
+cStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_clinstage) %>% filter(man_clinstage < 98)
+cStageDF <- cStage %>% group_by(man_clinstage) %>% tally()
+plot_ly(data = cStageDF) %>% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Clinical Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Clincal Stage", ticktext = list("I", "IIA", "IIB", "III", "IV"), tickvals = list(0, 1, 2, 3, 4)))
+```
+
+### Chart C - Pathological Stage at Diagnosis
+
+```{r Chart C, eval=FALSE}
+pStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_pathstage) %>% filter(man_pathstage < 6)
+pStageDF <- pStage %>% group_by(man_pathstage) %>% tally()
+plot_ly(data = pStageDF) %>% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Pathological Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Pathological Stage", ticktext = list("I", "IIA", "IIB", "IIIA", "IIIB","IV"), tickvals = list(0, 1, 2, 3, 4, 5)))
+```
+
+**This is what that RMarkdown looks like with the FlexDashbaord Template**
+![png](/img/MCC_fake_dash_template.png)
+
+### If you have many charts that you would like to include on your dashboard, you may want to divide the dashboard into multiple pages. Each page is defined by a level 1 markdown header, (=========), and will have an individual navigation tab.
+- For example, in the data shown above, we may want to have age of diagnosis of MCC on a page by itself, and the clinical and pathological staging on a second page in the dashboard. 
+
+PAGE 1: Age at Diagnosis of MCC
+======================================================================
+### Chart A - Age at Diagnosis of MCC
+
+```{r Chart A age at diagnosis of mcc , eval=FALSE}
+dt <- read_excel("mcc_cohort_fake.xlsx") # Load the data
+Age_at_Dx <- dt %>% select(record_id, age_at_dx) %>% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects <- "subjects" # add a column that unifies all the data (helpful for plotly)
+Age_at_Dx %>% kable
+plot_ly(data = Age_at_Dx, type = "box") %>% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = "all", jitter = 0.3, pointpos = -1.8,
+              marker = list(color = 'rgb(7,40,89)'),
+              line = list(color = 'rgb(7,40,89)'),
+              color = I("steelblue4"),
+              name = "MGH-HCC Cohort") %>% 
+  layout(title = "Age at Diagnosis of MCC")
+```
+
+PAGE 2: Staging of MCC
+=======================================================================
+
+Column {data-width=350}`
+-----------------------------------------------------------------------
+
+### Chart B - Clinical Stage at Diagnosis of MCC
+
+```{r Chart B clinical staging - clincal stage at Diagnosis, eval=FALSE}
+cStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_clinstage) %>% filter(man_clinstage < 98)
+cStageDF <- cStage %>% group_by(man_clinstage) %>% tally()
+plot_ly(data = cStageDF) %>% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Clinical Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Clincal Stage", ticktext = list("I", "IIA", "IIB", "III", "IV"), tickvals = list(0, 1, 2, 3, 4)))
+```
+
+### Chart C - Pathological Stage at Diagnosis of MCC
+
+```{r Chart C pathological staging, eval=FALSE}
+pStage <-dt %>% select(record_id, man_clinstage, man_pathstage) %>% drop_na(man_pathstage) %>% filter(man_pathstage < 6)
+pStageDF <- pStage %>% group_by(man_pathstage) %>% tally()
+plot_ly(data = pStageDF) %>% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I("steelblue4")) %>% 
+  layout(
+    title = "Pathological Stage at Presentation",
+    yaxis = list(title = "Number of Subjects"),
+    xaxis = list(title = "Pathological Stage", ticktext = list("I", "IIA", "IIB", "IIIA", "IIIB","IV"), tickvals = list(0, 1, 2, 3, 4, 5)))
+```
+
+
+
+**This is what page 1 of the dashboard now looks like.**
+![png](/img/Page1.png)
+**And this is what page 2 of the dashboard now looks like.**
+![png](/img/Page2.png)
+# Session Info
+```{r}
+sessionInfo()
+```
+

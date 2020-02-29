@@ -1,0 +1,1449 @@
+---
+title: "Create Interactive Data Visualization with Plotly in R"
+authors:
+- admin
+- Sophia-Shalhout
+date: "2/06/2020"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+always_allow_html: true
+tags: ["Plotly", "Data Science"]
+lastMod: "2020-2-06T00:00:00Z"
+projects:
+  - Data Science
+summary: This working document is a user guide on how to create interactive graphs with R via a package called `plotly`
+image:
+  caption: 'Photo by Carlos Muza on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<ul>
+<li>This is an RMarkdown explaining how we use the <code>Plotly</code> package to more effectivley communicate clinical and translational research via interactive graphs</li>
+<li>Plotly is a computing company that develops online data analytics and visualization tools</li>
+<li>It has open sourced many useful interactive visualization products.</li>
+<li>Plotly can be used in several programming languages (e.g. <code>Python</code>, <code>R</code> and <code>JavaScript</code>)
+<ul>
+<li>This tutorial will be written with instruction for <code>R</code> users</li>
+<li>Although <a href="https://plot.ly/" class="uri">https://plot.ly/</a> is fabulous resource, we found that there were elements from those tutorials that were missing and we hope that this post will provide a useful resource to get started in <code>Plotly</code> in <code>R</code></li>
+</ul></li>
+<li>Why use Plotly?
+<ul>
+<li>Plotly allows us to create visually appealing interactive plots.</li>
+<li>The ability to export to <code>html</code> and retain all interactive functionality is easily accomplished with Plotly.</li>
+<li>It is focused around the ability to generate interactive plots with a few lines of code.</li>
+<li>Finally, all interactive features are compatible with modern web browsers.</li>
+</ul></li>
+</ul>
+</div>
+<div id="step-1-download-plotly-from-cran" class="section level1">
+<h1>Step 1, Download Plotly from CRAN</h1>
+<ul>
+<li>Use the install.package() function to install the plotly R package from <a href="https://cran.r-project.org/">CRAN</a>
+<code>install.packages(&quot;plotly&quot;)</code></li>
+</ul>
+</div>
+<div id="load-relevant-packages" class="section level1">
+<h1>Load Relevant Packages</h1>
+<pre class="r"><code>library(tidyverse)
+library(knitr)
+library(plotly)
+library(readxl)
+library(scales)</code></pre>
+</div>
+<div id="load-dataset" class="section level1">
+<h1>Load dataset</h1>
+<ul>
+<li>For the first example we will use mtcars (Motor Trend Car Road Tests), which is built into base <code>R</code></li>
+</ul>
+<pre class="r"><code>mtcars &lt;- mtcars</code></pre>
+<div id="view-the-mtcars-data-frame" class="section level2">
+<h2>View the <code>mtcars</code> Data Frame</h2>
+<pre class="r"><code>mtcars %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">mpg</th>
+<th align="right">cyl</th>
+<th align="right">disp</th>
+<th align="right">hp</th>
+<th align="right">drat</th>
+<th align="right">wt</th>
+<th align="right">qsec</th>
+<th align="right">vs</th>
+<th align="right">am</th>
+<th align="right">gear</th>
+<th align="right">carb</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Mazda RX4</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160.0</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.620</td>
+<td align="right">16.46</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Mazda RX4 Wag</td>
+<td align="right">21.0</td>
+<td align="right">6</td>
+<td align="right">160.0</td>
+<td align="right">110</td>
+<td align="right">3.90</td>
+<td align="right">2.875</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>Datsun 710</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">108.0</td>
+<td align="right">93</td>
+<td align="right">3.85</td>
+<td align="right">2.320</td>
+<td align="right">18.61</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>Hornet 4 Drive</td>
+<td align="right">21.4</td>
+<td align="right">6</td>
+<td align="right">258.0</td>
+<td align="right">110</td>
+<td align="right">3.08</td>
+<td align="right">3.215</td>
+<td align="right">19.44</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Hornet Sportabout</td>
+<td align="right">18.7</td>
+<td align="right">8</td>
+<td align="right">360.0</td>
+<td align="right">175</td>
+<td align="right">3.15</td>
+<td align="right">3.440</td>
+<td align="right">17.02</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Valiant</td>
+<td align="right">18.1</td>
+<td align="right">6</td>
+<td align="right">225.0</td>
+<td align="right">105</td>
+<td align="right">2.76</td>
+<td align="right">3.460</td>
+<td align="right">20.22</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Duster 360</td>
+<td align="right">14.3</td>
+<td align="right">8</td>
+<td align="right">360.0</td>
+<td align="right">245</td>
+<td align="right">3.21</td>
+<td align="right">3.570</td>
+<td align="right">15.84</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Merc 240D</td>
+<td align="right">24.4</td>
+<td align="right">4</td>
+<td align="right">146.7</td>
+<td align="right">62</td>
+<td align="right">3.69</td>
+<td align="right">3.190</td>
+<td align="right">20.00</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td>Merc 230</td>
+<td align="right">22.8</td>
+<td align="right">4</td>
+<td align="right">140.8</td>
+<td align="right">95</td>
+<td align="right">3.92</td>
+<td align="right">3.150</td>
+<td align="right">22.90</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Merc 280</td>
+<td align="right">19.2</td>
+<td align="right">6</td>
+<td align="right">167.6</td>
+<td align="right">123</td>
+<td align="right">3.92</td>
+<td align="right">3.440</td>
+<td align="right">18.30</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>Merc 280C</td>
+<td align="right">17.8</td>
+<td align="right">6</td>
+<td align="right">167.6</td>
+<td align="right">123</td>
+<td align="right">3.92</td>
+<td align="right">3.440</td>
+<td align="right">18.90</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">4</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Merc 450SE</td>
+<td align="right">16.4</td>
+<td align="right">8</td>
+<td align="right">275.8</td>
+<td align="right">180</td>
+<td align="right">3.07</td>
+<td align="right">4.070</td>
+<td align="right">17.40</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td>Merc 450SL</td>
+<td align="right">17.3</td>
+<td align="right">8</td>
+<td align="right">275.8</td>
+<td align="right">180</td>
+<td align="right">3.07</td>
+<td align="right">3.730</td>
+<td align="right">17.60</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="even">
+<td>Merc 450SLC</td>
+<td align="right">15.2</td>
+<td align="right">8</td>
+<td align="right">275.8</td>
+<td align="right">180</td>
+<td align="right">3.07</td>
+<td align="right">3.780</td>
+<td align="right">18.00</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">3</td>
+</tr>
+<tr class="odd">
+<td>Cadillac Fleetwood</td>
+<td align="right">10.4</td>
+<td align="right">8</td>
+<td align="right">472.0</td>
+<td align="right">205</td>
+<td align="right">2.93</td>
+<td align="right">5.250</td>
+<td align="right">17.98</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Lincoln Continental</td>
+<td align="right">10.4</td>
+<td align="right">8</td>
+<td align="right">460.0</td>
+<td align="right">215</td>
+<td align="right">3.00</td>
+<td align="right">5.424</td>
+<td align="right">17.82</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>Chrysler Imperial</td>
+<td align="right">14.7</td>
+<td align="right">8</td>
+<td align="right">440.0</td>
+<td align="right">230</td>
+<td align="right">3.23</td>
+<td align="right">5.345</td>
+<td align="right">17.42</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Fiat 128</td>
+<td align="right">32.4</td>
+<td align="right">4</td>
+<td align="right">78.7</td>
+<td align="right">66</td>
+<td align="right">4.08</td>
+<td align="right">2.200</td>
+<td align="right">19.47</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Honda Civic</td>
+<td align="right">30.4</td>
+<td align="right">4</td>
+<td align="right">75.7</td>
+<td align="right">52</td>
+<td align="right">4.93</td>
+<td align="right">1.615</td>
+<td align="right">18.52</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Toyota Corolla</td>
+<td align="right">33.9</td>
+<td align="right">4</td>
+<td align="right">71.1</td>
+<td align="right">65</td>
+<td align="right">4.22</td>
+<td align="right">1.835</td>
+<td align="right">19.90</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Toyota Corona</td>
+<td align="right">21.5</td>
+<td align="right">4</td>
+<td align="right">120.1</td>
+<td align="right">97</td>
+<td align="right">3.70</td>
+<td align="right">2.465</td>
+<td align="right">20.01</td>
+<td align="right">1</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">1</td>
+</tr>
+<tr class="even">
+<td>Dodge Challenger</td>
+<td align="right">15.5</td>
+<td align="right">8</td>
+<td align="right">318.0</td>
+<td align="right">150</td>
+<td align="right">2.76</td>
+<td align="right">3.520</td>
+<td align="right">16.87</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td>AMC Javelin</td>
+<td align="right">15.2</td>
+<td align="right">8</td>
+<td align="right">304.0</td>
+<td align="right">150</td>
+<td align="right">3.15</td>
+<td align="right">3.435</td>
+<td align="right">17.30</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Camaro Z28</td>
+<td align="right">13.3</td>
+<td align="right">8</td>
+<td align="right">350.0</td>
+<td align="right">245</td>
+<td align="right">3.73</td>
+<td align="right">3.840</td>
+<td align="right">15.41</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">4</td>
+</tr>
+<tr class="odd">
+<td>Pontiac Firebird</td>
+<td align="right">19.2</td>
+<td align="right">8</td>
+<td align="right">400.0</td>
+<td align="right">175</td>
+<td align="right">3.08</td>
+<td align="right">3.845</td>
+<td align="right">17.05</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">3</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Fiat X1-9</td>
+<td align="right">27.3</td>
+<td align="right">4</td>
+<td align="right">79.0</td>
+<td align="right">66</td>
+<td align="right">4.08</td>
+<td align="right">1.935</td>
+<td align="right">18.90</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">1</td>
+</tr>
+<tr class="odd">
+<td>Porsche 914-2</td>
+<td align="right">26.0</td>
+<td align="right">4</td>
+<td align="right">120.3</td>
+<td align="right">91</td>
+<td align="right">4.43</td>
+<td align="right">2.140</td>
+<td align="right">16.70</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr class="even">
+<td>Lotus Europa</td>
+<td align="right">30.4</td>
+<td align="right">4</td>
+<td align="right">95.1</td>
+<td align="right">113</td>
+<td align="right">3.77</td>
+<td align="right">1.513</td>
+<td align="right">16.90</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">2</td>
+</tr>
+<tr class="odd">
+<td>Ford Pantera L</td>
+<td align="right">15.8</td>
+<td align="right">8</td>
+<td align="right">351.0</td>
+<td align="right">264</td>
+<td align="right">4.22</td>
+<td align="right">3.170</td>
+<td align="right">14.50</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">4</td>
+</tr>
+<tr class="even">
+<td>Ferrari Dino</td>
+<td align="right">19.7</td>
+<td align="right">6</td>
+<td align="right">145.0</td>
+<td align="right">175</td>
+<td align="right">3.62</td>
+<td align="right">2.770</td>
+<td align="right">15.50</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">6</td>
+</tr>
+<tr class="odd">
+<td>Maserati Bora</td>
+<td align="right">15.0</td>
+<td align="right">8</td>
+<td align="right">301.0</td>
+<td align="right">335</td>
+<td align="right">3.54</td>
+<td align="right">3.570</td>
+<td align="right">14.60</td>
+<td align="right">0</td>
+<td align="right">1</td>
+<td align="right">5</td>
+<td align="right">8</td>
+</tr>
+<tr class="even">
+<td>Volvo 142E</td>
+<td align="right">21.4</td>
+<td align="right">4</td>
+<td align="right">121.0</td>
+<td align="right">109</td>
+<td align="right">4.11</td>
+<td align="right">2.780</td>
+<td align="right">18.60</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">4</td>
+<td align="right">2</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="make-an-interactive-bar-chart-in-plotly" class="section level1">
+<h1>Make an Interactive Bar Chart in <code>Plotly</code></h1>
+<ul>
+<li>For this first example, we will make a bar chart of the number of vehicles with <font color='red'>“4”</font>, <font color='red'>“6”</font> and <font color='red'>“8”</font> cylinders<br />
+</li>
+<li>One approach is to create a new data frame with two vectors (columns)
+<ul>
+<li>one that we create with the String “Four Cylinders”, “Six Cylinders”, and “Eight Cylinders” and<br />
+</li>
+<li>another Vector that is the sum of all of the rows in mtcars that have a <font color='red'>“4”</font>, <font color='red'>“6”</font> or <font color='red'>“8”</font> in them.</li>
+<li>We’ll call the first vector <strong>“vehicles”</strong> and the second <strong>“cylinders”</strong><br />
+</li>
+</ul></li>
+<li>This allows us to make a table that has a very defined x-axis and y-axis to make construtcting a bar graph very straight forward</li>
+</ul>
+<pre class="r"><code>vehicles &lt;- c(&quot;Four Cylinders&quot;,&quot;Six Cylinders&quot;,&quot;Eight Cylinders&quot;)
+cylinders &lt;- c(sum(mtcars$cyl==4), sum(mtcars$cyl==6), sum(mtcars$cyl==8)) # of note, the sum() function will allow us to add up all the observations with either a &quot;4&quot; or a &quot;6&quot; or a &quot;8&quot; </code></pre>
+<div id="view-these-two-vectors" class="section level2">
+<h2>View these two vectors</h2>
+<pre class="r"><code>vehicles %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Four Cylinders</td>
+</tr>
+<tr class="even">
+<td align="left">Six Cylinders</td>
+</tr>
+<tr class="odd">
+<td align="left">Eight Cylinders</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>cylinders %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">x</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="right">14</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li>As you can see, there are 11 vehicles with <font color='red'>“4”</font> contained in the columns’ cells, 7 with <font color = 'red'>“6”</font> and 14 with <font color = 'red'>“8”</font><br />
+</li>
+<li>Now combine these two vectors into a tibble, we’ll call it <font color = 'green'>“veh_cyl”</font>
+<ul>
+<li>Of note, a <code>tibble</code> is a modern rework of the standard <code>data.frame</code>, with some internal improvements to make code more reliable.
+<ul>
+<li>They are data frames, but do not follow all of the same rules
+<ul>
+<li>For example, tibbles can have column names that are not normally allowed, such as numbers/symbols.</li>
+</ul></li>
+</ul></li>
+</ul></li>
+</ul>
+<pre class="r"><code>veh_cyl &lt;- tibble(vehicles, cylinders)</code></pre>
+</div>
+</div>
+<div id="view-new-tibble" class="section level1">
+<h1>View new Tibble</h1>
+<pre class="r"><code>veh_cyl %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">vehicles</th>
+<th align="right">cylinders</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">Four Cylinders</td>
+<td align="right">11</td>
+</tr>
+<tr class="even">
+<td align="left">Six Cylinders</td>
+<td align="right">7</td>
+</tr>
+<tr class="odd">
+<td align="left">Eight Cylinders</td>
+<td align="right">14</td>
+</tr>
+</tbody>
+</table>
+<div id="now-that-we-have-a-tibble-that-can-be-easily-turned-into-a-bar-graph-lets-use-plotly-to-make-an-interactive-graph" class="section level5">
+<h5>Now that we have a tibble that can be easily turned into a bar graph, let’s use Plotly to make an interactive graph</h5>
+<pre class="r"><code>plot_ly(data = veh_cyl, x = vehicles, y = cylinders, type = &quot;bar&quot;, text = cylinders, textposition = &quot;auto&quot;) %&gt;% 
+  layout(title = &quot;Number of Vehicles in mtcars with 4, 6, and 8 Cylinders&quot;,
+         titlefont = list(size = 28, color = &quot;orange&quot;, family = &quot;Calibri&quot;),
+    yaxis = list(title = &quot;Number of Vehicles&quot;,
+                 titlefont = list(color = &quot;black&quot;, family = &quot;Arial&quot;, size = 26),
+                 tickfont = list(color = &quot;black&quot;, family = &quot;Arial&quot;, size = 20)),
+    xaxis = list(title = &quot;Number of Cylinders&quot;,
+                 titlefont = list(color = &quot;red&quot;, family = &quot;Times New Roman&quot;, size = 22),
+                 tickfont = list(color = &quot;green&quot;, family = &quot;Cambria&quot;, size = 18)))%&gt;% 
+  layout(margin = list( 
+                l = 10,
+              r = 10,
+              b = 0,
+              t = 40)) # Use the layout(margin) function to adjust the margins of the graph</code></pre>
+<pre><code>## Warning: The titlefont attribute is deprecated. Use title = list(font = ...)
+## instead.</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"219c7397a70e":["function () ","plotlyVisDat"]},"cur_data":"219c7397a70e","attrs":{"219c7397a70e":{"x":["Four Cylinders","Six Cylinders","Eight Cylinders"],"y":[11,7,14],"text":[11,7,14],"textposition":"auto","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":0,"l":10,"t":40,"r":10},"title":"Number of Vehicles in mtcars with 4, 6, and 8 Cylinders","titlefont":{"size":28,"color":"orange","family":"Calibri"},"yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Vehicles","titlefont":{"color":"black","family":"Arial","size":26},"tickfont":{"color":"black","family":"Arial","size":20}},"xaxis":{"domain":[0,1],"automargin":true,"title":"Number of Cylinders","titlefont":{"color":"red","family":"Times New Roman","size":22},"tickfont":{"color":"green","family":"Cambria","size":18},"type":"category","categoryorder":"array","categoryarray":["Eight Cylinders","Four Cylinders","Six Cylinders"]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Four Cylinders","Six Cylinders","Eight Cylinders"],"y":[11,7,14],"text":[11,7,14],"textposition":["auto","auto","auto"],"type":"bar","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="comments-about-code-for-titles-and-axes" class="section level5">
+<h5>Comments about code for Titles and Axes</h5>
+<ul>
+<li>To adjust the title, axes and margins, <code>plotly</code> uses different code that perhaps the more popular <code>ggpolot</code> package that <code>R</code> users are often very familiar with
+<ul>
+<li>The <code>layout()</code> and <code>list()</code> functions perform much of the work for these tasks, as seen above</li>
+<li>In order to highlight how these are used, we’ve made the title <font color = 'orange'>Orange</font> and the axis font <font color = 'green'>Green</font> and the axis title <font color = 'red'>Red</font> to emphaise those elements of the code.<br />
+</li>
+</ul></li>
+<li>To add the values of the bar on the top of the bars use <code>textposition = &quot;auto&quot;</code> in the first ()<br />
+</li>
+<li>You don’t have to use those codes to adjust your Titles and Axes, but if you don’t a very basic plot will look like this…</li>
+</ul>
+<pre class="r"><code>plot_ly(data = veh_cyl, x = vehicles, y = cylinders, type = &quot;bar&quot;, text = cylinders)</code></pre>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"visdat":{"219c4285dbd5":["function () ","plotlyVisDat"]},"cur_data":"219c4285dbd5","attrs":{"219c4285dbd5":{"x":["Four Cylinders","Six Cylinders","Eight Cylinders"],"y":[11,7,14],"text":[11,7,14],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"bar"}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"xaxis":{"domain":[0,1],"automargin":true,"title":[],"type":"category","categoryorder":"array","categoryarray":["Eight Cylinders","Four Cylinders","Six Cylinders"]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["Four Cylinders","Six Cylinders","Eight Cylinders"],"y":[11,7,14],"text":[11,7,14],"type":"bar","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="make-a-time-series-in-plolty" class="section level1">
+<h1>Make a Time Series in Plolty</h1>
+<ul>
+<li>We will use a data set downloaded from GitHub that has dates and corresponding data</li>
+<li>This will also highlight how to download data directly from GitHub into your R Studio</li>
+<li>you will need the packages <code>httr</code> and <code>RCurl</code></li>
+</ul>
+<pre class="r"><code>library(httr)
+library(RCurl)</code></pre>
+<div id="download-list-of-publications-from-github" class="section level3">
+<h3>Download List of publications from Github</h3>
+<ul>
+<li>We are going to uses a dataset from <strong>Reproducible Research in Ecology, Evolution, Behaviour, and Environmental Studies</strong> <a href="https://github.com/opetchey/RREEBES/tree/master/Beninca_etal_2008_Nature" class="uri">https://github.com/opetchey/RREEBES/tree/master/Beninca_etal_2008_Nature</a></li>
+</ul>
+<pre class="r"><code>no2 &lt;- read.csv(text=getURL(&quot;https://raw.githubusercontent.com/opetchey/RREEBES/master/Beninca_etal_2008_Nature/data/nutrients_original.csv&quot;), skip=7, header=T)</code></pre>
+</div>
+<div id="convert-first-column-into-dates" class="section level3">
+<h3>Convert first column into dates</h3>
+<pre class="r"><code>no2$Date &lt;- as.Date(no2$Date, &quot;%d/%m/%y&quot;) # of note, this %d/%m/%y format is critical, and is specific to the way the data is put into the data frame; b/c here the date in the original df is d/m/2 digit year, you need a lower case &quot;y&quot; to indicate that year is only two digits in the data frame</code></pre>
+</div>
+<div id="graph-a-timeseries-in-plotly" class="section level3">
+<h3>Graph a Timeseries in <code>Plotly</code></h3>
+<pre class="r"><code>plot_ly( data = no2, x = no2$Date, y = no2$NO2) %&gt;% 
+  add_trace(type = &quot;scatter&quot; ,mode = &quot;lines+markers&quot;)  %&gt;% 
+  layout(
+    title = &quot;Time Series of NO2&quot;,
+    xaxis = list(
+      title = &quot;Year&quot;),
+    yaxis = list(
+      title = &quot;NO2&quot;))</code></pre>
+<div id="htmlwidget-3" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"visdat":{"219c4354d890":["function () ","plotlyVisDat"]},"cur_data":"219c4354d890","attrs":{"219c4354d890":{"x":["1990-09-18","1990-09-24","1990-10-01","1990-10-09","1990-10-15","1990-10-22","1990-10-29","1990-11-05","1990-11-12","1990-11-19","1990-11-26","1990-12-03","1990-12-10","1990-12-17","1990-12-24","1990-12-31","1991-01-07","1991-01-14","1991-01-21","1991-01-28","1991-02-04","1991-02-11","1991-02-18","1991-02-25","1991-03-04","1991-03-11","1991-03-18","1991-03-25","1991-04-01","1991-04-08","1991-04-15","1991-04-22","1991-04-29","1991-05-06","1991-05-14","1991-05-21","1991-05-27","1991-06-03","1991-06-10","1991-06-17","1991-06-24","1991-07-08","1991-07-15","1991-07-22","1991-08-05","1991-08-12","1991-08-19","1991-08-26","1991-09-02","1991-09-09","1991-09-16","1991-09-23","1991-09-30","1991-10-07","1991-10-14","1991-10-21","1991-10-28","1991-11-04","1991-11-11","1991-11-18","1991-11-25","1991-12-02","1991-12-09","1991-12-16","1991-12-24","1992-01-06","1992-01-13","1992-01-20","1992-01-27","1992-02-11","1992-02-18","1992-02-27","1992-03-04","1992-03-17","1992-03-24","1992-03-31","1992-04-06","1992-04-13","1992-04-21","1992-04-28","1992-05-05","1992-05-12","1992-05-19","1992-05-26","1992-06-02","1992-06-09","1992-06-15","1992-06-22","1992-06-30","1992-07-14","1992-07-21","1992-07-28","1992-08-04","1992-08-11","1992-08-18","1992-08-25","1992-09-01","1992-09-15","1992-09-18","1992-09-22","1992-09-29","1992-10-07","1992-10-13","1992-10-26","1992-11-02","1992-11-16","1992-11-23","1992-11-30","1992-12-07","1992-12-14","1992-12-21","1992-12-28","1993-01-06","1993-01-11","1993-01-18","1993-01-25","1993-02-01","1993-02-08","1993-02-16","1993-02-22","1993-03-01","1993-03-09","1993-03-15","1993-03-22","1993-03-29","1993-04-05","1993-04-14","1993-04-19","1993-04-26","1993-05-03","1993-05-10","1993-05-27","1993-06-01","1993-06-07","1993-06-17","1993-06-21","1993-06-28","1993-07-05","1993-07-13","1993-07-19","1993-07-26","1993-08-02","1993-08-09","1993-08-16","1993-08-23","1993-08-30","1993-09-06","1993-09-13","1993-09-20","1993-09-27","1993-10-04","1993-10-11","1993-11-01","1993-11-15","1993-11-22","1993-11-29","1993-12-06","1993-12-13","1993-12-20","1994-01-03","1994-01-10","1994-01-17","1994-01-24","1994-01-31","1994-02-07","1994-02-14","1994-02-21","1994-02-28","1994-03-07","1994-03-14","1994-03-21","1994-03-28","1994-04-05","1994-04-11","1994-04-18","1994-04-25","1994-05-02","1994-05-09","1994-05-16","1994-05-24","1994-05-30","1994-06-06","1994-06-13","1994-06-20","1994-06-27","1994-07-04","1994-07-11","1994-07-18","1994-07-25","1994-08-01","1994-08-08","1994-08-15","1994-08-22","1994-08-29","1994-09-06","1994-09-12","1994-09-19","1994-09-26","1994-10-04","1994-10-10","1994-10-17","1994-10-24","1994-11-01","1994-11-07","1994-11-11","1994-11-21","1994-11-28","1994-12-05","1994-12-12","1994-12-19","1995-01-03","1995-01-09","1995-01-16","1995-01-23","1995-01-30","1995-02-06","1995-02-20","1995-02-27","1995-03-06","1995-03-13","1995-03-20","1995-03-27","1995-04-03","1995-04-10","1995-04-18","1995-04-24","1995-05-02","1995-05-08","1995-05-15","1995-05-22","1995-05-29","1995-06-06","1995-06-19","1995-07-04","1995-07-10","1995-07-17","1995-07-24","1995-07-31","1995-08-07","1995-08-14","1995-08-21","1995-08-28","1995-09-04","1995-09-12","1995-09-18","1995-09-25","1995-10-09","1995-10-16","1995-10-23","1995-11-02","1995-11-06","1995-11-13","1995-11-20","1995-11-27","1995-12-05","1995-12-12","1995-12-18","1996-01-02","1996-01-08","1996-01-15","1996-01-22","1996-01-25","1996-02-05","1996-02-12","1996-02-19","1996-02-26","1996-03-05","1996-03-11","1996-03-18","1996-03-25","1996-04-01","1996-04-15","1996-04-22","1996-04-29","1996-05-06","1996-05-13","1996-05-20","1996-05-28","1996-06-03","1996-06-10","1996-06-17","1996-06-24","1996-07-01","1996-07-08","1996-07-15","1996-07-22","1996-07-29","1996-08-05","1996-08-12","1996-08-19","1996-08-26","1996-09-02","1996-09-09","1996-09-16","1996-09-23","1996-09-30","1996-10-07","1996-10-14","1996-10-21","1996-10-28","1996-11-04","1996-11-11","1996-11-18","1996-11-25","1996-12-02","1996-12-04","1996-12-16","1997-01-06","1997-01-13","1997-01-20","1997-01-27","1997-02-03","1997-02-10","1997-02-17","1997-02-24","1997-03-03","1997-03-10","1997-03-17","1997-03-24","1997-04-01","1997-04-07","1997-04-14","1997-04-21","1997-04-28","1997-05-05","1997-05-11","1997-05-26","1997-06-02","1997-06-09","1997-06-16","1997-06-23","1997-06-30","1997-07-07","1997-07-14","1997-07-21","1997-07-28","1997-08-04","1997-08-11","1997-08-18","1997-08-25","1997-09-01","1997-09-08","1997-09-15","1997-09-22","1997-09-29","1997-10-06","1997-10-13","1997-10-20",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"y":[25.27,17.59,5.36,5.23,5,1.98,5.3,10.27,4.93,11.43,18.73,5.25,4.45,3.32,7,11,15.39,15.09,6.2,6.34,12.52,15,4.73,14.39,2.39,2.32,2.66,11.8,10.61,15.55,14.07,22.27,29.43,1.98,0.77,0.41,2.98,17.2,15,0.14,0.52,0.14,11.32,4.73,0.5,0.39,1.95,1.3,0.68,0.52,0.69,2.11,0.64,4.39,0.45,4.58,0.61,0.39,0.5,0.32,0.55,0.29,0.38,0.52,1.05,1.62,1.05,0.83,1.65,0.38,0.65,0.39,0.9,0.42,0.26,0.17,0.4,0.8,0.35,0.45,0.4,0.94,0.65,0.37,0.71,0.43,0.14,0.95,0.84,0.78,0.51,0.93,0.76,0.87,1.37,1.93,2.13,2.05,1.55,1.89,0.25,0.37,0.07,0.45,0.59,0.69,0.68,0.41,0.5,0.42,0.37,0.22,0.73,0.35,0.58,0.37,0.32,0.35,0.46,0.42,0.41,0.98,0.64,1.55,0.24,0.84,0.72,0.48,0.51,0.5,null,0.49,0.27,0.29,0.21,0.22,0.25,0.3,0.29,0.16,0.34,0.34,0.18,0.2,1.5,1.68,0.29,0.08,0.26,1.91,0.66,0.26,0.7,0.67,0.42,0.81,0.59,0.41,0.27,0.47,0.23,0.32,0.53,0.17,0.41,0.27,0.34,0.62,0.49,0.54,0.48,0.46,0.83,0.53,0.56,0.57,0.18,0.2,0.52,0.92,1.4,0.32,0.37,0.32,0.27,0.28,0.27,0.26,0.36,0.14,0.34,0.38,0.5,3.77,0.56,0.43,0.59,0.3,0.69,0.45,0.66,0.47,0.39,0.51,0.3,0.18,0.18,0.41,0.23,1.15,1.11,0.91,0.36,4.1,0.77,0.7,0.53,0.87,0.16,0.36,0.11,0.33,0.26,0.21,0.25,0.94,1.28,0.22,0.33,0.54,1.21,0.36,0.78,0.24,0.33,0.38,0.36,0.56,0.41,0.55,0.26,0.45,0.43,0.3,0.15,0.21,0.73,0.46,0.61,0.16,0.39,0.53,0.29,0.41,1.13,0.8,1.56,0.34,0.21,0.06,0.37,0.38,0.22,0.19,1.26,0.14,0.15,0.22,0.19,0.7,0.42,0.51,0.29,0.22,0.3,0.2,0.49,0.55,0.53,1.3,3.15,2.86,0.2,4.41,10.33,9.82,10.24,44.32,0.57,0.57,1.52,0.34,0.41,0.33,0.21,0.88,1.92,25.02,1.4,0.47,0.51,0.29,6.32,8.87,16.17,13.9,45.9,1.11,0.5,0.9,1.26,1.78,0.83,1.2,0.59,0.07,0.18,0.21,2.09,0.18,0.49,0.24,0.11,0.19,0.17,0.23,0.22,0.08,0.22,0.11,0.08,0.04,0.26,0.07,0.14,0.13,0.11,0.39,2.97,0.11,0.05,0.16,0.07,0.11,0.14,0.15,0.09,0.15,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"scatter","mode":"lines+markers","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Time Series of NO2","xaxis":{"domain":[0,1],"automargin":true,"title":"Year"},"yaxis":{"domain":[0,1],"automargin":true,"title":"NO2"},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":["1990-09-18","1990-09-24","1990-10-01","1990-10-09","1990-10-15","1990-10-22","1990-10-29","1990-11-05","1990-11-12","1990-11-19","1990-11-26","1990-12-03","1990-12-10","1990-12-17","1990-12-24","1990-12-31","1991-01-07","1991-01-14","1991-01-21","1991-01-28","1991-02-04","1991-02-11","1991-02-18","1991-02-25","1991-03-04","1991-03-11","1991-03-18","1991-03-25","1991-04-01","1991-04-08","1991-04-15","1991-04-22","1991-04-29","1991-05-06","1991-05-14","1991-05-21","1991-05-27","1991-06-03","1991-06-10","1991-06-17","1991-06-24","1991-07-08","1991-07-15","1991-07-22","1991-08-05","1991-08-12","1991-08-19","1991-08-26","1991-09-02","1991-09-09","1991-09-16","1991-09-23","1991-09-30","1991-10-07","1991-10-14","1991-10-21","1991-10-28","1991-11-04","1991-11-11","1991-11-18","1991-11-25","1991-12-02","1991-12-09","1991-12-16","1991-12-24","1992-01-06","1992-01-13","1992-01-20","1992-01-27","1992-02-11","1992-02-18","1992-02-27","1992-03-04","1992-03-17","1992-03-24","1992-03-31","1992-04-06","1992-04-13","1992-04-21","1992-04-28","1992-05-05","1992-05-12","1992-05-19","1992-05-26","1992-06-02","1992-06-09","1992-06-15","1992-06-22","1992-06-30","1992-07-14","1992-07-21","1992-07-28","1992-08-04","1992-08-11","1992-08-18","1992-08-25","1992-09-01","1992-09-15","1992-09-18","1992-09-22","1992-09-29","1992-10-07","1992-10-13","1992-10-26","1992-11-02","1992-11-16","1992-11-23","1992-11-30","1992-12-07","1992-12-14","1992-12-21","1992-12-28","1993-01-06","1993-01-11","1993-01-18","1993-01-25","1993-02-01","1993-02-08","1993-02-16","1993-02-22","1993-03-01","1993-03-09","1993-03-15","1993-03-22","1993-03-29","1993-04-05","1993-04-14","1993-04-19","1993-04-26","1993-05-03",null,"1993-05-27","1993-06-01","1993-06-07","1993-06-17","1993-06-21","1993-06-28","1993-07-05","1993-07-13","1993-07-19","1993-07-26","1993-08-02","1993-08-09","1993-08-16","1993-08-23","1993-08-30","1993-09-06","1993-09-13","1993-09-20","1993-09-27","1993-10-04","1993-10-11","1993-11-01","1993-11-15","1993-11-22","1993-11-29","1993-12-06","1993-12-13","1993-12-20","1994-01-03","1994-01-10","1994-01-17","1994-01-24","1994-01-31","1994-02-07","1994-02-14","1994-02-21","1994-02-28","1994-03-07","1994-03-14","1994-03-21","1994-03-28","1994-04-05","1994-04-11","1994-04-18","1994-04-25","1994-05-02","1994-05-09","1994-05-16","1994-05-24","1994-05-30","1994-06-06","1994-06-13","1994-06-20","1994-06-27","1994-07-04","1994-07-11","1994-07-18","1994-07-25","1994-08-01","1994-08-08","1994-08-15","1994-08-22","1994-08-29","1994-09-06","1994-09-12","1994-09-19","1994-09-26","1994-10-04","1994-10-10","1994-10-17","1994-10-24","1994-11-01","1994-11-07","1994-11-11","1994-11-21","1994-11-28","1994-12-05","1994-12-12","1994-12-19","1995-01-03","1995-01-09","1995-01-16","1995-01-23","1995-01-30","1995-02-06","1995-02-20","1995-02-27","1995-03-06","1995-03-13","1995-03-20","1995-03-27","1995-04-03","1995-04-10","1995-04-18","1995-04-24","1995-05-02","1995-05-08","1995-05-15","1995-05-22","1995-05-29","1995-06-06","1995-06-19","1995-07-04","1995-07-10","1995-07-17","1995-07-24","1995-07-31","1995-08-07","1995-08-14","1995-08-21","1995-08-28","1995-09-04","1995-09-12","1995-09-18","1995-09-25","1995-10-09","1995-10-16","1995-10-23","1995-11-02","1995-11-06","1995-11-13","1995-11-20","1995-11-27","1995-12-05","1995-12-12","1995-12-18","1996-01-02","1996-01-08","1996-01-15","1996-01-22","1996-01-25","1996-02-05","1996-02-12","1996-02-19","1996-02-26","1996-03-05","1996-03-11","1996-03-18","1996-03-25","1996-04-01","1996-04-15","1996-04-22","1996-04-29","1996-05-06","1996-05-13","1996-05-20","1996-05-28","1996-06-03","1996-06-10","1996-06-17","1996-06-24","1996-07-01","1996-07-08","1996-07-15","1996-07-22","1996-07-29","1996-08-05","1996-08-12","1996-08-19","1996-08-26","1996-09-02","1996-09-09","1996-09-16","1996-09-23","1996-09-30","1996-10-07","1996-10-14","1996-10-21","1996-10-28","1996-11-04","1996-11-11","1996-11-18","1996-11-25","1996-12-02","1996-12-04","1996-12-16","1997-01-06","1997-01-13","1997-01-20","1997-01-27","1997-02-03","1997-02-10","1997-02-17","1997-02-24","1997-03-03","1997-03-10","1997-03-17","1997-03-24","1997-04-01","1997-04-07","1997-04-14","1997-04-21","1997-04-28","1997-05-05","1997-05-11","1997-05-26","1997-06-02","1997-06-09","1997-06-16","1997-06-23","1997-06-30","1997-07-07","1997-07-14","1997-07-21","1997-07-28","1997-08-04","1997-08-11","1997-08-18","1997-08-25","1997-09-01","1997-09-08","1997-09-15","1997-09-22","1997-09-29","1997-10-06","1997-10-13","1997-10-20"],"y":[25.27,17.59,5.36,5.23,5,1.98,5.3,10.27,4.93,11.43,18.73,5.25,4.45,3.32,7,11,15.39,15.09,6.2,6.34,12.52,15,4.73,14.39,2.39,2.32,2.66,11.8,10.61,15.55,14.07,22.27,29.43,1.98,0.77,0.41,2.98,17.2,15,0.14,0.52,0.14,11.32,4.73,0.5,0.39,1.95,1.3,0.68,0.52,0.69,2.11,0.64,4.39,0.45,4.58,0.61,0.39,0.5,0.32,0.55,0.29,0.38,0.52,1.05,1.62,1.05,0.83,1.65,0.38,0.65,0.39,0.9,0.42,0.26,0.17,0.4,0.8,0.35,0.45,0.4,0.94,0.65,0.37,0.71,0.43,0.14,0.95,0.84,0.78,0.51,0.93,0.76,0.87,1.37,1.93,2.13,2.05,1.55,1.89,0.25,0.37,0.07,0.45,0.59,0.69,0.68,0.41,0.5,0.42,0.37,0.22,0.73,0.35,0.58,0.37,0.32,0.35,0.46,0.42,0.41,0.98,0.64,1.55,0.24,0.84,0.72,0.48,0.51,0.5,null,0.49,0.27,0.29,0.21,0.22,0.25,0.3,0.29,0.16,0.34,0.34,0.18,0.2,1.5,1.68,0.29,0.08,0.26,1.91,0.66,0.26,0.7,0.67,0.42,0.81,0.59,0.41,0.27,0.47,0.23,0.32,0.53,0.17,0.41,0.27,0.34,0.62,0.49,0.54,0.48,0.46,0.83,0.53,0.56,0.57,0.18,0.2,0.52,0.92,1.4,0.32,0.37,0.32,0.27,0.28,0.27,0.26,0.36,0.14,0.34,0.38,0.5,3.77,0.56,0.43,0.59,0.3,0.69,0.45,0.66,0.47,0.39,0.51,0.3,0.18,0.18,0.41,0.23,1.15,1.11,0.91,0.36,4.1,0.77,0.7,0.53,0.87,0.16,0.36,0.11,0.33,0.26,0.21,0.25,0.94,1.28,0.22,0.33,0.54,1.21,0.36,0.78,0.24,0.33,0.38,0.36,0.56,0.41,0.55,0.26,0.45,0.43,0.3,0.15,0.21,0.73,0.46,0.61,0.16,0.39,0.53,0.29,0.41,1.13,0.8,1.56,0.34,0.21,0.06,0.37,0.38,0.22,0.19,1.26,0.14,0.15,0.22,0.19,0.7,0.42,0.51,0.29,0.22,0.3,0.2,0.49,0.55,0.53,1.3,3.15,2.86,0.2,4.41,10.33,9.82,10.24,44.32,0.57,0.57,1.52,0.34,0.41,0.33,0.21,0.88,1.92,25.02,1.4,0.47,0.51,0.29,6.32,8.87,16.17,13.9,45.9,1.11,0.5,0.9,1.26,1.78,0.83,1.2,0.59,0.07,0.18,0.21,2.09,0.18,0.49,0.24,0.11,0.19,0.17,0.23,0.22,0.08,0.22,0.11,0.08,0.04,0.26,0.07,0.14,0.13,0.11,0.39,2.97,0.11,0.05,0.16,0.07,0.11,0.14,0.15,0.09,0.15],"type":"scatter","mode":"lines+markers","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"error_y":{"color":"rgba(31,119,180,1)"},"error_x":{"color":"rgba(31,119,180,1)"},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="make-a-chloropleth-map-in-plotly" class="section level1">
+<h1>Make a Chloropleth Map in <code>Plotly</code></h1>
+<ul>
+<li>A Chloropleth Map is a map that uses differences in shading, coloring, or the placing of symbols within predefined areas to indicate the average values of a property or quantity in those areas (<a href="https://en.wikipedia.org/wiki/Choropleth_map" class="uri">https://en.wikipedia.org/wiki/Choropleth_map</a>)</li>
+<li>For example let’s look at the rate of new cancers in the US according to the
+<strong>Centers for Disease Control and Prevention (CDC) and the National Cancer Institute (NCI), 2016</strong></li>
+<li>Visit “<a href="https://gis.cdc.gov/Cancer/USCS/DataViz.html" class="uri">https://gis.cdc.gov/Cancer/USCS/DataViz.html</a>” and click “export” to download a csv file.
+<ul>
+<li>Make sure to save it in your project folder</li>
+<li>Also, please create a column,”state”, and enter the state abbreviations next to the corresponding full state name in “Area”.
+<ul>
+<li>This is needed to add values to each state</li>
+</ul></li>
+</ul></li>
+</ul>
+<pre class="r"><code>df &lt;- read.csv(&quot;USCS_OverviewMap.csv&quot;)</code></pre>
+<div id="view-the-data-fram-df" class="section level3">
+<h3>View the Data Fram <code>df</code></h3>
+<pre class="r"><code>df %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Code</th>
+<th align="left">Area</th>
+<th align="left">CancerType</th>
+<th align="left">Year</th>
+<th align="left">Sex</th>
+<th align="right">AgeAdjustedRate</th>
+<th align="right">CaseCount</th>
+<th align="right">Population</th>
+<th align="right">X</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NM</td>
+<td align="left">‘New Mexico’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">359.4</td>
+<td align="right">9075</td>
+<td align="right">2085432</td>
+<td align="right">0.0043516</td>
+</tr>
+<tr class="even">
+<td align="left">AZ</td>
+<td align="left">‘Arizona’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">376.3</td>
+<td align="right">31443</td>
+<td align="right">6908642</td>
+<td align="right">0.0045513</td>
+</tr>
+<tr class="odd">
+<td align="left">CA</td>
+<td align="left">‘California’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">385.6</td>
+<td align="right">164887</td>
+<td align="right">39296476</td>
+<td align="right">0.0041960</td>
+</tr>
+<tr class="even">
+<td align="left">CO</td>
+<td align="left">‘Colorado’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">388.8</td>
+<td align="right">23244</td>
+<td align="right">5530105</td>
+<td align="right">0.0042032</td>
+</tr>
+<tr class="odd">
+<td align="left">DC</td>
+<td align="left">‘District of Columbia’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">378.3</td>
+<td align="right">2566</td>
+<td align="right">684336</td>
+<td align="right">0.0037496</td>
+</tr>
+<tr class="even">
+<td align="left">NV</td>
+<td align="left">‘Nevada’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">385.0</td>
+<td align="right">13054</td>
+<td align="right">2939254</td>
+<td align="right">0.0044413</td>
+</tr>
+<tr class="odd">
+<td align="left">AK</td>
+<td align="left">‘Alaska’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">405.8</td>
+<td align="right">2882</td>
+<td align="right">741522</td>
+<td align="right">0.0038866</td>
+</tr>
+<tr class="even">
+<td align="left">HI</td>
+<td align="left">‘Hawaii’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">414.2</td>
+<td align="right">7395</td>
+<td align="right">1428683</td>
+<td align="right">0.0051761</td>
+</tr>
+<tr class="odd">
+<td align="left">MA</td>
+<td align="left">‘Massachusetts’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">404.2</td>
+<td align="right">33626</td>
+<td align="right">6823721</td>
+<td align="right">0.0049278</td>
+</tr>
+<tr class="even">
+<td align="left">OR</td>
+<td align="left">‘Oregon’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">405.3</td>
+<td align="right">20596</td>
+<td align="right">4085989</td>
+<td align="right">0.0050406</td>
+</tr>
+<tr class="odd">
+<td align="left">TX</td>
+<td align="left">‘Texas’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">391.8</td>
+<td align="right">109083</td>
+<td align="right">27904862</td>
+<td align="right">0.0039091</td>
+</tr>
+<tr class="even">
+<td align="left">UT</td>
+<td align="left">‘Utah’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">390.6</td>
+<td align="right">10494</td>
+<td align="right">3044321</td>
+<td align="right">0.0034471</td>
+</tr>
+<tr class="odd">
+<td align="left">VA</td>
+<td align="left">‘Virginia’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">413.3</td>
+<td align="right">40322</td>
+<td align="right">8414380</td>
+<td align="right">0.0047920</td>
+</tr>
+<tr class="even">
+<td align="left">WY</td>
+<td align="left">‘Wyoming’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">402.3</td>
+<td align="right">2775</td>
+<td align="right">584910</td>
+<td align="right">0.0047443</td>
+</tr>
+<tr class="odd">
+<td align="left">FL</td>
+<td align="left">‘Florida’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">419.3</td>
+<td align="right">119408</td>
+<td align="right">20656589</td>
+<td align="right">0.0057806</td>
+</tr>
+<tr class="even">
+<td align="left">ID</td>
+<td align="left">‘Idaho’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">439.2</td>
+<td align="right">8354</td>
+<td align="right">1680026</td>
+<td align="right">0.0049725</td>
+</tr>
+<tr class="odd">
+<td align="left">IN</td>
+<td align="left">‘Indiana’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">443.0</td>
+<td align="right">34260</td>
+<td align="right">6634007</td>
+<td align="right">0.0051643</td>
+</tr>
+<tr class="even">
+<td align="left">MD</td>
+<td align="left">‘Maryland’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">440.9</td>
+<td align="right">30942</td>
+<td align="right">6024752</td>
+<td align="right">0.0051358</td>
+</tr>
+<tr class="odd">
+<td align="left">MI</td>
+<td align="left">‘Michigan’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">436.8</td>
+<td align="right">53911</td>
+<td align="right">9933445</td>
+<td align="right">0.0054272</td>
+</tr>
+<tr class="even">
+<td align="left">MN</td>
+<td align="left">‘Minnesota’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">455.7</td>
+<td align="right">29619</td>
+<td align="right">5525050</td>
+<td align="right">0.0053609</td>
+</tr>
+<tr class="odd">
+<td align="left">MO</td>
+<td align="left">‘Missouri’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">446.3</td>
+<td align="right">33171</td>
+<td align="right">6091176</td>
+<td align="right">0.0054457</td>
+</tr>
+<tr class="even">
+<td align="left">NE</td>
+<td align="left">‘Nebraska’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">446.4</td>
+<td align="right">9838</td>
+<td align="right">1907603</td>
+<td align="right">0.0051573</td>
+</tr>
+<tr class="odd">
+<td align="left">ND</td>
+<td align="left">‘North Dakota’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">448.7</td>
+<td align="right">3765</td>
+<td align="right">755548</td>
+<td align="right">0.0049831</td>
+</tr>
+<tr class="even">
+<td align="left">OK</td>
+<td align="left">‘Oklahoma’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">447.9</td>
+<td align="right">20167</td>
+<td align="right">3921207</td>
+<td align="right">0.0051431</td>
+</tr>
+<tr class="odd">
+<td align="left">RI</td>
+<td align="left">‘Rhode Island’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">450.6</td>
+<td align="right">5972</td>
+<td align="right">1057566</td>
+<td align="right">0.0056469</td>
+</tr>
+<tr class="even">
+<td align="left">SC</td>
+<td align="left">‘South Carolina’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">440.9</td>
+<td align="right">27313</td>
+<td align="right">4959822</td>
+<td align="right">0.0055069</td>
+</tr>
+<tr class="odd">
+<td align="left">SD</td>
+<td align="left">‘South Dakota’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">449.5</td>
+<td align="right">4612</td>
+<td align="right">861542</td>
+<td align="right">0.0053532</td>
+</tr>
+<tr class="even">
+<td align="left">TN</td>
+<td align="left">‘Tennessee’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">455.7</td>
+<td align="right">36598</td>
+<td align="right">6649404</td>
+<td align="right">0.0055040</td>
+</tr>
+<tr class="odd">
+<td align="left">VT</td>
+<td align="left">‘Vermont’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">442.4</td>
+<td align="right">3681</td>
+<td align="right">623354</td>
+<td align="right">0.0059052</td>
+</tr>
+<tr class="even">
+<td align="left">WA</td>
+<td align="left">‘Washington’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">445.1</td>
+<td align="right">37378</td>
+<td align="right">7280934</td>
+<td align="right">0.0051337</td>
+</tr>
+<tr class="odd">
+<td align="left">AL</td>
+<td align="left">‘Alabama’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">457.8</td>
+<td align="right">27195</td>
+<td align="right">4860545</td>
+<td align="right">0.0055951</td>
+</tr>
+<tr class="even">
+<td align="left">AR</td>
+<td align="left">‘Arkansas’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">469.6</td>
+<td align="right">17053</td>
+<td align="right">2988231</td>
+<td align="right">0.0057067</td>
+</tr>
+<tr class="odd">
+<td align="left">CT</td>
+<td align="left">‘Connecticut’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">465.5</td>
+<td align="right">21117</td>
+<td align="right">3587685</td>
+<td align="right">0.0058860</td>
+</tr>
+<tr class="even">
+<td align="left">DE</td>
+<td align="left">‘Delaware’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">487.2</td>
+<td align="right">6001</td>
+<td align="right">952698</td>
+<td align="right">0.0062990</td>
+</tr>
+<tr class="odd">
+<td align="left">GA</td>
+<td align="left">‘Georgia’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">468.8</td>
+<td align="right">52056</td>
+<td align="right">10313620</td>
+<td align="right">0.0050473</td>
+</tr>
+<tr class="even">
+<td align="left">IL</td>
+<td align="left">‘Illinois’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">462.8</td>
+<td align="right">68954</td>
+<td align="right">12835726</td>
+<td align="right">0.0053720</td>
+</tr>
+<tr class="odd">
+<td align="left">IA</td>
+<td align="left">‘Iowa’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">473.6</td>
+<td align="right">18146</td>
+<td align="right">3130869</td>
+<td align="right">0.0057958</td>
+</tr>
+<tr class="even">
+<td align="left">KS</td>
+<td align="left">‘Kansas’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">457.3</td>
+<td align="right">15312</td>
+<td align="right">2907731</td>
+<td align="right">0.0052660</td>
+</tr>
+<tr class="odd">
+<td align="left">KY</td>
+<td align="left">‘Kentucky’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">509.7</td>
+<td align="right">27137</td>
+<td align="right">4436113</td>
+<td align="right">0.0061173</td>
+</tr>
+<tr class="even">
+<td align="left">LA</td>
+<td align="left">‘Louisiana’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">473.1</td>
+<td align="right">25451</td>
+<td align="right">4686157</td>
+<td align="right">0.0054311</td>
+</tr>
+<tr class="odd">
+<td align="left">ME</td>
+<td align="left">‘Maine’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">473.4</td>
+<td align="right">8901</td>
+<td align="right">1330232</td>
+<td align="right">0.0066913</td>
+</tr>
+<tr class="even">
+<td align="left">MS</td>
+<td align="left">‘Mississippi’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">465.8</td>
+<td align="right">16265</td>
+<td align="right">2985415</td>
+<td align="right">0.0054482</td>
+</tr>
+<tr class="odd">
+<td align="left">MT</td>
+<td align="left">‘Montana’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">456.6</td>
+<td align="right">6194</td>
+<td align="right">1038656</td>
+<td align="right">0.0059635</td>
+</tr>
+<tr class="even">
+<td align="left">NH</td>
+<td align="left">‘New Hampshire’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">480.9</td>
+<td align="right">8442</td>
+<td align="right">1335015</td>
+<td align="right">0.0063235</td>
+</tr>
+<tr class="odd">
+<td align="left">NJ</td>
+<td align="left">‘New Jersey’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">474.8</td>
+<td align="right">51521</td>
+<td align="right">8978416</td>
+<td align="right">0.0057383</td>
+</tr>
+<tr class="even">
+<td align="left">NY</td>
+<td align="left">‘New York’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">474.8</td>
+<td align="right">113026</td>
+<td align="right">19836286</td>
+<td align="right">0.0056979</td>
+</tr>
+<tr class="odd">
+<td align="left">NC</td>
+<td align="left">‘North Carolina’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">458.4</td>
+<td align="right">55394</td>
+<td align="right">10156689</td>
+<td align="right">0.0054539</td>
+</tr>
+<tr class="even">
+<td align="left">OH</td>
+<td align="left">‘Ohio’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">456.1</td>
+<td align="right">65645</td>
+<td align="right">11622554</td>
+<td align="right">0.0056481</td>
+</tr>
+<tr class="odd">
+<td align="left">PA</td>
+<td align="left">‘Pennsylvania’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">482.5</td>
+<td align="right">80089</td>
+<td align="right">12787085</td>
+<td align="right">0.0062633</td>
+</tr>
+<tr class="even">
+<td align="left">WV</td>
+<td align="left">‘West Virginia’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">472.0</td>
+<td align="right">11698</td>
+<td align="right">1828637</td>
+<td align="right">0.0063971</td>
+</tr>
+<tr class="odd">
+<td align="left">WI</td>
+<td align="left">‘Wisconsin’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">458.6</td>
+<td align="right">32688</td>
+<td align="right">5772917</td>
+<td align="right">0.0056623</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="add-a-vector-to-the-data-frame-specifying-what-will-be-revealed-via-hovering" class="section level3">
+<h3>Add a vector to the Data Frame specifying what will be revealed via hovering</h3>
+<pre class="r"><code>df$hover &lt;- with(df, paste(df$Area, df$Year,&quot;Sex:&quot;, df$Sex, &quot;Case count:&quot;, df$CaseCount, sep = &quot;&lt;br&gt;&quot;))</code></pre>
+<ul>
+<li>This is a very nice option.
+<ul>
+<li>You can create a vector (here we are calling it “hover”) that will be the contents displayed when you hover over the map
+<ul>
+<li>This “hover” vector needs to be specified in the <code>text =</code> part of the code below</li>
+</ul></li>
+</ul></li>
+</ul>
+<div id="view-the-first-2-rows-of-the-data-frame-df-with-hover-vector" class="section level4">
+<h4>View the first 2 rows of the data frame <code>df</code> with <code>hover</code> vector</h4>
+<pre class="r"><code>kable(head(df[1:2,]))</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">Code</th>
+<th align="left">Area</th>
+<th align="left">CancerType</th>
+<th align="left">Year</th>
+<th align="left">Sex</th>
+<th align="right">AgeAdjustedRate</th>
+<th align="right">CaseCount</th>
+<th align="right">Population</th>
+<th align="right">X</th>
+<th align="left">hover</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">NM</td>
+<td align="left">‘New Mexico’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">359.4</td>
+<td align="right">9075</td>
+<td align="right">2085432</td>
+<td align="right">0.0043516</td>
+<td align="left">‘New Mexico’<br>‘2016’<br>Sex:<br>‘Male and Female’<br>Case count:<br>9075</td>
+</tr>
+<tr class="even">
+<td align="left">AZ</td>
+<td align="left">‘Arizona’</td>
+<td align="left">‘All Types of Cancer’</td>
+<td align="left">‘2016’</td>
+<td align="left">‘Male and Female’</td>
+<td align="right">376.3</td>
+<td align="right">31443</td>
+<td align="right">6908642</td>
+<td align="right">0.0045513</td>
+<td align="left">‘Arizona’<br>‘2016’<br>Sex:<br>‘Male and Female’<br>Case count:<br>31443</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="plot-the-chloropleth-map" class="section level3">
+<h3>Plot the Chloropleth Map</h3>
+<pre class="r"><code># give state boundaries a white border
+l &lt;- list(color = toRGB(&quot;white&quot;), width = 2)
+# specify some map projection/options
+g &lt;- list(
+  scope = &#39;usa&#39;,
+  projection = list(type = &#39;albers usa&#39;),
+  showlakes = TRUE,
+  lakecolor = toRGB(&#39;steelblue&#39;)
+)
+
+p &lt;- plot_geo(df, locationmode = &#39;USA-states&#39;) %&gt;%
+  add_trace(
+    z = ~AgeAdjustedRate, text = ~hover, locations = df$Code,
+    color = ~AgeAdjustedRate, colors = &#39;Purples&#39;
+  ) %&gt;%
+  colorbar(title = &quot;Rate per 100,000 people&quot;) %&gt;%
+  layout(
+    title = &#39;US Cancer Statistics Rate of New Cancers- 2016 (Source: CDC and NCI)&#39;,
+    geo = g
+  )
+
+p</code></pre>
+<div id="htmlwidget-4" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4">{"x":{"visdat":{"219c3cd1faef":["function () ","plotlyVisDat"]},"cur_data":"219c3cd1faef","attrs":{"219c3cd1faef":{"locationmode":"USA-states","alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"z":{},"text":{},"locations":["NM","AZ","CA","CO","DC","NV","AK","HI","MA","OR","TX","UT","VA","WY","FL","ID","IN","MD","MI","MN","MO","NE","ND","OK","RI","SC","SD","TN","VT","WA","AL","AR","CT","DE","GA","IL","IA","KS","KY","LA","ME","MS","MT","NH","NJ","NY","NC","OH","PA","WV","WI"],"color":{},"colors":"Purples","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"mapType":"geo","scene":{"zaxis":{"title":"AgeAdjustedRate"}},"geo":{"domain":{"x":[0,1],"y":[0,1]},"scope":"usa","projection":{"type":"albers usa"},"showlakes":true,"lakecolor":"rgba(70,130,180,1)"},"hovermode":"closest","showlegend":false,"legend":{"yanchor":"top","y":0.5},"title":"US Cancer Statistics Rate of New Cancers- 2016 (Source: CDC and NCI)"},"source":"A","config":{"showSendToCloud":false},"data":[{"colorbar":{"title":"Rate per 100,000 people","ticklen":2,"len":0.5,"lenmode":"fraction","y":1,"yanchor":"top"},"colorscale":[["0","rgba(252,251,253,1)"],["0.0416666666666666","rgba(248,246,250,1)"],["0.0833333333333332","rgba(243,242,248,1)"],["0.125","rgba(239,237,245,1)"],["0.166666666666667","rgba(232,231,242,1)"],["0.208333333333333","rgba(225,224,238,1)"],["0.25","rgba(218,218,235,1)"],["0.291666666666667","rgba(208,208,230,1)"],["0.333333333333333","rgba(198,199,225,1)"],["0.375","rgba(188,189,220,1)"],["0.416666666666667","rgba(178,177,213,1)"],["0.458333333333333","rgba(168,166,207,1)"],["0.5","rgba(158,154,200,1)"],["0.541666666666667","rgba(148,144,195,1)"],["0.583333333333333","rgba(138,135,191,1)"],["0.625","rgba(128,125,186,1)"],["0.666666666666667","rgba(121,110,178,1)"],["0.708333333333333","rgba(114,96,171,1)"],["0.75","rgba(106,81,163,1)"],["0.791666666666667","rgba(99,67,156,1)"],["0.833333333333333","rgba(92,54,150,1)"],["0.875","rgba(84,39,143,1)"],["0.916666666666666","rgba(77,28,137,1)"],["0.958333333333333","rgba(70,16,131,1)"],["1","rgba(63,0,125,1)"]],"showscale":true,"locationmode":"USA-states","z":[359.4,376.3,385.6,388.8,378.3,385,405.8,414.2,404.2,405.3,391.8,390.6,413.3,402.3,419.3,439.2,443,440.9,436.8,455.7,446.3,446.4,448.7,447.9,450.6,440.9,449.5,455.7,442.4,445.1,457.8,469.6,465.5,487.2,468.8,462.8,473.6,457.3,509.7,473.1,473.4,465.8,456.6,480.9,474.8,474.8,458.4,456.1,482.5,472,458.6],"text":["'New Mexico'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>9075","'Arizona'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>31443","'California'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>164887","'Colorado'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>23244","'District of Columbia'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>2566","'Nevada'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>13054","'Alaska'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>2882","'Hawaii'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>7395","'Massachusetts'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>33626","'Oregon'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>20596","'Texas'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>109083","'Utah'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>10494","'Virginia'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>40322","'Wyoming'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>2775","'Florida'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>119408","'Idaho'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>8354","'Indiana'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>34260","'Maryland'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>30942","'Michigan'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>53911","'Minnesota'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>29619","'Missouri'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>33171","'Nebraska'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>9838","'North Dakota'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>3765","'Oklahoma'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>20167","'Rhode Island'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>5972","'South Carolina'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>27313","'South Dakota'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>4612","'Tennessee'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>36598","'Vermont'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>3681","'Washington'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>37378","'Alabama'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>27195","'Arkansas'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>17053","'Connecticut'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>21117","'Delaware'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>6001","'Georgia'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>52056","'Illinois'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>68954","'Iowa'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>18146","'Kansas'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>15312","'Kentucky'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>27137","'Louisiana'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>25451","'Maine'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>8901","'Mississippi'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>16265","'Montana'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>6194","'New Hampshire'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>8442","'New Jersey'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>51521","'New York'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>113026","'North Carolina'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>55394","'Ohio'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>65645","'Pennsylvania'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>80089","'West Virginia'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>11698","'Wisconsin'<br>'2016'<br>Sex:<br>'Male and Female'<br>Case count:<br>32688"],"locations":["NM","AZ","CA","CO","DC","NV","AK","HI","MA","OR","TX","UT","VA","WY","FL","ID","IN","MD","MI","MN","MO","NE","ND","OK","RI","SC","SD","TN","VT","WA","AL","AR","CT","DE","GA","IL","IA","KS","KY","LA","ME","MS","MT","NH","NJ","NY","NC","OH","PA","WV","WI"],"type":"choropleth","marker":{"line":{"colorbar":{"title":"","ticklen":2},"cmin":359.4,"cmax":509.7,"colorscale":[["0","rgba(252,251,253,1)"],["0.0416666666666666","rgba(248,246,250,1)"],["0.0833333333333332","rgba(243,242,248,1)"],["0.125","rgba(239,237,245,1)"],["0.166666666666667","rgba(232,231,242,1)"],["0.208333333333333","rgba(225,224,238,1)"],["0.25","rgba(218,218,235,1)"],["0.291666666666667","rgba(208,208,230,1)"],["0.333333333333333","rgba(198,199,225,1)"],["0.375","rgba(188,189,220,1)"],["0.416666666666667","rgba(178,177,213,1)"],["0.458333333333333","rgba(168,166,207,1)"],["0.5","rgba(158,154,200,1)"],["0.541666666666667","rgba(148,144,195,1)"],["0.583333333333333","rgba(138,135,191,1)"],["0.625","rgba(128,125,186,1)"],["0.666666666666667","rgba(121,110,178,1)"],["0.708333333333333","rgba(114,96,171,1)"],["0.75","rgba(106,81,163,1)"],["0.791666666666667","rgba(99,67,156,1)"],["0.833333333333333","rgba(92,54,150,1)"],["0.875","rgba(84,39,143,1)"],["0.916666666666666","rgba(77,28,137,1)"],["0.958333333333333","rgba(70,16,131,1)"],["1","rgba(63,0,125,1)"]],"showscale":false,"color":[359.4,376.3,385.6,388.8,378.3,385,405.8,414.2,404.2,405.3,391.8,390.6,413.3,402.3,419.3,439.2,443,440.9,436.8,455.7,446.3,446.4,448.7,447.9,450.6,440.9,449.5,455.7,442.4,445.1,457.8,469.6,465.5,487.2,468.8,462.8,473.6,457.3,509.7,473.1,473.4,465.8,456.6,480.9,474.8,474.8,458.4,456.1,482.5,472,458.6]}},"geo":"geo","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="sessioninfo" class="section level1">
+<h1>SessionInfo</h1>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] RCurl_1.95-4.12 bitops_1.0-6    httr_1.4.1      scales_1.1.0   
+##  [5] readxl_1.3.1    plotly_4.9.0    knitr_1.26      forcats_0.4.0  
+##  [9] stringr_1.4.0   dplyr_0.8.3     purrr_0.3.3     readr_1.3.1    
+## [13] tidyr_1.0.0     tibble_2.1.3    ggplot2_3.2.1   tidyverse_1.3.0
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.3         lubridate_1.7.4    lattice_0.20-38    assertthat_0.2.1  
+##  [5] digest_0.6.23      mime_0.7           R6_2.4.1           cellranger_1.1.0  
+##  [9] backports_1.1.5    reprex_0.3.0       evaluate_0.14      highr_0.8         
+## [13] blogdown_0.17.1    pillar_1.4.3       rlang_0.4.4        lazyeval_0.2.2    
+## [17] rstudioapi_0.10    data.table_1.12.6  rmarkdown_1.17     htmlwidgets_1.5.1 
+## [21] munsell_0.5.0      shiny_1.4.0        broom_0.5.2        compiler_3.6.1    
+## [25] httpuv_1.5.2       modelr_0.1.5       xfun_0.11          pkgconfig_2.0.3   
+## [29] htmltools_0.4.0    tidyselect_0.2.5   bookdown_0.16      fansi_0.4.1       
+## [33] viridisLite_0.3.0  crayon_1.3.4       dbplyr_1.4.2       withr_2.1.2       
+## [37] later_1.0.0        grid_3.6.1         xtable_1.8-4       nlme_3.1-140      
+## [41] jsonlite_1.6       gtable_0.3.0       lifecycle_0.1.0    DBI_1.0.0         
+## [45] magrittr_1.5       cli_2.0.1          stringi_1.4.5      farver_2.0.3      
+## [49] fs_1.3.1           promises_1.1.0     xml2_1.2.2         generics_0.0.2    
+## [53] vctrs_0.2.2        RColorBrewer_1.1-2 tools_3.6.1        glue_1.3.1        
+## [57] hms_0.5.2          crosstalk_1.0.0    fastmap_1.0.1      yaml_2.2.0        
+## [61] colorspace_1.4-1   rvest_0.3.5        haven_2.2.0</code></pre>
+</div>

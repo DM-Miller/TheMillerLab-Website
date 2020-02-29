@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Clinical Trials | Academic</title>
+    <link>/tags/clinical-trials/</link>
+      <atom:link href="/tags/clinical-trials/index.xml" rel="self" type="application/rss+xml" />
+    <description>Clinical Trials</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Thu, 28 Nov 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Clinical Trials</title>
+      <link>/tags/clinical-trials/</link>
+    </image>
+    
+    <item>
+      <title>Clinical Trials for Skin Cancer</title>
+      <link>/project/clinical-trials/</link>
+      <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/project/clinical-trials/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;We are involved with clinical studies to improve outcomes for patients with Skin Cancer&lt;/p&gt;
+&lt;h1 id=&#34;clinical-trials-in-merkel-cell-carcinoma&#34;&gt;Clinical Trials in Merkel Cell Carcinoma&lt;/h1&gt;
+&lt;p&gt;Dr. Miller is the MGH site Principal Investigator for 
+&lt;a href=&#34;https://clinicaltrials.gov/ct2/show/NCT03712605?term=pembrolizumab&amp;amp;cond=merkel&amp;#43;cell&amp;#43;carcinoma&amp;amp;draw=2&amp;amp;rank=5&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;STAMP: Surgically Treated Adjuvant Merkel Cell Carcinoma With Pembrolizumab, a Phase III Trial&lt;/a&gt;&lt;/p&gt;
+&lt;h1 id=&#34;clinical-trials-in-melanoma&#34;&gt;Clinical Trials in Melanoma&lt;/h1&gt;
+&lt;p&gt;Dr. Miller is a MGH sub-investigator for 
+&lt;a href=&#34;https://clinicaltrials.gov/ct2/show/NCT03272464?term=flaherty&amp;amp;cond=melanoma&amp;amp;draw=2&amp;amp;rank=1&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;INCB039110 in Combination With Dabrafenib and Trametinib in Patients With BRAF-mutant Melanoma and Other Solid Tumors&lt;/a&gt;&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>ECOG ACRIN Paul Carbone, MD Fellowship Award</title>
+      <link>/funding/ecog-acrin/</link>
+      <pubDate>Sun, 01 Jul 2018 09:30:00 +0000</pubDate>
+      <guid>/funding/ecog-acrin/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Recent therapeutic advancements in melanoma have significantly improved the prognosis for thousands of patients with this life-threatening disease. Identification of key driver mutations in melanoma - such as BRAF - has led to the discovery of oncogene-directed therapies that have profoundly changed the therapeutic landscape in melanoma. Indeed, the development of small-molecule inhibitors of BRAF (e.g. vemurafenib and dabrafenib) and its downstream partner MEK (e.g trametinib and cobimetinib) established a new therapeutic paradigm in the management of melanoma. Nevertheless, despite these recent advancements, the prognosis for patients with metastatic disease remains poor, as resistance to these approaches emerges in the majority of patients. Thus, additional management options are sorely needed. This proposed research is designed to test the hypothesis that targeting the recently identified RNF125-JAK1-AXL/EGFR axis will overcome resistance to BRAF/MEK-targeted therapy. To test this hypothesis, we will conduct an investigator-initiated, Phase Ib/single-arm phase II expansion study with the novel JAK1 inhibitor INCB039110 (INCB) in patients with metastatic BRAF-mutant melanoma co-administered with the BRAF inhibitor dabrafenib and the MEK inhibitor trametinib. We will also perform correlative studies using novel single-cell resolving technologies on pre- and post-treatment specimens to characterize the effects of targeting the RNF125-JAK1-AXL/EGFR axis on the tumor and its ecosystem in order to identify molecular and cellular determinants of resistance.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>American Skin Association Research Grant</title>
+      <link>/funding/asa/</link>
+      <pubDate>Mon, 01 Jan 2018 09:30:00 +0000</pubDate>
+      <guid>/funding/asa/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;Recent therapeutic advancements in melanoma have significantly improved the prognosis for thousands of patients with this life-threatening disease. Identification of key driver mutations in melanoma - such as BRAF - has led to the discovery of oncogene-directed therapies that have profoundly changed the therapeutic landscape in melanoma. Indeed, the development of small-molecule inhibitors of BRAF (e.g. vemurafenib and dabrafenib) and its downstream partner MEK (e.g trametinib and cobimetinib) established a new therapeutic paradigm in the management of melanoma. Nevertheless, despite these recent advancements, the prognosis for patients with metastatic disease remains poor, as resistance to these approaches emerges in the majority of patients. Thus, additional management options are sorely needed. This proposed research is designed to test the hypothesis that targeting the recently identified RNF125-JAK1-AXL/EGFR axis will overcome resistance to BRAF/MEK-targeted therapy. To test this hypothesis, we will conduct an investigator-initiated, Phase Ib/single-arm phase II expansion study with the novel JAK1 inhibitor INCB039110 (INCB) in patients with metastatic BRAF-mutant melanoma co-administered with the BRAF inhibitor dabrafenib and the MEK inhibitor trametinib. We will also perform correlative studies using novel single-cell resolving technologies on pre- and post-treatment specimens to characterize the effects of targeting the RNF125-JAK1-AXL/EGFR axis on the tumor and its ecosystem in order to identify molecular and cellular determinants of resistance.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

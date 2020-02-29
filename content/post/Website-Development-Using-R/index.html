@@ -1,0 +1,577 @@
+---
+title: "Communicating CT Research via Website Development with R"
+authors:
+- Sophia-Shalhout
+- admin
+date: "11/23/2019"
+output:
+  html_document:
+    df_print: paged
+    toc: yes
+    toc_depth: 3
+    toc_float: yes
+categories: []
+draft: false
+featured: false
+image:
+  caption: 'Photo by Clément H on Unsplash'
+  focal_point: ""
+  placement: 2
+  preview_only: false
+lastMod: "2019-12-31T00:00:00Z"
+projects: 
+- Data Science
+subtitle: 
+summary: This working document is a rough user guide on how to create a website using R via a package called `blogdown`
+tags: 
+- Data Science
+- Blogdown
+- Rstuio
+- Hugo Academic
+social:
+- icon: twitter
+  icon_pack: fab
+  link: https://twitter.com/TheMillerLab
+---
+
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<ul>
+<li>Almost everyone in Academia these days has a website. Indeed, websites are a fabulous way to post content and more effectively communicate your Clinical and Translational Research.<br />
+</li>
+<li>There are many tools and services that can assist you in developing a very functional website.<br />
+</li>
+<li>This working document is a rough user guide on how to create a website using R via a package called <code>blogdown</code>. It will also walk you through opening in account on Netlify, which will host your website.</li>
+<li>There are numerous resources for webpage development, including an amazing bookdown called “blogdown: Creating Websites with R Markdown” (<a href="https://bookdown.org/yihui/blogdown/" class="uri">https://bookdown.org/yihui/blogdown/</a>). We’ve created this resource as we have tried to provide details and pearls that we struggled with and we belive these may be helpful to others.</li>
+<li>This is a ongoing, ‘living’ document that is constantly being edited and expanded. Please provide comments to allow us to optimize this document for all R users.</li>
+</ul>
+</div>
+<div id="getting-started" class="section level1">
+<h1>Getting Started</h1>
+<div id="load-packages-for-rmarkdown" class="section level2">
+<h2>Load Packages for RMarkdown</h2>
+<pre class="r"><code>tinytex::install_tinytex()</code></pre>
+</div>
+<div id="github" class="section level2">
+<h2>Github</h2>
+<ol style="list-style-type: decimal">
+<li>Register a GitHub account (<a href="https://github.com" class="uri">https://github.com</a>)</li>
+<li>Create a new Repository (“+” sign in the upper right hand corner)<br />
+</li>
+<li>Create a name for the repo and remember this as it will be used<br />
+</li>
+<li>Copy the github repo address</li>
+</ol>
+</div>
+<div id="r" class="section level2">
+<h2>R</h2>
+<div id="starting-your-project" class="section level3">
+<h3>Starting Your Project</h3>
+<ol style="list-style-type: decimal">
+<li>Create a new project in R using version control<br />
+</li>
+</ol>
+<ul>
+<li>File -&gt; New Project -&gt; Version Control -&gt; Git (clone a project from a Git repository)<br />
+</li>
+<li>Enter the Git Repository URL:e.g. <a href="https://www.github.com/DM-Miller/themillerlab" class="uri">https://www.github.com/DM-Miller/themillerlab</a><br />
+</li>
+<li>Create Project (open in new session would be my recommendation<br />
+</li>
+</ul>
+<ol start="2" style="list-style-type: decimal">
+<li>Install blogdown</li>
+</ol>
+<pre class="r"><code>if (!requireNamespace(&quot;devtools&quot;)) install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;rstudio/blogdown&quot;)</code></pre>
+<ol start="3" style="list-style-type: decimal">
+<li>Load blogdown</li>
+</ol>
+<pre class="r"><code>library(blogdown)</code></pre>
+<ol start="4" style="list-style-type: decimal">
+<li>Create a new_site</li>
+</ol>
+<pre class="r"><code>new_site()</code></pre>
+<ul>
+<li>this will install Hugo and download new files<br />
+</li>
+<li>The default theme is lithium</li>
+<li>If you want a different one (e.g. hugo-academic) add the following into the function:</li>
+</ul>
+<pre class="r"><code>new_site(theme = &quot;gcushen/hugo-academic&quot;)</code></pre>
+<ul>
+<li>Once you do this it will download all of the necessary files into your working directory
+<ul>
+<li>for example:</li>
+</ul></li>
+</ul>
+<p><img src="images/hugo_academic_initial_download.png" /></p>
+</div>
+</div>
+</div>
+<div id="build-your-site" class="section level1">
+<h1>Build Your Site</h1>
+<div id="build_site" class="section level2">
+<h2>build_site()</h2>
+<p>Use the function <code>build_site()</code> in the <code>blogdown</code> package</p>
+<pre class="r"><code>blogdown::build_site()</code></pre>
+</div>
+<div id="serve_site" class="section level2">
+<h2>serve_site()</h2>
+<pre class="r"><code>blogdown::serve_site()</code></pre>
+<p>This function allows you to serve your website locally so you can view it in the “Viewer” tab in the “Files Plots Packages Help Viewer” pane
+## Commit Changes to GitHub
+1. Once you’ve set up your version control to github, each change that you make will be tracked by R. These changes will be cataloged in the Git Pane.</p>
+<p><img src="images/push_git_1.png" /></p>
+<ol start="2" style="list-style-type: decimal">
+<li>To commit them to GitHub, select all of the files and click on one of the check boxes.</li>
+</ol>
+<p><img src="images/push_git_2.png" /></p>
+<ol start="3" style="list-style-type: decimal">
+<li>Then click on the “Commit” button in teh above pane<br />
+</li>
+<li>That will bring up a new window which will allow you to review the changes you’ve made. Write a message in the “Commit Message” Box in order to annotate the changes.</li>
+</ol>
+<p><img src="images/push_git_3.png" />
+* Of note, these changes will show up in GitHub under “Commit”.</p>
+<p><img src="images/push_git_4.png" /></p>
+<ol start="5" style="list-style-type: decimal">
+<li>Then press “Commit”. After you do that a new window will pop up called “Git Commit”.</li>
+</ol>
+<p><img src="images/push_git_5.png" /></p>
+<ol start="6" style="list-style-type: decimal">
+<li>Then press “Close”. Press “Push” in the Review Changes Pane, which will push the changes to GitHub. This window will pop up. Once it has been pushed, press “Close”. That should be it.</li>
+</ol>
+<p><img src="images/push_git_6.png" /></p>
+</div>
+</div>
+<div id="netlify" class="section level1">
+<h1>Netlify</h1>
+<div id="overview-1" class="section level2">
+<h2>Overview</h2>
+<ul>
+<li>Netlify is a is a San Francisco-based cloud computing company that offers hosting and serverless backend services for static websites (source: <a href="https://en.wikipedia.org/wiki/Netlify" class="uri">https://en.wikipedia.org/wiki/Netlify</a>).<br />
+</li>
+<li>There are other options. We’ve used it to host our website.<br />
+</li>
+<li>Here are a few steps to get started:</li>
+</ul>
+<ol style="list-style-type: decimal">
+<li>Go to netlify (<a href="https://www.netlify.com" class="uri">https://www.netlify.com</a>) and sign up<br />
+</li>
+<li>We would recommend signing up with your GitHub account, especially if your are doing to deploy your website from this account<br />
+</li>
+<li>Launch a New Site from Git<br />
+</li>
+<li>Select Continuous Deployment from GitHub<br />
+</li>
+<li>Pick your GitHub Repository for which you want Continuous Deployment<br />
+</li>
+<li>Modify Settings (here’s an example)</li>
+</ol>
+<p><img src="images/netlify_deploy_site.png" />
+7. Select Deploy Site
+8. Select a Domain Name (you can purchase one from Netlify if it is available)</p>
+</div>
+</div>
+<div id="designing-a-website-using-hugo-academic" class="section level1">
+<h1>Designing a Website Using Hugo-Academic</h1>
+<div id="overview-2" class="section level2">
+<h2>Overview</h2>
+<ul>
+<li>Hugo-Academic is a very reasonable theme for a academic website
+<ul>
+<li>for an example see: <a href="https://www.themillerlab.io" class="uri">https://www.themillerlab.io</a></li>
+</ul></li>
+</ul>
+</div>
+<div id="configurating-the-website" class="section level2">
+<h2>Configurating the Website</h2>
+<div id="overview-3" class="section level3">
+<h3>Overview</h3>
+<ul>
+<li>There are several config files that you need to know about</li>
+</ul>
+<div id="config.toml" class="section level4">
+<h4>config.toml</h4>
+<ul>
+<li>This file is where you will create the Title of your website<br />
+# Title of your site<br />
+title = “The Miller Lab”</li>
+</ul>
+</div>
+<div id="menus.toml" class="section level4">
+<h4>menus.toml</h4>
+<ul>
+<li>Location
+<ul>
+<li>config/_default/menus.toml<br />
+</li>
+</ul></li>
+<li>This is where you will control which items go on the top menu ribbon on your website.</li>
+</ul>
+<p><img src="images/menu.ribbon.png" />
+* This is the default</p>
+<p>[[main]]<br />
+name = “Demo”<br />
+url = “#hero”<br />
+weight = 10</p>
+<p>[[main]]<br />
+name = “Posts”<br />
+url = “#posts”<br />
+weight = 20</p>
+<p>[[main]]<br />
+name = “Projects”<br />
+url = “#projects”<br />
+weight = 30</p>
+<p>[[main]]<br />
+name = “Publications”<br />
+url = “#featured”<br />
+weight = 40</p>
+<p>[[main]]<br />
+name = “Courses”<br />
+url = “courses/”<br />
+weight = 50</p>
+<p>[[main]]<br />
+name = “Contact”<br />
+url = “#contact”<br />
+weight = 60</p>
+</div>
+<div id="params.toml" class="section level4">
+<h4>params.toml</h4>
+<ul>
+<li>Location
+<ul>
+<li>config/_default/params.toml<br />
+</li>
+</ul></li>
+<li>This is where you will control which items such as
+<ul>
+<li>Logo</li>
+<li>Contact Details (email, addresses, etc)</li>
+<li>Social Media Details</li>
+<li>Configuration of publication pages</li>
+<li>Marketing such as Google Analytics</li>
+</ul></li>
+</ul>
+<p><img src="images/google_analytics.png" /></p>
+</div>
+</div>
+</div>
+<div id="widgets-in-hugo-academic" class="section level2">
+<h2>Widgets in Hugo Academic</h2>
+<div id="overview-4" class="section level3">
+<h3>Overview</h3>
+<ul>
+<li>The academic theme has lots of widgets; these are in your home folder; look fofr “active = “ and assign true or false depending on whether or not you want them “active = false” will hide the widget<br />
+</li>
+<li>The Hugo project uses +++ to denote demarcation for TOML documents. It is a way for them to have a single text file that consists of TOML in the “frontmatter” (document meta-data), and a second “document” that is the body of page content.</li>
+</ul>
+<span style="text-shadow: none;"><a class="github-button"   href="https://github.com/gcushen/hugo-academic"   data-icon="octicon-star" data-size="large"   data-show-count="true" aria-label="Star this on GitHub">Star</a>
+<script async defer   src="https://buttons.github.io/buttons.js"></script>
+<p></span></p>
+<p>Octicon-start and Get Started Clicker</p>
+</div>
+<div id="hero-widget" class="section level3">
+<h3>Hero widget</h3>
+<ul>
+<li>This is the first widget worth adjusting<br />
+</li>
+<li>This is where you change the title of the<br />
+</li>
+<li>Within the TOML, you can add text using<br />
+[cta_note]<br />
+label = ‘<a class="js-github-release"   href="https://sourcethemes.com/academic/updates"   data-repo="gcushen/hugo-academic">Latest release<!-- V --></a>’</li>
+</ul>
+<p>[cta]<br />
+url = “<a href="https://sourcethemes.com/academic/docs/install/" class="uri">https://sourcethemes.com/academic/docs/install/</a>”<br />
+label = “Get Started”<br />
+icon_pack = “fas”<br />
+icon = “download”</p>
+<p>[cta_alt]<br />
+url = “<a href="https://sourcethemes.com/academic/" class="uri">https://sourcethemes.com/academic/</a>”<br />
+label = “View Documentation”</p>
+</div>
+<div id="people-widget" class="section level3">
+<h3>People Widget</h3>
+<ul>
+<li>Under content -&gt; Home -&gt; people.md<br />
+</li>
+<li>This will allow you place a “Meet the Team” segment on the web page<br />
+</li>
+<li>User_groups = [ ] is key<br />
+</li>
+<li>Within the [ ] you should specify the names of the subfolders in the “authors”<br />
+</li>
+<li>For example
+<ul>
+<li>Choose which groups/teams of users to display.</li>
+<li>Edit <code>user_groups</code> in each user’s profile to add them to one or more of these groups.<br />
+</li>
+<li>user_groups = [“Fellows”, “Students”]<br />
+</li>
+<li>Fellows and Students are the strings that you use in the _index.md files within each persons folder. “Authors” wd -&gt; content -&gt; authors</li>
+<li>What I did was create a subfolder of each person in “Authors” wd -&gt; content -&gt; authors</li>
+<li>For example <code>wd -&gt; content -&gt; authors -&gt; John-Doe</code>
+<ul>
+<li>Then with the subfolder “John-Doe” the info for the site is placed in a .md or .Rmd file called <code>_index.md</code> or <code>_index.Rmd</code>.</li>
+<li>Then you list the person’s user-group accordingly and they will show up under that heading.<br />
+</li>
+<li>Within the `<code>_index.md</code> file, use the following</li>
+</ul></li>
+<li>authors:<br />
+</li>
+<li>John-Doe<br />
+</li>
+</ul></li>
+<li>Then when you want to “tag” that person in say a post or a talk, you can write “- John-Doe” in under the <code>authors:</code> section of the YAML in that specific posting or talk</li>
+</ul>
+</div>
+<div id="talk-widget" class="section level3">
+<h3>Talk Widget</h3>
+<ul>
+<li>To edit content go to content -&gt; talk
+<ul>
+<li>Then edit</li>
+</ul></li>
+<li><p>Example code that was embedded in default Talk widget page
+{{% alert note %}}<br />
+Click on the <strong>Slides</strong> button above to view the built-in slides feature.<br />
+{{% /alert %}}</p></li>
+<li>Slides can be added in a few ways:
+<ul>
+<li><strong>Create</strong> slides using Academic’s<br />
+<a href="https://sourcethemes.com/academic/docs/managing-content/#create-slides"><em>Slides</em></a> feature and link using <code>slides</code> parameter in the front matter of the talk file<br />
+</li>
+<li><strong>Upload</strong> an existing slide deck to <code>static/</code> and link using <code>url_slides</code> parameter in the front matter of the talk file</li>
+</ul></li>
+<li>Example from the miller lab website
+<ul>
+<li>I created a folder in “static” called “slides”</li>
+<li>Then I put the pdf of “MIG_3-1-19.pdf” in that folder<br />
+</li>
+<li>Then in the index.md file under content-&gt;talk-&gt;MIG_3-1-19 I used the following<br />
+url_slides: “slides/MIG_3-1-19.pdf”<br />
+</li>
+<li>I also removed “example” from line 29</li>
+<li>Slides: “ ”<br />
+</li>
+<li>This was key, otherwise it didn’t work</li>
+</ul></li>
+<li><p><strong>Embed</strong> your slides (e.g. Google Slides) or presentation video on this page using <a href="https://sourcethemes.com/academic/docs/writing-markdown-latex/">shortcodes</a>.</p></li>
+<li><p>Further talk details can easily be added to this page using <code>*Markdown* and $\rm \LaTeX$ math code.</code></p></li>
+<li>In the new folder you created you will need a index.md file and potentially a features.jpg<br />
+</li>
+<li><p>Then make edits the index.md prn</p></li>
+</ul>
+</div>
+<div id="projects-widget" class="section level3">
+<h3>Projects Widget</h3>
+<ul>
+<li>Md document is in the Home folder “projects.md”
+<ul>
+<li>content -&gt; home -&gt; projects.md<br />
+</li>
+</ul></li>
+<li>There is a built in mechanism to link your active projects</li>
+<li>The details for your project, however is located:
+<ul>
+<li>Content -&gt; project</li>
+<li>Within thei “project” folder you can add new subfolders of the different ongoing projects</li>
+</ul></li>
+<li>Toolbar
+<ul>
+<li>There is a tool bar feature that you can edit, e.g.<br />
+[[content.filter_button]]<br />
+name = “Data Science”<br />
+tag = “data-science”<br />
+</li>
+</ul></li>
+<li>projects subfolder
+<ul>
+<li>As mentioned above, the actual descriptions of the projects are in</li>
+<li>Content -&gt; project</li>
+<li>Here’s an example</li>
+<li>Content -&gt; project -&gt; data-science</li>
+</ul></li>
+<li>With the “data-science” subfolder, there are two key files
+<ul>
+<li>Featured.jpg (the picture that will be feature)<br />
+Index.md</li>
+</ul></li>
+<li>Index.md for projects
+<ul>
+<li>Here put the data you want in the YAML</li>
+</ul></li>
+<li>Pay attention to
+<ul>
+<li>Tags:</li>
+<li>-data-science</li>
+<li>This will link this file to the tool bar in the projects page</li>
+</ul></li>
+</ul>
+</div>
+<div id="talks-widget" class="section level3">
+<h3>Talks Widget</h3>
+<div id="overview-5" class="section level4">
+<h4>Overview</h4>
+<ul>
+<li>“Presentations” in the menu ribbon are edited with the talks widget<br />
+</li>
+<li>The content of those presentations is stored in the “talk” folder
+<ul>
+<li>Location of that folder: content/talk</li>
+</ul></li>
+<li>Then create new folders in that “talk” folder, each of which represents a new presentation that you’ve given</li>
+</ul>
+</div>
+<div id="below-is-the-canned-text-that-comes-as-a-default" class="section level4">
+<h4>Below is the canned Text that comes as a default</h4>
+<p>abstract: Lorem ipsum dolor sit amet</p>
+<p>address:<br />
+city: Stanford
+country: United States
+postcode: “94305”
+region: CA
+street: 450 Serra Mall<br />
+all_day: false<br />
+authors: []<br />
+date: “2018-06-01T13:00:00Z”<br />
+date_end: “2018-06-01T15:00:00Z”<br />
+event: Academic Theme Conference<br />
+event_url: <a href="https://example.org" class="uri">https://example.org</a><br />
+featured: false<br />
+image:<br />
+caption: ‘Image credit: <a href="https://unsplash.com/photos/bzdhc5b3Bxs"><strong>Unsplash</strong></a>’
+focal_point: Right<br />
+links:
+- icon: twitter
+icon_pack: fab
+name: Follow
+url: <a href="https://twitter.com/georgecushen" class="uri">https://twitter.com/georgecushen</a>
+location: Source Themes HQ
+math: true
+projects:
+- internal-project<br />
+publishDate: “2017-01-01T00:00:00Z”<br />
+slides: example<br />
+summary: An example talk using Academic’s Markdown slides feature.<br />
+tags: []<br />
+title: Example Talk<br />
+url_code: &quot;&quot;<br />
+url_pdf: &quot;&quot;<br />
+url_slides: &quot;&quot;<br />
+url_video: &quot;&quot;</p>
+<p>{{% alert note %}}
+Click on the <strong>Slides</strong> button above to view the built-in slides feature.
+{{% /alert %}}</p>
+<p>Slides can be added in a few ways:</p>
+<ul>
+<li><strong>Create</strong> slides using Academic’s <a href="https://sourcethemes.com/academic/docs/managing-content/#create-slides"><em>Slides</em></a> feature and link using <code>slides</code> parameter in the front matter of the talk file</li>
+<li><strong>Upload</strong> an existing slide deck to <code>static/</code> and link using <code>url_slides</code> parameter in the front matter of the talk file</li>
+<li><strong>Embed</strong> your slides (e.g. Google Slides) or presentation video on this page using <a href="https://sourcethemes.com/academic/docs/writing-markdown-latex/">shortcodes</a>.</li>
+</ul>
+<p>Further talk details can easily be added to this page using <code>*Markdown* and $\rm \LaTeX$ math code.</code></p>
+</div>
+</div>
+</div>
+<div id="other-pearls" class="section level2">
+<h2>Other Pearls</h2>
+<div id="links-in-hugo" class="section level3">
+<h3>Links in Hugo</h3>
+<ul>
+<li>The default Hugo target directory for your built website is public/
+<ul>
+<li>Therefore, if you want to link to a file with this format</li>
+<li><code>[Merkel Cell Carcinoma tumor Registry](MCC_Registry.Rmd)</code><br />
+</li>
+<li>Then the MCC_Registry.Rmd file must be in the public folder; this tripped me up for hours!</li>
+<li>This is considere a permalink</li>
+</ul></li>
+</ul>
+</div>
+<div id="netlify-toml" class="section level3">
+<h3>Netlify TOML</h3>
+<ul>
+<li>I Ran into a problem where I could not deploy from GitHub to Netlify<br />
+</li>
+<li>I ran the error message into google and Alison Hill recommended that I create a netlify.toml<br />
+</li>
+<li><a href="https://alison.rbind.io/post/2019-02-19-hugo-netlify-toml/" class="uri">https://alison.rbind.io/post/2019-02-19-hugo-netlify-toml/</a><br />
+</li>
+<li>The key was addint the hugo_version to the latest version I was workin on (see below)<br />
+</li>
+<li>Created netlify.toml in R in the workin directly (see content below)<br />
+</li>
+<li>I then pushed it to GitHub and was all set!</li>
+<li><p>This is the code I got from Alison Hill’s website</p>
+<p>[build]<br />
+publish = “public”<br />
+command = “hugo”</p>
+<p>[context.production.environment]<br />
+HUGO_VERSION = “0.59.1”<br />
+HUGO_ENV = “production”<br />
+HUGO_ENABLEGITINFO = “true”</p>
+<p>[context.branch-deploy.environment]<br />
+HUGO_VERSION = “0.59.1”</p>
+<p>[context.deploy-preview.environment]<br />
+HUGO_VERSION = “0.59.1”</p>
+<p>[context.deploy-preview]<br />
+command = “hugo -b $DEPLOY_PRIME_URL –buildFuture”</p>
+<p>[context.branch-deploy]<br />
+command = “hugo -b $DEPLOY_PRIME_URL –buildFuture”`</p></li>
+</ul>
+</div>
+<div id="adding-images-to-your-website" class="section level3">
+<h3>Adding images to your website</h3>
+<ul>
+<li>I added an img folder to the home folder and placed the file images in that folder<br />
+</li>
+<li>Then within the Rmd file within the home folder I used this code</li>
+<li><code>![](/img/DMM_pic.jpg)</code></li>
+</ul>
+</div>
+<div id="link-to-a-pdf-of-your-resumecv-from-the-menu" class="section level3">
+<h3>Link to a PDF of your resume/CV from the menu</h3>
+<ul>
+<li>To enable, copy your resume/CV to <code>static/files/cv.pdf</code> and uncomment the lines below<br />
+</li>
+<li>Direct the navigation bar to your CV by editing the menus.toml file
+<ul>
+<li>Wd -&gt; config -&gt; _default-&gt; menus.toml
+[[main]]<br />
+name = “CV”<br />
+url = “files/DMM_CV.pdf”<br />
+weight = 70</li>
+</ul></li>
+</ul>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## loaded via a namespace (and not attached):
+##  [1] compiler_3.6.1  magrittr_1.5    bookdown_0.16   tools_3.6.1    
+##  [5] htmltools_0.4.0 yaml_2.2.0      tinytex_0.17    Rcpp_1.0.3     
+##  [9] stringi_1.4.5   rmarkdown_1.17  blogdown_0.17.1 knitr_1.26     
+## [13] stringr_1.4.0   digest_0.6.23   xfun_0.11       rlang_0.4.4    
+## [17] evaluate_0.14</code></pre>
+</div>
+</div>
+<div id="posts" class="section level2">
+<h2>Posts</h2>
+<p>There is folder in called “post” in the &quot;content folder that allows you to post additional pages. Within that folder you can create various subfolders with their own index.md and featured.md. Of note, if you turn off the post widget, they can still show up on your people posting if you put in your YAML under authors: the appropriate label.</p>
+</div>
+</div>

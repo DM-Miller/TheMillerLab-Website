@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Biomarkers | Academic</title>
+    <link>/tags/biomarkers/</link>
+      <atom:link href="/tags/biomarkers/index.xml" rel="self" type="application/rss+xml" />
+    <description>Biomarkers</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 06 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Biomarkers</title>
+      <link>/tags/biomarkers/</link>
+    </image>
+    
+    <item>
+      <title>Cutaneous Oncology Research Fellow</title>
+      <link>/post/cutaneous-oncology-research-fellow/</link>
+      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
+      <guid>/post/cutaneous-oncology-research-fellow/</guid>
+      <description>&lt;p&gt;The Massachusetts General Hospital Cancer Center and the Department of Dermatology are offering a 1-2 year research fellowship in cutaneous oncology. This position will provide a unique experience in cutaneous oncology and will include roles in clinical investigation and translational research.&lt;/p&gt;
+&lt;p&gt;Please see the attached PDF for more information.&lt;/p&gt;
+&lt;p&gt;
+&lt;a href=&#34;./CORF-post.pdf&#34;&gt;Cutaneous Oncology Research Fellow Posting&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;Current Fellows&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;a href=&#34;https://www.themillerlab.io/authors/fellows/&#34; target=&#34;_blank&#34; rel=&#34;noopener&#34;&gt;Sophia Shalhout, PhD&lt;/a&gt;
+&lt;img src=&#34;/img/SZS.png&#34; alt=&#34;png&#34;&gt;&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Biomarkers of Response and Resistance to Cancer Therapy</title>
+      <link>/project/biomarkers/</link>
+      <pubDate>Wed, 27 Nov 2019 00:00:00 +0000</pubDate>
+      <guid>/project/biomarkers/</guid>
+      <description>&lt;h1 id=&#34;overview&#34;&gt;Overview&lt;/h1&gt;
+&lt;p&gt;We are investigating why patients respond - or fail to respond - to cancer therapies. Using biospecimen collection infrastructure at the Massachusetts General Hospital Cancer Center, we are collecting tissue on patients with advanced Skin Cancer in order to better understand why therapies work in certain patients, but not others.&lt;/p&gt;
+</description>
+    </item>
+    
+  </channel>
+</rss>

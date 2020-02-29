@@ -1,0 +1,2992 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="generator" content="Source Themes Academic 4.7.0">
+
+  
+
+  
+  
+  
+  
+  
+    
+    
+    
+  
+  
+
+  <meta name="author" content="David Michael Miller">
+
+  
+  
+  
+    
+  
+  <meta name="description" content="This working document is a user guide on how to create a Flexdashboards using R via a package called `flexdashboard`">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/flexdashboards/">
+
+  
+
+
+  
+  
+  
+  <meta name="theme-color" content="#2962ff">
+  
+
+  
+  
+
+  
+  
+  
+  
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.0-1/css/all.min.css" integrity="sha256-4w9DunooKSr3MFXHXWyFER38WmPdm361bQS/2KUWZbU=" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.css" integrity="sha256-Vzbj7sDDS/woiFS3uNKo8eIuni59rjyNGtXfstRzStA=" crossorigin="anonymous">
+
+    
+    
+    
+      
+    
+    
+      
+      
+        
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/github.min.css" crossorigin="anonymous" title="hl-light">
+          <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/styles/dracula.min.css" crossorigin="anonymous" title="hl-dark" disabled>
+        
+      
+    
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.css" integrity="sha256-SHMGCYmST46SoyGgo4YR/9AlK1vf3ff84Aq9yK4hdqM=" crossorigin="anonymous">
+    
+
+    
+
+    
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/lazysizes/5.1.2/lazysizes.min.js" integrity="sha256-Md1qLToewPeKjfAHU1zyPwOutccPAm5tahnaw7Osw0A=" crossorigin="anonymous" async></script>
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+      
+
+      
+      
+        
+      
+
+      
+    
+      
+
+      
+      
+
+      
+    
+
+  
+
+  
+  
+  
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700%7CRoboto:400,400italic,700%7CRoboto+Mono&display=swap">
+  
+
+  
+  
+  
+  
+  <link rel="stylesheet" href="/css/academic.css">
+
+  
+
+
+
+
+  
+
+
+  
+
+  <link rel="manifest" href="/index.webmanifest">
+  <link rel="icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_32x32_fill_lanczos_center_2.png">
+  <link rel="apple-touch-icon" type="image/png" href="/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png">
+
+  <link rel="canonical" href="/post/flexdashboards/">
+
+  
+  
+  
+  
+  
+    
+  
+  
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="og:site_name" content="Academic">
+  <meta property="og:url" content="/post/flexdashboards/">
+  <meta property="og:title" content="FlexDashboards for Clinical and Translational Research | Academic">
+  <meta property="og:description" content="This working document is a user guide on how to create a Flexdashboards using R via a package called `flexdashboard`"><meta property="og:image" content="/post/flexdashboards/featured.jpg">
+  <meta property="twitter:image" content="/post/flexdashboards/featured.jpg"><meta property="og:locale" content="en-us">
+  
+    
+    
+  
+
+  
+
+
+    
+
+
+
+
+
+
+  
+
+
+
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "/post/flexdashboards/"
+  },
+  "headline": "FlexDashboards for Clinical and Translational Research",
+  
+  "image": [
+    "/post/flexdashboards/featured.jpg"
+  ],
+  
+  "datePublished": "0001-01-01T00:00:00Z",
+  "dateModified": "0001-01-01T00:00:00Z",
+  
+  "author": {
+    "@type": "Person",
+    "name": "David Michael Miller"
+  },
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Academic",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "/images/icon_hu0b7a4cb9992c9ac0e91bd28ffd38dd00_9727_192x192_fill_lanczos_center_2.png"
+    }
+  },
+  "description": "This working document is a user guide on how to create a Flexdashboards using R via a package called `flexdashboard`"
+}
+</script>
+
+  
+
+  
+
+
+  
+
+
+  
+
+
+
+
+
+  <title>FlexDashboards for Clinical and Translational Research | Academic</title>
+
+</head>
+
+<body id="top" data-spy="scroll" data-offset="70" data-target="#TableOfContents" >
+
+  <aside class="search-results" id="search">
+  <div class="container">
+    <section class="search-header">
+
+      <div class="row no-gutters justify-content-between mb-3">
+        <div class="col-6">
+          <h1>Search</h1>
+        </div>
+        <div class="col-6 col-search-close">
+          <a class="js-search" href="#"><i class="fas fa-times-circle text-muted" aria-hidden="true"></i></a>
+        </div>
+      </div>
+
+      <div id="search-box">
+        
+        <input name="q" id="search-query" placeholder="Search..." autocapitalize="off"
+        autocomplete="off" autocorrect="off" spellcheck="false" type="search">
+        
+      </div>
+
+    </section>
+    <section class="section-search-results">
+
+      <div id="search-hits">
+        
+      </div>
+
+    </section>
+  </div>
+</aside>
+
+
+  
+
+
+
+
+
+
+
+<nav class="navbar navbar-expand-lg navbar-light compensate-for-scrollbar" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="d-none d-lg-inline-flex">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    <button type="button" class="navbar-toggler" data-toggle="collapse"
+            data-target="#navbar-content" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+    <span><i class="fas fa-bars"></i></span>
+    </button>
+    
+
+    
+    <div class="navbar-brand-mobile-wrapper d-inline-flex d-lg-none">
+      <a class="navbar-brand" href="/">Academic</a>
+    </div>
+    
+
+    
+    
+    <div class="navbar-collapse main-menu-item collapse justify-content-start" id="navbar-content">
+
+      
+      <ul class="navbar-nav d-md-inline-flex">
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#hero"><span>Demo</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#posts"><span>Posts</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#projects"><span>Projects</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#featured"><span>Publications</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/courses/"><span>Courses</span></a>
+        </li>
+
+        
+        
+
+        
+
+        
+        
+        
+          
+        
+
+        
+        
+        
+        
+        
+        
+          
+          
+          
+            
+          
+          
+        
+
+        <li class="nav-item">
+          <a class="nav-link " href="/#contact"><span>Contact</span></a>
+        </li>
+
+        
+        
+
+      
+
+        
+      </ul>
+    </div>
+
+    <ul class="nav-icons navbar-nav flex-row ml-auto d-flex pl-md-2">
+      
+      <li class="nav-item">
+        <a class="nav-link js-search" href="#"><i class="fas fa-search" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+      <li class="nav-item">
+        <a class="nav-link js-dark-toggle" href="#"><i class="fas fa-moon" aria-hidden="true"></i></a>
+      </li>
+      
+
+      
+
+    </ul>
+
+  </div>
+</nav>
+
+
+  <article class="article">
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+
+<div class="article-container pt-3">
+  <h1>FlexDashboards for Clinical and Translational Research</h1>
+
+  
+
+  
+
+
+<div class="article-metadata">
+
+  
+  
+  
+  
+  <div>
+    
+
+
+
+  
+  <span><a href="/authors/david-michael-miller/">David Michael Miller</a></span>, <span><a href="/authors/sophia-shalhout/">Sophia Shalhout</a></span>
+
+  </div>
+  
+  
+
+  
+  <span class="article-date">
+    
+    
+      
+    
+    Jan 1, 0001
+  </span>
+  
+
+  
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    13 min read
+  </span>
+  
+
+  
+  
+  
+
+  
+  
+
+</div>
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="btn-links mb-3">
+  
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+  
+  <a class="btn btn-outline-primary my-1 mr-1" href="/project/data-science/">
+    Project
+  </a>
+  
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+
+</div>
+
+
+<div class="article-header container featured-image-wrapper mt-4 mb-4" style="max-width: 1200px; max-height: 800px;">
+  <div style="position: relative">
+    <img src="/post/flexdashboards/featured_hu3d03a01dcc18bc5be0e67db3d8d209a6_1955855_1200x0_resize_q90_lanczos.jpg" alt="" class="featured-image">
+    <span class="article-header-caption">Photo by Luke Chesser on Unsplash</span>
+  </div>
+</div>
+
+
+
+  <div class="article-container">
+
+    <div class="article-style">
+      
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/plotly-binding/plotly.js"></script>
+<script src="/rmarkdown-libs/typedarray/typedarray.min.js"></script>
+<script src="/rmarkdown-libs/jquery/jquery.min.js"></script>
+<link href="/rmarkdown-libs/crosstalk/css/crosstalk.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/crosstalk/js/crosstalk.min.js"></script>
+<link href="/rmarkdown-libs/plotly-htmlwidgets-css/plotly-htmlwidgets.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/plotly-main/plotly-latest.min.js"></script>
+
+
+<div id="overview" class="section level1">
+<h1>Overview</h1>
+<ul>
+<li>This is a working document to provide a roadmap to create a FlexDashboard for Clinical Research<br />
+</li>
+<li>Of note, the data here is completly fabricated, any relation to real subjects is completely coincidental</li>
+<li>The purpose of a FlexDashboard is to present your data in way that enhances data intrepretation or to provide patients with comprehendable information depending on how you use the data</li>
+<li>There are many excellent tutorials on using the package <code>Flexdashboard</code> to create a dashboard; however, we still hit many roadblocks that we hope you can avoid if you follow our instructions and code<br />
+</li>
+<li>What we will show you next is the code we used to create the following Flesdashboard
+<img src="/img/MCC_fake_flexdashbboard.png" alt="png" /></li>
+</ul>
+</div>
+<div id="load-packages" class="section level1">
+<h1>Load Packages</h1>
+<pre class="r"><code>library(flexdashboard)
+library(RCurl)
+library(REDCapR)
+library(httr)
+library(tidyverse)
+library(knitr)
+library(plotly)
+library(readxl)
+library(scales)</code></pre>
+</div>
+<div id="format-of-flexdashboard" class="section level1">
+<h1>Format of Flexdashboard</h1>
+<ul>
+<li>The Flexdashboard package is build around RMarkdown<br />
+</li>
+<li>To start, you can open a new RMarkdown by
+<ul>
+<li>File -&gt; New File -&gt; RMarkdown</li>
+<li>Then go to “From Template” on the left hand column</li>
+<li>If you have installed <code>Flexdashboard</code> then Flexdashboard will be in the window that opens<br />
+</li>
+<li>Once you have selected Flexdashboard a new RMarkdown will open</li>
+<li>What is specific here is the YAML
+<ul>
+<li>The content between the three dashes in beginning of the RMarkdown</li>
+</ul></li>
+</ul></li>
+<li>This is the YAML for the Flexdashboard</li>
+</ul>
+<p>title: “Untitled”<br />
+output:<br />
+flexdashboard::flex_dashboard:<br />
+orientation: columns<br />
+vertical_layout: fill</p>
+<ul>
+<li>Then after the YAML, the Flexdashboard template is quite basic<br />
+</li>
+<li>You will generate code for the the three charts that you want displayed</li>
+<li>The template calls them Chart A, Chart B, Chart C.</li>
+<li>Each Chart is preceded by three <code>#</code>s and is flanked by a long series of dashes<br />
+</li>
+<li>You can then change the title from <code>Chart A</code> to the title you desire<br />
+</li>
+<li>Then following the Title, you have a “r chunk” that you use to generate your charts</li>
+</ul>
+</div>
+<div id="load-your-dataset" class="section level1">
+<h1>Load Your Dataset</h1>
+<ul>
+<li>This is a fabricated dataset in Excel, but has many features that resemble an actual rare disease cohort dataset</li>
+</ul>
+<pre class="r"><code>dt &lt;- read_excel(&quot;mcc_cohort_fake.xlsx&quot;)</code></pre>
+<pre><code>## New names:
+## * `` -&gt; ...5</code></pre>
+</div>
+<div id="view-dataset" class="section level1">
+<h1>View Dataset</h1>
+<pre class="r"><code>dt %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">record_id</th>
+<th align="left">redcap_repeat_instrument</th>
+<th align="left">redcap_repeat_instance</th>
+<th align="left">redcap_data_access_group</th>
+<th align="left">…5</th>
+<th align="right">age_at_dx</th>
+<th align="right">man_clinstage</th>
+<th align="right">man_pathstage</th>
+<th>t_stage n_stg_clin n_stg_path m_stage</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">60</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">64</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">71</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">72</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">36</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">88</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">60</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">24</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">64</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">26</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">71</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">27</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">72</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">28</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">29</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">30</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">31</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">32</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">99</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">33</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">36</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">34</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">35</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">36</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">37</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">38</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">39</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">88</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">41</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">42</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">43</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">44</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">45</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">46</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">47</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">60</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">48</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">49</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">64</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">50</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">71</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">51</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">72</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">52</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">53</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">54</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">23</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">55</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">56</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">99</td>
+<td align="right">4</td>
+<td align="right">4</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">57</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">36</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">58</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">59</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">60</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">60</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">61</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">62</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">64</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">63</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">71</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">64</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">72</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">65</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">66</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">67</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">23</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">68</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">69</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">70</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">71</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">72</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">73</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">74</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">75</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">76</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">88</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">77</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">78</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">98</td>
+<td align="right">98</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">79</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">36</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">80</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">81</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">82</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">NA</td>
+<td align="right">NA</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">83</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">84</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">99</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">85</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">36</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">86</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">87</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">65</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">88</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">68</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">89</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">90</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">58</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">91</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">88</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">92</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">93</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">55</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">94</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">74</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">95</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">78</td>
+<td align="right">4</td>
+<td align="right">5</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">96</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">72</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">97</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">77</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">98</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">76</td>
+<td align="right">2</td>
+<td align="right">2</td>
+<td>NA</td>
+</tr>
+<tr class="odd">
+<td align="right">99</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">87</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+<tr class="even">
+<td align="right">100</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="left">NA</td>
+<td align="right">62</td>
+<td align="right">3</td>
+<td align="right">3</td>
+<td>NA</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="age-at-diagnosis-chart" class="section level1">
+<h1>Age at Diagnosis Chart</h1>
+<div id="wrangle-data-for-age-at-diagnosis" class="section level2">
+<h2>Wrangle Data for Age at Diagnosis</h2>
+<pre class="r"><code>Age_at_Dx &lt;- dt %&gt;% select(record_id, age_at_dx) %&gt;% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects &lt;- &quot;subjects&quot; # add a column that unifies all the data (helpful for plotly)</code></pre>
+</div>
+</div>
+<div id="view-dataset-age-at-dx" class="section level1">
+<h1>View Dataset Age at Dx</h1>
+<pre class="r"><code>Age_at_Dx %&gt;% kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">record_id</th>
+<th align="right">age_at_dx</th>
+<th align="left">subjects</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">60</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">64</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">71</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">5</td>
+<td align="right">72</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">6</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">7</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">23</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">9</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">10</td>
+<td align="right">99</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">11</td>
+<td align="right">36</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">13</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">14</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">15</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">17</td>
+<td align="right">88</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">18</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">19</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">21</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">22</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">23</td>
+<td align="right">60</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">24</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">25</td>
+<td align="right">64</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">26</td>
+<td align="right">71</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">27</td>
+<td align="right">72</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">28</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">29</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">30</td>
+<td align="right">23</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">31</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">32</td>
+<td align="right">99</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">33</td>
+<td align="right">36</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">34</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">35</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">36</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">37</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">38</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">39</td>
+<td align="right">88</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">40</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">41</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">42</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">43</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">44</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">45</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">46</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">47</td>
+<td align="right">60</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">48</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">49</td>
+<td align="right">64</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">50</td>
+<td align="right">71</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">51</td>
+<td align="right">72</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">52</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">53</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">54</td>
+<td align="right">23</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">55</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">56</td>
+<td align="right">99</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">57</td>
+<td align="right">36</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">58</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">59</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">60</td>
+<td align="right">60</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">61</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">62</td>
+<td align="right">64</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">63</td>
+<td align="right">71</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">64</td>
+<td align="right">72</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">65</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">66</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">67</td>
+<td align="right">23</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">68</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">69</td>
+<td align="right">99</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">70</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">71</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">72</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">73</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">74</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">75</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">76</td>
+<td align="right">88</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">77</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">78</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">79</td>
+<td align="right">36</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">80</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">81</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">82</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">83</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">84</td>
+<td align="right">99</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">85</td>
+<td align="right">36</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">86</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">87</td>
+<td align="right">65</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">88</td>
+<td align="right">68</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">89</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">90</td>
+<td align="right">58</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">91</td>
+<td align="right">88</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">92</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">93</td>
+<td align="right">55</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">94</td>
+<td align="right">74</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">95</td>
+<td align="right">78</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">96</td>
+<td align="right">72</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">97</td>
+<td align="right">77</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">98</td>
+<td align="right">76</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="odd">
+<td align="right">99</td>
+<td align="right">87</td>
+<td align="left">subjects</td>
+</tr>
+<tr class="even">
+<td align="right">100</td>
+<td align="right">62</td>
+<td align="left">subjects</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div id="graph-your-data" class="section level1">
+<h1>Graph your Data</h1>
+<div id="plotly-graph-of-age-at-diagnosis" class="section level2">
+<h2>Plotly Graph of Age at Diagnosis</h2>
+<pre class="r"><code>plot_ly(data = Age_at_Dx, type = &quot;box&quot;) %&gt;% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = &quot;all&quot;, jitter = 0.3, pointpos = -1.8,
+              marker = list(color = &#39;rgb(7,40,89)&#39;),
+              line = list(color = &#39;rgb(7,40,89)&#39;),
+              color = I(&quot;steelblue4&quot;),
+              name = &quot;MGH-HCC Cohort&quot;) %&gt;% 
+  layout(title = &quot;Age at Diagnosis of MCC&quot;)</code></pre>
+<pre><code>## Warning: Can&#39;t display both discrete &amp; non-discrete data on same axis</code></pre>
+<div id="htmlwidget-1" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"visdat":{"21836622399e":["function () ","plotlyVisDat"]},"cur_data":"21836622399e","attrs":{"21836622399e":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box"},"21836622399e.1":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"type":"box","x":["subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects"],"y":[60,65,64,71,72,74,58,23,55,99,36,62,65,68,74,58,88,55,55,74,62,65,60,65,64,71,72,74,58,23,55,99,36,62,65,68,74,58,88,55,55,74,62,65,68,55,60,65,64,71,72,74,58,23,55,99,36,62,65,60,65,64,71,72,74,58,23,55,99,74,62,65,68,74,58,88,55,55,36,62,65,68,55,99,36,62,65,68,74,58,88,55,55,74,78,72,77,76,87,62],"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"marker":{"color":"rgb(7,40,89)"},"line":{"color":"rgb(7,40,89)"},"color":["steelblue4"],"name":"MGH-HCC Cohort","inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Age at Diagnosis of MCC","xaxis":{"domain":[0,1],"automargin":true,"title":[]},"yaxis":{"domain":[0,1],"automargin":true,"title":[]},"hovermode":"closest","showlegend":true},"source":"A","config":{"showSendToCloud":false},"data":[{"fillcolor":"rgba(31,119,180,0.5)","type":"box","marker":{"color":"rgba(31,119,180,1)","line":{"color":"rgba(31,119,180,1)"}},"line":{"color":"rgba(31,119,180,1)"},"xaxis":"x","yaxis":"y","frame":null},{"fillcolor":"rgba(54,100,139,0.5)","type":"box","x":["subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects","subjects"],"y":[60,65,64,71,72,74,58,23,55,99,36,62,65,68,74,58,88,55,55,74,62,65,60,65,64,71,72,74,58,23,55,99,36,62,65,68,74,58,88,55,55,74,62,65,68,55,60,65,64,71,72,74,58,23,55,99,36,62,65,60,65,64,71,72,74,58,23,55,99,74,62,65,68,74,58,88,55,55,36,62,65,68,55,99,36,62,65,68,74,58,88,55,55,74,78,72,77,76,87,62],"boxpoints":"all","jitter":0.3,"pointpos":-1.8,"marker":{"color":"rgb(7,40,89)","line":{"color":"rgba(54,100,139,1)"}},"line":{"color":"rgb(7,40,89)"},"name":"MGH-HCC Cohort","xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<div id="bar-chart-of-stage-of-diagnosis" class="section level1">
+<h1>Bar Chart of Stage of Diagnosis</h1>
+<pre class="r"><code>cStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_clinstage) %&gt;% filter(man_clinstage &lt; 98)
+cStageDF &lt;- cStage %&gt;% group_by(man_clinstage) %&gt;% tally()
+plot_ly(data = cStageDF) %&gt;% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Clinical Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Clincal Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;III&quot;, &quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4)))</code></pre>
+<div id="htmlwidget-2" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2">{"x":{"visdat":{"21837ec94131":["function () ","plotlyVisDat"]},"cur_data":"21837ec94131","attrs":{"21837ec94131":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[0,1,2,3,4],"y":[27,23,4,26,12],"type":"bar","color":["steelblue4"],"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Clinical Stage at Presentation","yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Subjects"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Clincal Stage","ticktext":["I","IIA","IIB","III","IV"],"tickvals":[0,1,2,3,4]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[0,1,2,3,4],"y":[27,23,4,26,12],"type":"bar","marker":{"color":"rgba(54,100,139,1)","line":{"color":"rgba(54,100,139,1)"}},"textfont":{"color":"rgba(54,100,139,1)"},"error_y":{"color":"rgba(54,100,139,1)"},"error_x":{"color":"rgba(54,100,139,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+</div>
+<div id="barchart-of-pathological-staging-at-diagnosis" class="section level1">
+<h1>BarChart of Pathological Staging at Diagnosis</h1>
+<pre class="r"><code>pStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_pathstage) %&gt;% filter(man_pathstage &lt; 6)
+pStageDF &lt;- pStage %&gt;% group_by(man_pathstage) %&gt;% tally()
+plot_ly(data = pStageDF) %&gt;% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Pathological Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Pathological Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;IIIA&quot;, &quot;IIIB&quot;,&quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4, 5)))</code></pre>
+<div id="htmlwidget-3" style="width:672px;height:480px;" class="plotly html-widget"></div>
+<script type="application/json" data-for="htmlwidget-3">{"x":{"visdat":{"218313ded422":["function () ","plotlyVisDat"]},"cur_data":"218313ded422","attrs":{"218313ded422":{"alpha_stroke":1,"sizes":[10,100],"spans":[1,20],"x":[0,1,2,3,4,5],"y":[27,23,4,26,7,5],"type":"bar","color":["steelblue4"],"inherit":true}},"layout":{"margin":{"b":40,"l":60,"t":25,"r":10},"title":"Pathological Stage at Presentation","yaxis":{"domain":[0,1],"automargin":true,"title":"Number of Subjects"},"xaxis":{"domain":[0,1],"automargin":true,"title":"Pathological Stage","ticktext":["I","IIA","IIB","IIIA","IIIB","IV"],"tickvals":[0,1,2,3,4,5]},"hovermode":"closest","showlegend":false},"source":"A","config":{"showSendToCloud":false},"data":[{"x":[0,1,2,3,4,5],"y":[27,23,4,26,7,5],"type":"bar","marker":{"color":"rgba(54,100,139,1)","line":{"color":"rgba(54,100,139,1)"}},"textfont":{"color":"rgba(54,100,139,1)"},"error_y":{"color":"rgba(54,100,139,1)"},"error_x":{"color":"rgba(54,100,139,1)"},"xaxis":"x","yaxis":"y","frame":null}],"highlight":{"on":"plotly_click","persistent":false,"dynamic":false,"selectize":false,"opacityDim":0.2,"selected":{"opacity":1},"debounce":0},"shinyEvents":["plotly_hover","plotly_click","plotly_selected","plotly_relayout","plotly_brushed","plotly_brushing","plotly_clickannotation","plotly_doubleclick","plotly_deselect","plotly_afterplot"],"base_url":"https://plot.ly"},"evals":[],"jsHooks":[]}</script>
+<hr />
+<div id="recapitulate-the-rmarkdown-with-the-flexdashboard-template" class="section level3">
+<h3>Recapitulate the RMarkdown with the Flexdashboard Template</h3>
+<ul>
+<li>What we have above is a step by step of what the data looks like to generate the Flexddashboard and essentially all of the code used to generate the figures<br />
+</li>
+<li>What we have below is a more direct representation of where you would put that code to generate the following Flexdashboard
+<img src="/img/MCC_fake_flexdashbboard.png" alt="png" /></li>
+<li>You will see essentially 3 r chunks and all of the code used placed into those three; including the code to load the data, that can go in the first code chunk under the ### Chart A section</li>
+</ul>
+</div>
+<div id="column-data-width650" class="section level2">
+<h2><code>Column {data-width=650}</code></h2>
+<div id="chart-a---age-at-diagnosis" class="section level3">
+<h3>Chart A - Age at Diagnosis</h3>
+<pre class="r"><code>dt &lt;- read_excel(&quot;mcc_cohort_fake.xlsx&quot;) # Load the data
+Age_at_Dx &lt;- dt %&gt;% select(record_id, age_at_dx) %&gt;% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects &lt;- &quot;subjects&quot; # add a column that unifies all the data (helpful for plotly)
+Age_at_Dx %&gt;% kable
+plot_ly(data = Age_at_Dx, type = &quot;box&quot;) %&gt;% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = &quot;all&quot;, jitter = 0.3, pointpos = -1.8,
+              marker = list(color = &#39;rgb(7,40,89)&#39;),
+              line = list(color = &#39;rgb(7,40,89)&#39;),
+              color = I(&quot;steelblue4&quot;),
+              name = &quot;MGH-HCC Cohort&quot;) %&gt;% 
+  layout(title = &quot;Age at Diagnosis of MCC&quot;)</code></pre>
+</div>
+</div>
+<div id="column-data-width350" class="section level2">
+<h2><code>Column {data-width=350}</code></h2>
+<div id="chart-b---clinical-stage-at-diagnosis" class="section level3">
+<h3>Chart B - Clinical Stage at Diagnosis</h3>
+<pre class="r"><code>cStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_clinstage) %&gt;% filter(man_clinstage &lt; 98)
+cStageDF &lt;- cStage %&gt;% group_by(man_clinstage) %&gt;% tally()
+plot_ly(data = cStageDF) %&gt;% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Clinical Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Clincal Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;III&quot;, &quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4)))</code></pre>
+</div>
+<div id="chart-c---pathological-stage-at-diagnosis" class="section level3">
+<h3>Chart C - Pathological Stage at Diagnosis</h3>
+<pre class="r"><code>pStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_pathstage) %&gt;% filter(man_pathstage &lt; 6)
+pStageDF &lt;- pStage %&gt;% group_by(man_pathstage) %&gt;% tally()
+plot_ly(data = pStageDF) %&gt;% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Pathological Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Pathological Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;IIIA&quot;, &quot;IIIB&quot;,&quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4, 5)))</code></pre>
+<p><strong>This is what that RMarkdown looks like with the FlexDashbaord Template</strong>
+<img src="/img/MCC_fake_dash_template.png" alt="png" /></p>
+</div>
+<div id="if-you-have-many-charts-that-you-would-like-to-include-on-your-dashboard-you-may-want-to-divide-the-dashboard-into-multiple-pages.-each-page-is-defined-by-a-level-1-markdown-header-and-will-have-an-individual-navigation-tab." class="section level3">
+<h3>If you have many charts that you would like to include on your dashboard, you may want to divide the dashboard into multiple pages. Each page is defined by a level 1 markdown header, (=========), and will have an individual navigation tab.</h3>
+<ul>
+<li>For example, in the data shown above, we may want to have age of diagnosis of MCC on a page by itself, and the clinical and pathological staging on a second page in the dashboard.</li>
+</ul>
+</div>
+</div>
+</div>
+<div id="page-1-age-at-diagnosis-of-mcc" class="section level1">
+<h1>PAGE 1: Age at Diagnosis of MCC</h1>
+<div id="chart-a---age-at-diagnosis-of-mcc" class="section level3">
+<h3>Chart A - Age at Diagnosis of MCC</h3>
+<pre class="r"><code>dt &lt;- read_excel(&quot;mcc_cohort_fake.xlsx&quot;) # Load the data
+Age_at_Dx &lt;- dt %&gt;% select(record_id, age_at_dx) %&gt;% drop_na(age_at_dx) # drop_na is a good function to eliminate rows that have missing values
+Age_at_Dx$subjects &lt;- &quot;subjects&quot; # add a column that unifies all the data (helpful for plotly)
+Age_at_Dx %&gt;% kable
+plot_ly(data = Age_at_Dx, type = &quot;box&quot;) %&gt;% 
+  add_boxplot(x = Age_at_Dx$subjects, y = Age_at_Dx$age_at_dx, 
+              boxpoints = &quot;all&quot;, jitter = 0.3, pointpos = -1.8,
+              marker = list(color = &#39;rgb(7,40,89)&#39;),
+              line = list(color = &#39;rgb(7,40,89)&#39;),
+              color = I(&quot;steelblue4&quot;),
+              name = &quot;MGH-HCC Cohort&quot;) %&gt;% 
+  layout(title = &quot;Age at Diagnosis of MCC&quot;)</code></pre>
+</div>
+</div>
+<div id="page-2-staging-of-mcc" class="section level1">
+<h1>PAGE 2: Staging of MCC</h1>
+<div id="column-data-width350-1" class="section level2">
+<h2>Column {data-width=350}`</h2>
+<div id="chart-b---clinical-stage-at-diagnosis-of-mcc" class="section level3">
+<h3>Chart B - Clinical Stage at Diagnosis of MCC</h3>
+<pre class="r"><code>cStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_clinstage) %&gt;% filter(man_clinstage &lt; 98)
+cStageDF &lt;- cStage %&gt;% group_by(man_clinstage) %&gt;% tally()
+plot_ly(data = cStageDF) %&gt;% 
+  add_bars(x = cStageDF$man_clinstage, y = cStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Clinical Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Clincal Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;III&quot;, &quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4)))</code></pre>
+</div>
+<div id="chart-c---pathological-stage-at-diagnosis-of-mcc" class="section level3">
+<h3>Chart C - Pathological Stage at Diagnosis of MCC</h3>
+<pre class="r"><code>pStage &lt;-dt %&gt;% select(record_id, man_clinstage, man_pathstage) %&gt;% drop_na(man_pathstage) %&gt;% filter(man_pathstage &lt; 6)
+pStageDF &lt;- pStage %&gt;% group_by(man_pathstage) %&gt;% tally()
+plot_ly(data = pStageDF) %&gt;% 
+  add_bars(x = pStageDF$man_pathstage, y = pStageDF$n,
+           color = I(&quot;steelblue4&quot;)) %&gt;% 
+  layout(
+    title = &quot;Pathological Stage at Presentation&quot;,
+    yaxis = list(title = &quot;Number of Subjects&quot;),
+    xaxis = list(title = &quot;Pathological Stage&quot;, ticktext = list(&quot;I&quot;, &quot;IIA&quot;, &quot;IIB&quot;, &quot;IIIA&quot;, &quot;IIIB&quot;,&quot;IV&quot;), tickvals = list(0, 1, 2, 3, 4, 5)))</code></pre>
+<p><strong>This is what page 1 of the dashboard now looks like.</strong>
+<img src="/img/Page1.png" alt="png" />
+<strong>And this is what page 2 of the dashboard now looks like.</strong>
+<img src="/img/Page2.png" alt="png" />
+# Session Info</p>
+<pre class="r"><code>sessionInfo()</code></pre>
+<pre><code>## R version 3.6.1 (2019-07-05)
+## Platform: x86_64-apple-darwin15.6.0 (64-bit)
+## Running under: macOS Mojave 10.14.6
+## 
+## Matrix products: default
+## BLAS:   /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRblas.0.dylib
+## LAPACK: /Library/Frameworks/R.framework/Versions/3.6/Resources/lib/libRlapack.dylib
+## 
+## locale:
+## [1] en_US.UTF-8/en_US.UTF-8/en_US.UTF-8/C/en_US.UTF-8/en_US.UTF-8
+## 
+## attached base packages:
+## [1] stats     graphics  grDevices utils     datasets  methods   base     
+## 
+## other attached packages:
+##  [1] scales_1.1.0          readxl_1.3.1          plotly_4.9.0         
+##  [4] knitr_1.26            forcats_0.4.0         stringr_1.4.0        
+##  [7] dplyr_0.8.3           purrr_0.3.3           readr_1.3.1          
+## [10] tidyr_1.0.0           tibble_2.1.3          ggplot2_3.2.1        
+## [13] tidyverse_1.3.0       httr_1.4.1            REDCapR_0.10.2       
+## [16] RCurl_1.95-4.12       bitops_1.0-6          flexdashboard_0.5.1.1
+## 
+## loaded via a namespace (and not attached):
+##  [1] Rcpp_1.0.3        lubridate_1.7.4   lattice_0.20-38   assertthat_0.2.1 
+##  [5] digest_0.6.23     mime_0.7          R6_2.4.1          cellranger_1.1.0 
+##  [9] backports_1.1.5   reprex_0.3.0      evaluate_0.14     highr_0.8        
+## [13] blogdown_0.17.1   pillar_1.4.3      rlang_0.4.4       lazyeval_0.2.2   
+## [17] rstudioapi_0.10   data.table_1.12.6 rmarkdown_1.17    htmlwidgets_1.5.1
+## [21] munsell_0.5.0     shiny_1.4.0       broom_0.5.2       httpuv_1.5.2     
+## [25] compiler_3.6.1    modelr_0.1.5      xfun_0.11         pkgconfig_2.0.3  
+## [29] htmltools_0.4.0   tidyselect_0.2.5  bookdown_0.16     fansi_0.4.1      
+## [33] viridisLite_0.3.0 later_1.0.0       crayon_1.3.4      dbplyr_1.4.2     
+## [37] withr_2.1.2       grid_3.6.1        xtable_1.8-4      nlme_3.1-140     
+## [41] jsonlite_1.6      gtable_0.3.0      lifecycle_0.1.0   DBI_1.0.0        
+## [45] magrittr_1.5      cli_2.0.1         stringi_1.4.5     promises_1.1.0   
+## [49] fs_1.3.1          xml2_1.2.2        ellipsis_0.3.0    generics_0.0.2   
+## [53] vctrs_0.2.2       tools_3.6.1       glue_1.3.1        hms_0.5.2        
+## [57] crosstalk_1.0.0   fastmap_1.0.1     yaml_2.2.0        colorspace_1.4-1 
+## [61] rvest_0.3.5       haven_2.2.0</code></pre>
+</div>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+
+
+
+<div class="article-tags">
+  
+  <a class="badge badge-light" href="/tags/flexdashboard/">FlexDashboard</a>
+  
+  <a class="badge badge-light" href="/tags/data-science/">Data Science</a>
+  
+</div>
+
+
+
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://twitter.com/intent/tweet?url=/post/flexdashboards/&amp;text=FlexDashboards%20for%20Clinical%20and%20Translational%20Research" target="_blank" rel="noopener" class="share-btn-twitter">
+          <i class="fab fa-twitter"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.facebook.com/sharer.php?u=/post/flexdashboards/&amp;t=FlexDashboards%20for%20Clinical%20and%20Translational%20Research" target="_blank" rel="noopener" class="share-btn-facebook">
+          <i class="fab fa-facebook"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="mailto:?subject=FlexDashboards%20for%20Clinical%20and%20Translational%20Research&amp;body=/post/flexdashboards/" target="_blank" rel="noopener" class="share-btn-email">
+          <i class="fas fa-envelope"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://www.linkedin.com/shareArticle?url=/post/flexdashboards/&amp;title=FlexDashboards%20for%20Clinical%20and%20Translational%20Research" target="_blank" rel="noopener" class="share-btn-linkedin">
+          <i class="fab fa-linkedin-in"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://web.whatsapp.com/send?text=FlexDashboards%20for%20Clinical%20and%20Translational%20Research%20/post/flexdashboards/" target="_blank" rel="noopener" class="share-btn-whatsapp">
+          <i class="fab fa-whatsapp"></i>
+        </a>
+      </li>
+    
+      
+      
+      
+        
+      
+      
+      
+      <li>
+        <a href="https://service.weibo.com/share/share.php?url=/post/flexdashboards/&amp;title=FlexDashboards%20for%20Clinical%20and%20Translational%20Research" target="_blank" rel="noopener" class="share-btn-weibo">
+          <i class="fab fa-weibo"></i>
+        </a>
+      </li>
+    
+  </ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+  
+
+
+
+
+
+
+  
+  
+  
+  
+  
+  <div class="media author-card content-widget-hr">
+    
+
+    <div class="media-body">
+      <h5 class="card-title"><a href="/authors/david-michael-miller/"></a></h5>
+      
+      
+      <ul class="network-icon" aria-hidden="true">
+  
+</ul>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+
+  
+  
+  <div class="article-widget content-widget-hr">
+    <h3>Related</h3>
+    <ul>
+      
+      <li><a href="/post/cutaneous-oncology-research-fellow/">Cutaneous Oncology Research Fellow</a></li>
+      
+      <li><a href="/project/data-science/">Data Science Tool Development</a></li>
+      
+      <li><a href="/post/website-development-using-r/">Communicating CT Research via Website Development with R</a></li>
+      
+      <li><a href="/post/plotly/">Create Interactive Data Visualization with Plotly in R</a></li>
+      
+      <li><a href="/post/swimmer_plots/">Graphical Representation of Survival - Swimmer Plots for Clinical Trials in Clinical Oncology</a></li>
+      
+    </ul>
+  </div>
+  
+
+
+
+  </div>
+</article>
+
+      
+
+    
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.4/imagesloaded.pkgd.min.js" integrity="sha256-lqvxZrPLtfffUl2G/e7szqSvPBILGbwmsGE1MKlOi0Q=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.6/isotope.pkgd.min.js" integrity="sha256-CBrpuqrMhXwcLLUd5tvQ4euBHCdh7wGlDfNz8vbu/iI=" crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.5.7/jquery.fancybox.min.js" integrity="sha256-yt2kYMy0w8AbtF89WXb2P1rfjcP/HTHLT7097U8Y5b8=" crossorigin="anonymous"></script>
+
+      
+
+      
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/highlight.min.js" integrity="sha256-1zu+3BnLYV9LdiY85uXMzii3bdrkelyp37e0ZyTAQh0=" crossorigin="anonymous"></script>
+        
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.15.10/languages/r.min.js"></script>
+        
+      
+
+    
+
+    
+    
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.5.1/leaflet.js" integrity="sha256-EErZamuLefUnbMBQbsEqu1USa+btR2oIlCpBJbyD4/g=" crossorigin="anonymous"></script>
+    
+
+    
+    
+    <script>const code_highlighting = true;</script>
+    
+
+    
+    
+    <script>const isSiteThemeDark = false;</script>
+    
+
+    
+    
+    
+    
+    
+    
+    <script>
+      const search_config = {"indexURI":"/index.json","minLength":1,"threshold":0.3};
+      const i18n = {"no_results":"No results found","placeholder":"Search...","results":"results found"};
+      const content_type = {
+        'post': "Posts",
+        'project': "Projects",
+        'publication' : "Publications",
+        'talk' : "Talks"
+        };
+    </script>
+    
+
+    
+    
+
+    
+    
+    <script id="search-hit-fuse-template" type="text/x-template">
+      <div class="search-hit" id="summary-{{key}}">
+      <div class="search-hit-content">
+        <div class="search-hit-name">
+          <a href="{{relpermalink}}">{{title}}</a>
+          <div class="article-metadata search-hit-type">{{type}}</div>
+          <p class="search-hit-description">{{snippet}}</p>
+        </div>
+      </div>
+      </div>
+    </script>
+    
+
+    
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/3.2.1/fuse.min.js" integrity="sha256-VzgmKYmhsGNNN4Ph1kMW+BjoYJM2jV5i4IlFoeZA9XI=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mark.js/8.11.1/jquery.mark.min.js" integrity="sha256-4HLtjeVgH0eIB3aZ9mLYF6E8oU5chNdjU6p6rrXpl9U=" crossorigin="anonymous"></script>
+    
+
+    
+    
+
+    
+    
+
+    
+    
+    
+    
+    
+    
+    
+    
+    
+      
+    
+    
+    
+    
+    <script src="/js/academic.min.a8d7005002cb4a052fd6d721e83df9ba.js"></script>
+
+    
+
+
+
+
+
+
+  
+  
+  <div class="container">
+    <footer class="site-footer">
+  
+
+  <p class="powered-by">
+    
+
+    Powered by the
+    <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+    <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+    
+    <span class="float-right" aria-hidden="true">
+      <a href="#" class="back-to-top">
+        <span class="button_icon">
+          <i class="fas fa-chevron-up fa-2x"></i>
+        </span>
+      </a>
+    </span>
+    
+  </p>
+</footer>
+
+  </div>
+  
+
+  
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Cite</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <pre><code class="tex hljs"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-outline-primary my-1 js-copy-cite" href="#" target="_blank">
+          <i class="fas fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-outline-primary my-1 js-download-cite" href="#" target="_blank">
+          <i class="fas fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
