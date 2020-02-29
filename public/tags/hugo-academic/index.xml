@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Hugo Academic | Academic</title>
+    <title>Hugo Academic | THE MILLER LAB</title>
     <link>/tags/hugo-academic/</link>
       <atom:link href="/tags/hugo-academic/index.xml" rel="self" type="application/rss+xml" />
     <description>Hugo Academic</description>
@@ -481,8 +481,8 @@ label = “View Documentation”&lt;/p&gt;
 &lt;li&gt;&lt;p&gt;Example code that was embedded in default Talk widget page
 &lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
-    &lt;br /&gt;
-Click on the &lt;strong&gt;Slides&lt;/strong&gt; button above to view the built-in slides feature.&lt;br /&gt;
+    &lt;!-- raw HTML omitted --&gt;
+Click on the &lt;!-- raw HTML omitted --&gt;Slides&lt;!-- raw HTML omitted --&gt; button above to view the built-in slides feature.&lt;!-- raw HTML omitted --&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/p&gt;&lt;/li&gt;
@@ -612,7 +612,7 @@ url_slides: &amp;quot;&amp;quot;&lt;br /&gt;
 url_video: &amp;quot;&amp;quot;&lt;/p&gt;
 &lt;p&gt;&lt;div class=&#34;alert alert-note&#34;&gt;
   &lt;div&gt;
-    Click on the &lt;strong&gt;Slides&lt;/strong&gt; button above to view the built-in slides feature.
+    Click on the &lt;!-- raw HTML omitted --&gt;Slides&lt;!-- raw HTML omitted --&gt; button above to view the built-in slides feature.
   &lt;/div&gt;
 &lt;/div&gt;
 &lt;/p&gt;
