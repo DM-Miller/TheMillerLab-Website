@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Cutaneous B-Cell Lymphoma | Academic</title>
+    <link>/tags/cutaneous-b-cell-lymphoma/</link>
+      <atom:link href="/tags/cutaneous-b-cell-lymphoma/index.xml" rel="self" type="application/rss+xml" />
+    <description>Cutaneous B-Cell Lymphoma</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 25 Apr 2012 15:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Cutaneous B-Cell Lymphoma</title>
+      <link>/tags/cutaneous-b-cell-lymphoma/</link>
+    </image>
+    
+    <item>
+      <title>Cutaneous B-Cell Lymphoma</title>
+      <link>/talk/cumc_derm_book_club_b-cell-lymphoma-04-25-12/</link>
+      <pubDate>Wed, 25 Apr 2012 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_book_club_b-cell-lymphoma-04-25-12/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

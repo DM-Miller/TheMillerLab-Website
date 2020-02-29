@@ -141,6 +141,14 @@
     </item>
     
     <item>
+      <title>Regulatory Medicine</title>
+      <link>/tags/regulatory-medicine/</link>
+      <pubDate>Fri, 13 Dec 2019 13:00:00 +0000</pubDate>
+      <guid>/tags/regulatory-medicine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Biomarkers</title>
       <link>/tags/biomarkers/</link>
       <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
@@ -149,18 +157,26 @@
     </item>
     
     <item>
-      <title>Regulatory Medicine</title>
-      <link>/tags/regulatory-medicine/</link>
-      <pubDate>Fri, 06 Dec 2019 00:00:00 +0000</pubDate>
-      <guid>/tags/regulatory-medicine/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Clinical Trials</title>
       <link>/tags/clinical-trials/</link>
       <pubDate>Thu, 28 Nov 2019 00:00:00 +0000</pubDate>
       <guid>/tags/clinical-trials/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Squamous Cell Carcinoma</title>
+      <link>/tags/squamous-cell-carcinoma/</link>
+      <pubDate>Tue, 19 Nov 2019 07:00:00 +0000</pubDate>
+      <guid>/tags/squamous-cell-carcinoma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Sezary Syndrome</title>
+      <link>/tags/sezary-syndrome/</link>
+      <pubDate>Fri, 22 Feb 2019 07:00:00 +0000</pubDate>
+      <guid>/tags/sezary-syndrome/</guid>
       <description></description>
     </item>
     
@@ -177,6 +193,14 @@
       <link>/tags/t-vec/</link>
       <pubDate>Thu, 01 Nov 2018 00:00:00 +0000</pubDate>
       <guid>/tags/t-vec/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Immunology</title>
+      <link>/tags/immunology/</link>
+      <pubDate>Fri, 24 Aug 2018 11:00:00 +0000</pubDate>
+      <guid>/tags/immunology/</guid>
       <description></description>
     </item>
     
@@ -221,10 +245,114 @@
     </item>
     
     <item>
-      <title>Immunology</title>
-      <link>/tags/immunology/</link>
-      <pubDate>Sun, 05 Jan 2014 15:00:00 +0000</pubDate>
-      <guid>/tags/immunology/</guid>
+      <title>Cellulitis</title>
+      <link>/tags/cellulitis/</link>
+      <pubDate>Fri, 29 Jan 2016 15:30:00 +0000</pubDate>
+      <guid>/tags/cellulitis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Mycosis Fungoides</title>
+      <link>/tags/mycosis-fungoides/</link>
+      <pubDate>Fri, 15 Jan 2016 08:00:00 +0000</pubDate>
+      <guid>/tags/mycosis-fungoides/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Harvard Medical School</title>
+      <link>/tags/harvard-medical-school/</link>
+      <pubDate>Wed, 17 Jun 2015 17:00:00 +0000</pubDate>
+      <guid>/tags/harvard-medical-school/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MD/PhD Program</title>
+      <link>/tags/md/phd-program/</link>
+      <pubDate>Wed, 17 Jun 2015 17:00:00 +0000</pubDate>
+      <guid>/tags/md/phd-program/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Acute Generalized Exanthematous Pustulosis</title>
+      <link>/tags/acute-generalized-exanthematous-pustulosis/</link>
+      <pubDate>Mon, 01 Jun 2015 07:00:00 +0000</pubDate>
+      <guid>/tags/acute-generalized-exanthematous-pustulosis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Brigham and Women&#39;s Hospital</title>
+      <link>/tags/brigham-and-womens-hospital/</link>
+      <pubDate>Mon, 01 Jun 2015 07:00:00 +0000</pubDate>
+      <guid>/tags/brigham-and-womens-hospital/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Internal Medicine</title>
+      <link>/tags/internal-medicine/</link>
+      <pubDate>Wed, 15 Apr 2015 07:00:00 +0000</pubDate>
+      <guid>/tags/internal-medicine/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Paniculitis</title>
+      <link>/tags/paniculitis/</link>
+      <pubDate>Wed, 15 Apr 2015 07:00:00 +0000</pubDate>
+      <guid>/tags/paniculitis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Scabies</title>
+      <link>/tags/scabies/</link>
+      <pubDate>Wed, 15 Apr 2015 07:00:00 +0000</pubDate>
+      <guid>/tags/scabies/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Columbia University Medical Center</title>
+      <link>/tags/columbia-university-medical-center/</link>
+      <pubDate>Wed, 16 Apr 2014 10:00:00 +0000</pubDate>
+      <guid>/tags/columbia-university-medical-center/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Hemophagocytic Lymhpohistiocytosis</title>
+      <link>/tags/hemophagocytic-lymhpohistiocytosis/</link>
+      <pubDate>Wed, 19 Feb 2014 10:00:00 +0000</pubDate>
+      <guid>/tags/hemophagocytic-lymhpohistiocytosis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>HLH</title>
+      <link>/tags/hlh/</link>
+      <pubDate>Wed, 19 Feb 2014 10:00:00 +0000</pubDate>
+      <guid>/tags/hlh/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Macrophage Activating Syndrome</title>
+      <link>/tags/macrophage-activating-syndrome/</link>
+      <pubDate>Wed, 19 Feb 2014 10:00:00 +0000</pubDate>
+      <guid>/tags/macrophage-activating-syndrome/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Nephrogenic Systemic Fibrosis</title>
+      <link>/tags/nephrogenic-systemic-fibrosis/</link>
+      <pubDate>Wed, 22 May 2013 13:00:00 +0000</pubDate>
+      <guid>/tags/nephrogenic-systemic-fibrosis/</guid>
       <description></description>
     </item>
     
@@ -233,6 +361,22 @@
       <link>/tags/keratinocytes/</link>
       <pubDate>Fri, 10 Aug 2012 15:00:00 +0000</pubDate>
       <guid>/tags/keratinocytes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cutaneous B-Cell Lymphoma</title>
+      <link>/tags/cutaneous-b-cell-lymphoma/</link>
+      <pubDate>Wed, 25 Apr 2012 15:00:00 +0000</pubDate>
+      <guid>/tags/cutaneous-b-cell-lymphoma/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reed Syndrome</title>
+      <link>/tags/reed-syndrome/</link>
+      <pubDate>Wed, 25 Jan 2012 10:00:00 +0000</pubDate>
+      <guid>/tags/reed-syndrome/</guid>
       <description></description>
     </item>
     

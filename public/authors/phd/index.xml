@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PhD | Academic</title>
+    <link>/authors/phd/</link>
+      <atom:link href="/authors/phd/index.xml" rel="self" type="application/rss+xml" />
+    <description>PhD</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 20 Aug 2019 09:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>PhD</title>
+      <link>/authors/phd/</link>
+    </image>
+    
+    <item>
+      <title>MCC Patient Registry</title>
+      <link>/talk/fda_mini_symposium_on_drug_repurposing-8-20-19/</link>
+      <pubDate>Tue, 20 Aug 2019 09:00:00 +0000</pubDate>
+      <guid>/talk/fda_mini_symposium_on_drug_repurposing-8-20-19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FDA Action in Cutaneous Oncology</title>
+      <link>/talk/fda_oce_grand_rounds-10-22-18/</link>
+      <pubDate>Mon, 22 Oct 2018 10:00:00 +0000</pubDate>
+      <guid>/talk/fda_oce_grand_rounds-10-22-18/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Introduction to Melanoma</title>
+      <link>/talk/cumc_derm_lecture_melanoma-05-18-18/</link>
+      <pubDate>Fri, 18 May 2018 11:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_melanoma-05-18-18/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

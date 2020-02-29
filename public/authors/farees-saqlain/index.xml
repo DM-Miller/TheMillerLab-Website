@@ -5,12 +5,20 @@
     <link>/authors/farees-saqlain/</link>
       <atom:link href="/authors/farees-saqlain/index.xml" rel="self" type="application/rss+xml" />
     <description>Academic</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 03 Dec 2019 09:45:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Academic</title>
       <link>/authors/farees-saqlain/</link>
     </image>
+    
+    <item>
+      <title>A Case of Bimodality Therapy for Merkel Cell Carcinoma</title>
+      <link>/talk/mgh_cut_onc_tumor_board_farees-12_03_19/</link>
+      <pubDate>Tue, 03 Dec 2019 09:45:00 +0000</pubDate>
+      <guid>/talk/mgh_cut_onc_tumor_board_farees-12_03_19/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

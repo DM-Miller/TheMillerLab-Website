@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Nephrogenic Systemic Fibrosis | Academic</title>
+    <link>/tags/nephrogenic-systemic-fibrosis/</link>
+      <atom:link href="/tags/nephrogenic-systemic-fibrosis/index.xml" rel="self" type="application/rss+xml" />
+    <description>Nephrogenic Systemic Fibrosis</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 22 May 2013 13:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Nephrogenic Systemic Fibrosis</title>
+      <link>/tags/nephrogenic-systemic-fibrosis/</link>
+    </image>
+    
+    <item>
+      <title>Progression After Failure</title>
+      <link>/talk/cumc_derm_grand_rounds-nfd-05-22-2013/</link>
+      <pubDate>Wed, 22 May 2013 13:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-nfd-05-22-2013/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

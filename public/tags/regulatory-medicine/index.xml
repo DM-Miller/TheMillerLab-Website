@@ -5,12 +5,20 @@
     <link>/tags/regulatory-medicine/</link>
       <atom:link href="/tags/regulatory-medicine/index.xml" rel="self" type="application/rss+xml" />
     <description>Regulatory Medicine</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 06 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 13 Dec 2019 13:00:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Regulatory Medicine</title>
       <link>/tags/regulatory-medicine/</link>
     </image>
+    
+    <item>
+      <title>The Evolving Landscape of Regulatory Medicine in Cutaneous Oncology</title>
+      <link>/talk/cumc_derm_lecture_regulatory_medicine-12-13-19/</link>
+      <pubDate>Fri, 13 Dec 2019 13:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_regulatory_medicine-12-13-19/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Cutaneous Oncology Research Fellow</title>
@@ -28,6 +36,54 @@
 &lt;img src=&#34;/img/SZS.png&#34; alt=&#34;png&#34;&gt;&lt;/li&gt;
 &lt;/ul&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>MCC Patient Registry</title>
+      <link>/talk/fda_mini_symposium_on_drug_repurposing-8-20-19/</link>
+      <pubDate>Tue, 20 Aug 2019 09:00:00 +0000</pubDate>
+      <guid>/talk/fda_mini_symposium_on_drug_repurposing-8-20-19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Regulatory Medicine in Cutaneous Oncology</title>
+      <link>/talk/unmc_5_7_19/</link>
+      <pubDate>Tue, 07 May 2019 18:00:00 +0000</pubDate>
+      <guid>/talk/unmc_5_7_19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Regulatory Medicine in Cutaneous Oncology</title>
+      <link>/talk/mgh_cut_on_lect_series_reg_med-04_02_19/</link>
+      <pubDate>Tue, 02 Apr 2019 09:00:00 +0000</pubDate>
+      <guid>/talk/mgh_cut_on_lect_series_reg_med-04_02_19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Reducing M&amp;M in M&amp;M - Strategies to improve Morbidity and Mortality in Melanoma and Merkel cell carcinoma</title>
+      <link>/talk/bidmc_hem_onc_grand_rounds_12_19-18/</link>
+      <pubDate>Wed, 19 Dec 2018 08:30:00 +0000</pubDate>
+      <guid>/talk/bidmc_hem_onc_grand_rounds_12_19-18/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FDA Action in Cutaneous Oncology</title>
+      <link>/talk/cumc_derm_lecture_regulatory_medicine-11-09-18/</link>
+      <pubDate>Fri, 09 Nov 2018 13:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_regulatory_medicine-11-09-18/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>FDA Action in Cutaneous Oncology</title>
+      <link>/talk/fda_oce_grand_rounds-10-22-18/</link>
+      <pubDate>Mon, 22 Oct 2018 10:00:00 +0000</pubDate>
+      <guid>/talk/fda_oce_grand_rounds-10-22-18/</guid>
+      <description></description>
     </item>
     
     <item>

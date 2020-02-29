@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Columbia University Medical Center | Academic</title>
+    <link>/tags/columbia-university-medical-center/</link>
+      <atom:link href="/tags/columbia-university-medical-center/index.xml" rel="self" type="application/rss+xml" />
+    <description>Columbia University Medical Center</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Wed, 16 Apr 2014 10:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Columbia University Medical Center</title>
+      <link>/tags/columbia-university-medical-center/</link>
+    </image>
+    
+    <item>
+      <title>Emerging Therapies in Melanoma</title>
+      <link>/talk/cumc_derm_grand_rounds-04-16-2014/</link>
+      <pubDate>Wed, 16 Apr 2014 10:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-04-16-2014/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Overstimulated</title>
+      <link>/talk/cumc_derm_grand_rounds-02-19-2014/</link>
+      <pubDate>Wed, 19 Feb 2014 10:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-02-19-2014/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Progression After Failure</title>
+      <link>/talk/cumc_derm_grand_rounds-nfd-05-22-2013/</link>
+      <pubDate>Wed, 22 May 2013 13:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-nfd-05-22-2013/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Deep Impact</title>
+      <link>/talk/cumc_derm_grand_rounds-scabie-05-22-2013/</link>
+      <pubDate>Wed, 22 May 2013 11:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-scabie-05-22-2013/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Severe Scalp SCCs In a Heart Transplant Recipient</title>
+      <link>/talk/cumc_derm_grand_rounds-scc-05-16-2012/</link>
+      <pubDate>Wed, 16 May 2012 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-scc-05-16-2012/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Painful Papules</title>
+      <link>/talk/cumc_derm_grand_rounds-reed-01-25-2012/</link>
+      <pubDate>Wed, 25 Jan 2012 10:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-reed-01-25-2012/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

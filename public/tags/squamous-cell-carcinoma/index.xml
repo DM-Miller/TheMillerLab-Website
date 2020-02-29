@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Squamous Cell Carcinoma | Academic</title>
+    <link>/tags/squamous-cell-carcinoma/</link>
+      <atom:link href="/tags/squamous-cell-carcinoma/index.xml" rel="self" type="application/rss+xml" />
+    <description>Squamous Cell Carcinoma</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Tue, 19 Nov 2019 07:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Squamous Cell Carcinoma</title>
+      <link>/tags/squamous-cell-carcinoma/</link>
+    </image>
+    
+    <item>
+      <title>Clinical Investigation in cSCC - Updates from ASCO and ESMO</title>
+      <link>/talk/mgh_meei_nmsc_program_research_meeting-11_19_19/</link>
+      <pubDate>Tue, 19 Nov 2019 07:00:00 +0000</pubDate>
+      <guid>/talk/mgh_meei_nmsc_program_research_meeting-11_19_19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>2019 ASCO IO Abstracts Review</title>
+      <link>/talk/sanofi_expert_series/</link>
+      <pubDate>Mon, 07 Oct 2019 15:00:00 +0000</pubDate>
+      <guid>/talk/sanofi_expert_series/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Work Up and Management of Non-Melanoma Skin Cancer</title>
+      <link>/talk/medical_education_program_on_melanoma_management_nmsc-8-23-19/</link>
+      <pubDate>Fri, 23 Aug 2019 08:30:00 +0000</pubDate>
+      <guid>/talk/medical_education_program_on_melanoma_management_nmsc-8-23-19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Cutaneous Oncology Board Preparation</title>
+      <link>/talk/bidmc_board_prep-05-20-19/</link>
+      <pubDate>Mon, 20 May 2019 15:00:00 +0000</pubDate>
+      <guid>/talk/bidmc_board_prep-05-20-19/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Severe Scalp SCCs In a Heart Transplant Recipient</title>
+      <link>/talk/cumc_derm_grand_rounds-scc-05-16-2012/</link>
+      <pubDate>Wed, 16 May 2012 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_grand_rounds-scc-05-16-2012/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

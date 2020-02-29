@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Brigham and Women&#39;s Hospital | Academic</title>
+    <link>/tags/brigham-and-womens-hospital/</link>
+      <atom:link href="/tags/brigham-and-womens-hospital/index.xml" rel="self" type="application/rss+xml" />
+    <description>Brigham and Women&#39;s Hospital</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Mon, 01 Jun 2015 07:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Brigham and Women&#39;s Hospital</title>
+      <link>/tags/brigham-and-womens-hospital/</link>
+    </image>
+    
+    <item>
+      <title>A Patient with Fever and Rash</title>
+      <link>/talk/bwh_im_morning_report-04-15-15/</link>
+      <pubDate>Mon, 01 Jun 2015 07:00:00 +0000</pubDate>
+      <guid>/talk/bwh_im_morning_report-04-15-15/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>A Painful Rash</title>
+      <link>/talk/bwh_im_intern_report-6-1-15/</link>
+      <pubDate>Wed, 15 Apr 2015 07:00:00 +0000</pubDate>
+      <guid>/talk/bwh_im_intern_report-6-1-15/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
