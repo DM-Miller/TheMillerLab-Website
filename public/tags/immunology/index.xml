@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Immunology | Academic</title>
+    <link>/tags/immunology/</link>
+      <atom:link href="/tags/immunology/index.xml" rel="self" type="application/rss+xml" />
+    <description>Immunology</description>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sun, 05 Jan 2014 15:00:00 +0000</lastBuildDate>
+    <image>
+      <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
+      <title>Immunology</title>
+      <link>/tags/immunology/</link>
+    </image>
+    
+    <item>
+      <title>Immunology Review - T-Cell Immunity</title>
+      <link>/talk/cumc_derm_lecture_t-cell_immunity-01-08-14/</link>
+      <pubDate>Sun, 05 Jan 2014 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_t-cell_immunity-01-08-14/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>B-Cell Immunology for the Dermatologist</title>
+      <link>/talk/cumc_derm_lecture_b-cell_immunity-08-22-12/</link>
+      <pubDate>Wed, 22 Aug 2012 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_b-cell_immunity-08-22-12/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>T-Cell Immunology for the Dermatologist</title>
+      <link>/talk/cumc_derm_lecture_t-cell_immunity-08-15-12/</link>
+      <pubDate>Wed, 15 Aug 2012 15:00:00 +0000</pubDate>
+      <guid>/talk/cumc_derm_lecture_t-cell_immunity-08-15-12/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

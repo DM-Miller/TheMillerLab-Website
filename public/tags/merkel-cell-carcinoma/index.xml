@@ -5,12 +5,36 @@
     <link>/tags/merkel-cell-carcinoma/</link>
       <atom:link href="/tags/merkel-cell-carcinoma/index.xml" rel="self" type="application/rss+xml" />
     <description>Merkel Cell Carcinoma</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 27 Apr 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Sat, 08 Feb 2020 11:55:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>Merkel Cell Carcinoma</title>
       <link>/tags/merkel-cell-carcinoma/</link>
     </image>
+    
+    <item>
+      <title>Merkel Cell Carcinoma - Current Concepts in Diagnosis and Management</title>
+      <link>/talk/neds_updates_in_mcc-02_08_20/</link>
+      <pubDate>Sat, 08 Feb 2020 11:55:00 +0000</pubDate>
+      <guid>/talk/neds_updates_in_mcc-02_08_20/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The MCC Patient Registry - From Promise to Prototype to Patient</title>
+      <link>/talk/pds_rare_tumor_registry_workshop-01-31-20/</link>
+      <pubDate>Fri, 31 Jan 2020 12:45:00 +0000</pubDate>
+      <guid>/talk/pds_rare_tumor_registry_workshop-01-31-20/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MCC Patient Registry - Updates and Future Directions</title>
+      <link>/talk/pds_mcc_registry_workshop-01-29-20/</link>
+      <pubDate>Wed, 29 Jan 2020 09:00:00 +0000</pubDate>
+      <guid>/talk/pds_mcc_registry_workshop-01-29-20/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Merkel Cell Carcinoma Patient Registry</title>

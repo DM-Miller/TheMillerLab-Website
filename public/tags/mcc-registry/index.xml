@@ -5,12 +5,28 @@
     <link>/tags/mcc-registry/</link>
       <atom:link href="/tags/mcc-registry/index.xml" rel="self" type="application/rss+xml" />
     <description>MCC Registry</description>
-    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 06 Dec 2019 00:00:00 +0000</lastBuildDate>
+    <generator>Source Themes Academic (https://sourcethemes.com/academic/)</generator><language>en-us</language><lastBuildDate>Fri, 31 Jan 2020 12:45:00 +0000</lastBuildDate>
     <image>
       <url>img/map[gravatar:%!s(bool=false) shape:circle]</url>
       <title>MCC Registry</title>
       <link>/tags/mcc-registry/</link>
     </image>
+    
+    <item>
+      <title>The MCC Patient Registry - From Promise to Prototype to Patient</title>
+      <link>/talk/pds_rare_tumor_registry_workshop-01-31-20/</link>
+      <pubDate>Fri, 31 Jan 2020 12:45:00 +0000</pubDate>
+      <guid>/talk/pds_rare_tumor_registry_workshop-01-31-20/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>MCC Patient Registry - Updates and Future Directions</title>
+      <link>/talk/pds_mcc_registry_workshop-01-29-20/</link>
+      <pubDate>Wed, 29 Jan 2020 09:00:00 +0000</pubDate>
+      <guid>/talk/pds_mcc_registry_workshop-01-29-20/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Cutaneous Oncology Research Fellow</title>

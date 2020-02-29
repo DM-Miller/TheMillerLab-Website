@@ -133,6 +133,56 @@
   </url>
   
   <url>
+    <loc>/tags/merkel-cell-carcinoma/</loc>
+    <lastmod>2020-02-08T11:55:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/neds_updates_in_mcc-02_08_20/</loc>
+    <lastmod>2020-02-08T11:55:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/</loc>
+    <lastmod>2020-02-08T11:55:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/mcc-registry/</loc>
+    <lastmod>2020-01-31T12:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/pds_rare_tumor_registry_workshop-01-31-20/</loc>
+    <lastmod>2020-01-31T12:45:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/pds_mcc_registry_workshop-01-29-20/</loc>
+    <lastmod>2020-01-29T09:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/mgh_app_education_program_skin_toxicities_of_antineoplastic_meds-01_27_20/</loc>
+    <lastmod>2020-01-27T16:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/education/</loc>
+    <lastmod>2020-01-23T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/melanoma/</loc>
+    <lastmod>2020-01-23T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/gw_derm_resident_lecture_melanoma-01-24-20/</loc>
+    <lastmod>2020-01-23T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/post/website-development-using-r/</loc>
     <lastmod>2019-12-31T00:00:00+00:00</lastmod>
   </url>
@@ -194,11 +244,6 @@
   
   <url>
     <loc>/authors/mei-s./</loc>
-    <lastmod>2019-12-29T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
-    <loc>/tags/melanoma/</loc>
     <lastmod>2019-12-29T00:00:00+00:00</lastmod>
   </url>
   
@@ -288,11 +333,6 @@
   </url>
   
   <url>
-    <loc>/tags/mcc-registry/</loc>
-    <lastmod>2019-12-06T00:00:00+00:00</lastmod>
-  </url>
-  
-  <url>
     <loc>/tags/regulatory-medicine/</loc>
     <lastmod>2019-12-06T00:00:00+00:00</lastmod>
   </url>
@@ -333,13 +373,18 @@
   </url>
   
   <url>
-    <loc>/tags/merkel-cell-carcinoma/</loc>
-    <lastmod>2019-04-27T00:00:00+00:00</lastmod>
+    <loc>/talk/mgh_melanoma_np_approach_to_skin_biopsy-06_10_19/</loc>
+    <lastmod>2019-06-10T09:15:00+00:00</lastmod>
   </url>
   
   <url>
     <loc>/project/mcc-registry/</loc>
     <lastmod>2019-04-27T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/gw_derm_resident_lecture_mgods-01-17-19/</loc>
+    <lastmod>2019-01-17T13:00:00+00:00</lastmod>
   </url>
   
   <url>
@@ -528,6 +573,16 @@
   </url>
   
   <url>
+    <loc>/privacy/</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/terms/</loc>
+    <lastmod>2018-06-28T00:00:00+01:00</lastmod>
+  </url>
+  
+  <url>
     <loc>/funding/asa/</loc>
     <lastmod>2018-01-01T09:30:00+00:00</lastmod>
   </url>
@@ -588,13 +643,38 @@
   </url>
   
   <url>
-    <loc>/tags/education/</loc>
+    <loc>/project/regulatory-medicine/</loc>
     <lastmod>2016-04-27T00:00:00+00:00</lastmod>
   </url>
   
   <url>
-    <loc>/project/regulatory-medicine/</loc>
-    <lastmod>2016-04-27T00:00:00+00:00</lastmod>
+    <loc>/tags/immunology/</loc>
+    <lastmod>2014-01-05T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/cumc_derm_lecture_t-cell_immunity-01-08-14/</loc>
+    <lastmod>2014-01-05T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/cumc_derm_lecture_b-cell_immunity-08-22-12/</loc>
+    <lastmod>2012-08-22T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/cumc_derm_lecture_t-cell_immunity-08-15-12/</loc>
+    <lastmod>2012-08-15T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/talk/cumc_derm_book_club_keratinocytes-08-10-12/</loc>
+    <lastmod>2012-08-10T15:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>/tags/keratinocytes/</loc>
+    <lastmod>2012-08-10T15:00:00+00:00</lastmod>
   </url>
   
   <url>
